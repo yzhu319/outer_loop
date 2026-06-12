@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ICML 2026 Review — Learning Beyond Gradients</title>
+<style>
+:root {
+  --ivory:#FAF9F5; --slate:#141413; --clay:#D97757; --oat:#E3DACC;
+  --olive:#788C5D; --sky:#6A8CAF; --gray-150:#F0EEE6; --gray-300:#D1CFC5;
+  --gray-500:#87867F; --gray-700:#3D3D3A; --bad:#B04A3F; --amber:#C2884E;
+  --serif:ui-serif, Georgia, "Times New Roman", serif;
+  --sans:system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono:ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ivory);color:var(--gray-700);font:15px/1.65 var(--sans);padding:56px 24px 120px}
+.page{max-width:1100px;margin:0 auto}
+.eyebrow{font:11px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--gray-500);margin-bottom:10px}
+h1{font:500 33px/1.25 var(--serif);color:var(--slate);letter-spacing:-.01em;margin-bottom:14px}
+h2{font:500 22px var(--serif);color:var(--slate);margin:40px 0 12px}
+h3{font:600 15px var(--sans);color:var(--slate);margin:26px 0 8px}
+p{max-width:760px;margin-bottom:12px}
+.lead{font-size:16px;max-width:720px;color:var(--gray-700)}
+a{color:var(--sky)}
+code{font:13px var(--mono);background:var(--gray-150);padding:1px 5px;border-radius:4px}
+pre{background:var(--gray-150);border-radius:8px;padding:14px 16px;font:13px/1.5 var(--mono);overflow-x:auto;max-width:760px;margin-bottom:14px}
+pre code{background:none;padding:0}
+.chips{display:flex;flex-wrap:wrap;gap:14px;margin:26px 0 8px}
+.chip{background:#fff;border:1.5px solid var(--gray-300);border-radius:12px;padding:14px 20px;min-width:128px}
+.chip .num{font:600 26px var(--mono);color:var(--slate)}
+.chip .num.good{color:var(--olive)} .chip .num.warn{color:var(--amber)}
+.chip .lbl{font:11px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--gray-500);margin-top:3px}
+nav{display:flex;gap:4px;border-bottom:1.5px solid var(--gray-300);margin:34px 0 26px;flex-wrap:wrap}
+nav button{font:12px var(--mono);letter-spacing:.04em;background:none;border:none;border-bottom:2px solid transparent;padding:9px 13px;cursor:pointer;color:var(--gray-500)}
+nav button.on{color:var(--slate);border-bottom-color:var(--clay)}
+section{display:none} section.on{display:block}
+table{border-collapse:collapse;width:100%;max-width:960px;font-size:13.5px;margin:14px 0 20px}
+th{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--gray-500);text-align:left;padding:10px 12px;border-bottom:1.5px solid var(--gray-300)}
+td{padding:10px 12px;border-bottom:1px solid var(--gray-300);vertical-align:top}
+td.good{color:var(--olive);font-weight:600} td.bad{color:var(--bad);font-weight:600} td.warn{color:var(--amber);font-weight:600}
+.card{background:#fff;border:1.5px solid var(--gray-300);border-radius:13px;padding:20px 24px;margin:16px 0;max-width:960px}
+.card.flag{border-left:4px solid var(--bad)}
+.card.minor{border-left:4px solid var(--amber)}
+.card.plus{border-left:4px solid var(--olive)}
+.card h3{margin-top:0}
+.tag{font:10px var(--mono);text-transform:uppercase;letter-spacing:.07em;padding:3px 8px;border-radius:999px;background:var(--gray-150);color:var(--gray-500);margin-left:8px;vertical-align:2px}
+.tag.major{background:rgba(176,74,63,.12);color:var(--bad)}
+.tag.minor{background:rgba(194,136,78,.14);color:var(--amber)}
+.tag.fixed{background:rgba(120,140,93,.14);color:var(--olive)}
+.quote{border-left:3px solid var(--clay);padding:10px 16px;margin:12px 0;font:15px/1.6 var(--serif);color:var(--slate);background:#fff;border-radius:0 10px 10px 0;max-width:760px}
+.quote .src{font:11px var(--mono);color:var(--gray-500);display:block;margin-top:6px}
+footer{margin-top:56px;border-top:1.5px solid var(--gray-300);padding-top:14px;font:12px var(--mono);color:var(--gray-500)}
+@media(max-width:760px){.chips{gap:8px}.chip{min-width:100px;padding:10px 14px}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="eyebrow">ICML 2026 · Conference Review · Submission #anon</div>
+<h1>Learning Beyond Gradients:<br>A Unifying Theory of LLM-Guided Artifact Search</h1>
+<p class="lead">Reviewer assessment of the full submission package (<code>main.tex</code>, 14&#8202;pp PDF, <code>code/simulations.py</code>, vendored build). All six appendix proof groups were checked line by line, and the complete experimental pipeline was independently re-executed in a clean environment.</p>
+
+<div class="chips">
+  <div class="chip"><div class="num">6 / 10</div><div class="lbl">Overall · Weak Accept</div></div>
+  <div class="chip"><div class="num">4 / 5</div><div class="lbl">Confidence</div></div>
+  <div class="chip"><div class="num warn">3 / 4</div><div class="lbl">Soundness</div></div>
+  <div class="chip"><div class="num good">4 / 4</div><div class="lbl">Presentation</div></div>
+  <div class="chip"><div class="num warn">3 / 4</div><div class="lbl">Contribution</div></div>
+  <div class="chip"><div class="num good">YES*</div><div class="lbl">Reproducible</div></div>
+</div>
+
+<nav>
+  <button data-t="summary" class="on">Summary &amp; claims</button>
+  <button data-t="strengths">Strengths</button>
+  <button data-t="weaknesses">Weaknesses</button>
+  <button data-t="repro">Reproducibility audit</button>
+  <button data-t="questions">Questions for authors</button>
+  <button data-t="verdict">Verdict &amp; scores</button>
+</nav>
+
+<!-- ============================================================ -->
+<section id="summary" class="on">
+<h2>Summary</h2>
+<p>The paper proposes a single formal object — the <em>artifact-search system</em> <code>(A, F, q, sel, M)</code> (Def. 2.1) — claimed to contain GEPA, SkillOpt, ACE, Meta-Harness, autoresearch, Heuristic Learning, ADAS/DGM, FunSearch/AlphaEvolve, Voyager, and classical prompt optimizers as special cases: an outer loop proposes edits to a textual/programmatic artifact via a frozen LLM, scores them with a noisy evaluator, and applies a selection rule; weights never move. Six results are then proven, each in a deliberately minimal sub-model, and each mapped back to documented behavior of a deployed system.</p>
+
+<table>
+<tr><th>#</th><th>Result</th><th>Statement</th><th>Technique</th><th>Mapped to</th></tr>
+<tr><td>1</td><td>Thm 3.2 / Prop 3.3</td><td>E[hitting time] = 1/q(G<sub>&epsilon;</sub>); trace conditioning enters as multiplier &gamma;; matching lower bound</td><td>Geometric tails, Wald, iterated conditioning (adaptive Levin)</td><td>Pretraining as prior; FunSearch vs 2017 program search</td></tr>
+<tr><td>2</td><td>Thm 4.1 / 4.2</td><td>Transcript bound T &ge; (L−log&#8322;6)/log&#8322;|Y|; scalar reward &Omega;(2<sup>L</sup>) vs first-error feedback &le; L</td><td>Counting/Fano; needle-in-haystack; prefix-fixing</td><td>GEPA vs GRPO 35&times; rollout gap; TextGrad/Trace/Reflexion</td></tr>
+<tr><td>3</td><td>Thm 5.1 / Prop 5.2 / Cor 5.3</td><td>Single-eval ratchet manufactures &sigma;&radic;(2 ln t) fictitious gain, ln t false accepts; N = O((&sigma;&sup2;/&Delta;&sup2;)log(B/&delta;)) repeats certify a whole run</td><td>Extreme-value MGF bound; record statistics; Bretagnolle–Huber</td><td>autoresearch's unreplicated "53% speedup"</td></tr>
+<tr><td>4</td><td>Thm 5.4</td><td>Deceptive valley: strict greedy never arrives; &epsilon;-tolerant greedy exp(&Omega;(k)); archive O(k&sup2;)</td><td>Birth–death drift; frontier argument</td><td>GEPA Pareto sets, ADAS archive, DGM lineage, FunSearch islands</td></tr>
+<tr><td>5</td><td>Thm 6.1 / Cor 6.2</td><td>Occam/PAC-Bayes bound |F−F&#770;<sub>n</sub>| &le; &radic;((&#8467;(a)ln2+ln(2/&delta;))/2n); U-shaped risk in artifact length</td><td>Hoeffding + Kraft union bound</td><td>ACE context collapse; GEPA validation overfitting; SkillOpt bounded edits</td></tr>
+<tr><td>6</td><td>Prop 7.1</td><td>Bounded bias transfers (−2&alpha;); selection harvests bias at &sigma;<sub>b</sub>&radic;(2 ln m); editable evaluator voids all guarantees</td><td>Triangle inequality; max of subgaussians; explicit construction</td><td>DGM hallucinated logs; Eureka reward exploits</td></tr>
+</table>
+
+<p>Three seeded NumPy simulations illustrate results 2–4. The paper closes with five "measurable dials" (cold prior mass, trace boost, feedback information, noise–gap ratio, description length) plus an evaluator-integrity condition, four falsifiable scaling predictions, and a crisply posed open problem on rates for self-referential improvement (App. H).</p>
+
+<h3>Claims vs. evidence, in one line</h3>
+<p>The mathematical claims are proven and (modulo the statement-level defects listed under Weaknesses) correct; the <em>empirical</em> claims — that these theorems are the right explanations for the cited system behaviors — are argued by careful analogy, not measured. The paper is explicit about this division, which I credit, but the title's "unifying theory" rests on the definition and the dictionary, not on any theorem that requires the unified object.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="strengths">
+<h2>Strengths</h2>
+
+<div class="card plus"><h3>S1 · A real conceptual contribution the field currently lacks</h3>
+<p>The systems in Table 1 genuinely are one loop wearing ten vocabularies, and nobody has written the dictionary down at this level of precision. Definition 2.1 is minimal yet expressive; Appendix I's per-system mapping (artifact / feedback alphabet / selector / which theorem bites where) is the most useful artifact in the paper and will be cited independently of the theorems. The "settle the question" genre has ICML precedent (Bowling et al., 2023), and the authors execute it well.</p></div>
+
+<div class="card plus"><h3>S2 · Proofs are correct and self-contained</h3>
+<p>I verified all six appendix groups. The arguments are elementary (geometric tails, Wald, a counting/Fano bound, MGF extreme-value bounds, record statistics, Bretagnolle–Huber, birth–death recurrences, Hoeffding+Kraft) but assembled cleanly, with honest attribution of every technique to its source literature. Theorem 4.1's transcript-counting proof and the 5.4(iii) frontier argument are pleasantly crisp.</p></div>
+
+<div class="card plus"><h3>S3 · The theorems have teeth as engineering prescriptions</h3>
+<p>Cor. 5.3 ("soundness costs only log B"), the &radic;(&#8467;(a)/n) validation-scaling rule of Thm 6.1, and the evaluator-integrity condition of Prop. 7.1(iii) are immediately actionable, and §10 converts each result into a falsifiable scaling claim. This elevates the paper above survey/position territory.</p></div>
+
+<div class="card plus"><h3>S4 · Exemplary reproducibility and writing</h3>
+<p>Clean compile from vendored styles; sub-minute seeded simulations whose committed figures I reproduced bit-identically (see audit tab); a README with a theorem-to-evidence map for rebuttals. The prose is unusually good. The limitations section is honest about the proposer being a black box and the worst-case nature of the constructions, and App. H states the self-reference open problem with a concrete conjectured phase transition.</p></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="weaknesses">
+<h2>Weaknesses</h2>
+
+<div class="card flag"><h3>W1 · The unification is definitional, not theorematic <span class="tag major">major</span></h3>
+<p>Each of the five analyses runs in its own minimal sub-model: i.i.d. (or boost-conditioned) proposals in §3, noiseless identification games in §4, a null-edit stream in §5.1, a 1-D chain in §5.2, bounded losses with a fixed prefix code in §6. No result composes two or more of the moving parts that Definition 2.1 puts in one object — e.g., hitting time under <em>noisy gated</em> selection (Thm 3.2 + Cor 5.3 interacting: false rejects of true improvements slow the ratchet — what is the compounded rate?), or generalization of an artifact selected through an <em>adaptive, history-dependent</em> proposal process. As it stands, the paper is a well-curated translation table into five known literatures. That has value (S1), but "a unifying theory" promises at least one theorem whose statement needs the unified object. None is given.</p></div>
+
+<div class="card flag"><h3>W2 · Assumption 3.1 does all the adaptive work, and is nearly unfalsifiable <span class="tag major">major</span></h3>
+<p>The trace-boost &gamma; is defined as exactly the multiplier by which conditioning increases the good-set mass; Thm 3.2(iii) then follows in two lines. Nothing in the paper measures &gamma;, bounds it for any concrete proposer, or explains how it could be estimated (§10 gestures at proposer ablations without a protocol). Until &gamma; is operationalized, "adaptive Levin search" is a relabeling of the assumption. A cheap experiment exists: estimate q(G<sub>&epsilon;</sub>) with and without trace conditioning by sampling N proposals from a real LLM against a held-out verifier on a small task family. Its absence is felt.</p></div>
+
+<div class="card flag"><h3>W3 · Theorem 5.4's construction does not satisfy its own statement <span class="tag major">major (trivial fix)</span></h3>
+<p>With f(i) = k−i on [0,k] and f(i) = i−k on [k,2k], we get f(0) = f(2k) = k: the global optimum is <em>not</em> unique — the start state is also a global maximizer. Strict greedy "failing" by remaining at a global optimum undermines the narrative (the separations for <em>hitting 2k</em> survive, but the theorem says "the unique global optimum is 2k", which is false as written). Fix: any asymmetric ascent, e.g. f(i) = 2(i−k) on [k,2k]. Separately, the statement says proposals go "to a uniformly random neighbor", but the proof and code use the lazy boundary convention (at state 0, propose right w.p. 1/2, else stay), giving h&#8320; = 2/&epsilon; rather than 1/&epsilon;. Constant-level, but statement and proof should match.</p></div>
+
+<div class="card flag"><h3>W4 · Prop. 7.1(iii) steps outside the paper's own model <span class="tag major">major (fixable)</span></h3>
+<p>Definition 2.1 fixes F : A &rarr; [0,1]. The construction takes F(a<sub>j</sub>) = −j &rarr; −&infin; ("after affine rescaling of the codomain" — no affine rescaling makes a bounded codomain unbounded). The qualitative point survives in bounded form (F &rarr; 0 while F&#771; &rarr; 1 with bias &rarr; 1: transfer gap equals the full range), so restate it within the model rather than outside it.</p></div>
+
+<div class="card minor"><h3>W5 · Prop. 5.2 lower-bound constant doesn't match its proof <span class="tag minor">minor</span></h3>
+<p>Bretagnolle–Huber gives 2&delta; &ge; &frac12;e<sup>−KL</sup> &rArr; N &ge; (2&sigma;&sup2;/&Delta;&sup2;) ln(1/(4&delta;)); the statement claims ln(1/(2&delta;)), which is <em>larger</em>. The hedge "up to the stated constant" does not license strengthening the statement beyond what is proven. State ln(1/(4&delta;)).</p></div>
+
+<div class="card minor"><h3>W6 · Three numerical prose claims are contradicted by the paper's own committed artifacts <span class="tag minor">minor, but fix before camera-ready</span></h3>
+<p>Verified by re-running the committed seeded code in the authors' exact environment (see audit tab):</p>
+<p>(a) §8 claims the ratchet manufactures "&asymp;&#8202;3.9&sigma;" of improvement; the committed run's median best at t = 2000 is <strong>3.39&sigma;</strong>. 3.9&sigma; is the first-order asymptotic <em>upper bound</em>; the well-known second-order EVT correction (&minus;(ln ln t + ln 4&pi;)/(2&radic;(2 ln t)) &asymp; &minus;0.5&sigma; here) is visible in the authors' own Fig. 2a, where the median sits clearly below the dashed curve. "Hugging" overstates.</p>
+<p>(b) §5.1 predicts "&asymp;&#8202;7.6 null edits" accepted at B = 2000; H<sub>2000</sub> = 8.18 (simulation: 8.30). The 7.6 figure is ln 2000, dropping the Euler–Mascheroni constant the theorem's own O(1) contains.</p>
+<p>(c) App. G claims the N = 85 gate "accepted zero null edits across all runs". The committed seed yields <strong>2 accepts</strong> across the 400&times;2000 gated decisions (rate 0.005/run — fully consistent with the &delta; = 5% certificate, and invisible at Fig. 2b's scale, but "zero" is factually wrong, and the theory itself predicts &asymp;1.6, not 0).</p></div>
+
+<div class="card minor"><h3>W7 · Figure 3 partially plots theory against itself <span class="tag minor">minor</span></h3>
+<p>In <code>simulations.py</code>, the distance-feedback "simulation" is the hard-coded constant L+1 (<code>hamming.append(L+1)</code>) and the scalar arm samples the hitting position directly from Uniform{1,…,2<sup>L</sup>} rather than executing any search. Only the first-error arm runs an actual algorithm. App. G discloses both shortcuts, but the caption ("Mean queries … 60 runs; markers — against the exact laws; dashed") presents marker-vs-curve agreement as validation in two cases where markers and curve are the same object by construction.</p></div>
+
+<div class="card minor"><h3>W8 · Empirical grounding is anecdotal throughout <span class="tag minor">structural</span></h3>
+<p>Every mapping from theorem to deployed system runs through citations to blog posts and informally reported episodes (autoresearch's speedups, DGM's hallucinated logs, ACE's collapse). No experiment measures any of the five dials on a real LLM loop, although §10's own predictions identify cheap ones (W2's &gamma; estimate; hitting-time-vs-prior-mass on a small prompt-search task; val-test gap vs. prompt length for the Cor. 6.2 U-shape). One such measurement would transform the paper's epistemic status from "consistent with" to "tested on".</p></div>
+
+<div class="card minor"><h3>W9 · Small items <span class="tag minor">minor</span></h3>
+<p>(i) Thm 4.2(ii) proves identification in &le; L queries, but the simulation counts a confirming query (worst case L+1); one sentence on the semantics would prevent confusion. (ii) Def. 2.1 has F bounded in [0,1] while §5 uses unbounded subgaussian noise on F&#770; — harmless, but say so. (iii) §3 invokes "Theorem 4.2(i) below" for the NFL remark; consider restating the hypothesis (uniform target) at the invocation site. (iv) Fig. 2b's green gated line is indistinguishable from the x-axis; an inset or log-y would show the 0.005 rate honestly rather than as exactly zero.</p></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="repro">
+<h2>Reproducibility audit</h2>
+<p class="lead">Performed in a clean Linux environment (Python 3.10, NumPy 2.2.6, Matplotlib 3.10, TeX Live). Everything the paper ships was re-executed from scratch.</p>
+
+<table>
+<tr><th>Check</th><th>Method</th><th>Result</th><th>Status</th></tr>
+<tr><td>Simulations run as documented</td><td><code>python3 code/simulations.py</code>, fresh dir</td><td>Completes in 35&#8202;s, single core, no errors; "&lt;1 min on a laptop" claim holds</td><td class="good">PASS</td></tr>
+<tr><td>Figures match committed PDFs</td><td>Decompressed PDF content streams, MD5 per stream</td><td>All 3 figures <strong>bit-identical</strong> in content; only metadata (CreationDate) differs</td><td class="good">PASS</td></tr>
+<tr><td>Determinism</td><td>Seeded <code>default_rng(0)</code>; re-run twice</td><td>Identical outputs across runs</td><td class="good">PASS</td></tr>
+<tr><td>LaTeX build from vendored sources</td><td><code>pdflatex&times;3 + bibtex</code> after deleting all build artifacts</td><td>Clean compile, 0 errors, 14 pages, 467&#8202;KB — matches committed PDF byte count</td><td class="good">PASS</td></tr>
+<tr><td>ICML format constraints</td><td>Page inspection of rebuilt PDF</td><td>Body ends p. 7 (&le; 8 ✓); impact statement &amp; references begin p. 7; anonymized review mode ✓</td><td class="good">PASS</td></tr>
+<tr><td>N = 85 gate derivation</td><td>Recomputed &lceil;8&sigma;&sup2; ln(B/&delta;)&rceil;, B=2000, &delta;=.05, &Delta;=&sigma;</td><td>&lceil;84.77&rceil; = 85 ✓ (one-sided constant 8 vs. Prop 5.2's two-sided 16 is disclosed in App. G)</td><td class="good">PASS</td></tr>
+<tr><td>§8 claim: ratchet reports "&asymp;3.9&sigma;"</td><td>Median of committed seeded run at t=2000</td><td>3.39&sigma; measured; 3.90 is the asymptotic bound, not the realized value</td><td class="warn">VARIANCE</td></tr>
+<tr><td>§5.1 claim: "&asymp;7.6 null edits accepted"</td><td>Exact H<sub>2000</sub> + simulation mean</td><td>H<sub>2000</sub> = 8.18; simulated 8.30</td><td class="warn">VARIANCE</td></tr>
+<tr><td>App. G claim: gate accepts "zero" null edits</td><td>Replayed identical RNG stream</td><td><strong>2 false accepts</strong> across 800,000 gated decisions (theory predicts &asymp;1.6); consistent with the &delta;-certificate but not "zero"</td><td class="bad">CONTRADICTED</td></tr>
+<tr><td>Bibliography integrity</td><td>Spot-check of 30+ entries (venue/year/authors)</td><td>Internally consistent; classical refs accurate; 2025–26 system refs match their public records; two unverified refs explicitly dropped per README</td><td class="good">PASS</td></tr>
+</table>
+
+<h3>Verdict</h3>
+<p><strong>Reproducible: YES, with three prose-level corrections needed.</strong> This is — by a wide margin — better reproducibility hygiene than the typical theory submission: seeded, vendored, fast, and bit-stable. The three numeric variances (W6) affect rhetorical claims in §5.1/§8/App. G, not any theorem. They should be corrected because a paper whose central moral is "single noisy evaluations manufacture fictitious certainty" should not itself round 3.39 up to 3.9 or report a lucky-looking zero that its own theory says should be &asymp;1.6.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="questions">
+<h2>Questions for the authors</h2>
+<div class="card"><h3>Q1 — Operationalizing &gamma; (W2)</h3>
+<p>Propose a concrete estimator for the trace boost on a real system — e.g., rejection-sample proposals from a fixed LLM with and without the execution trace in context, against a held-out verifier, and report q&#770;(G<sub>&epsilon;</sub>) ratios. If &gamma; cannot be estimated even on a toy loop, what distinguishes Thm 3.2(iii) from a definition? A rebuttal-scale experiment here would move my score.</p></div>
+<div class="card"><h3>Q2 — One composed theorem (W1)</h3>
+<p>Can you state and prove a hitting-time bound for the loop with <em>noisy gated selection</em> — i.e., Thm 3.2 where each accept/reject decision uses the Prop. 5.2 test, accounting for false rejects of true improvements slowing the chain? Even a clean corollary combining two of the five analyses would make the unification claim theorematic rather than definitional.</p></div>
+<div class="card"><h3>Q3 — Thm 5.4 statement (W3)</h3>
+<p>Please confirm the fix for the non-unique optimum (e.g., asymmetric ascent slope) and state the boundary proposal convention in the theorem.</p></div>
+<div class="card"><h3>Q4 — Prop. 7.1(iii) within the model (W4)</h3>
+<p>Restate the construction with F &isin; [0,1]; does the "no transfer guarantee survives" conclusion take the form sup-gap = full range?</p></div>
+<div class="card"><h3>Q5 — Evidence for the U-shape's right branch (Cor. 6.2)</h3>
+<p>Context collapse (left branch) is documented; is there any quantitative evidence that validation overfitting in deployed optimizers scales with artifact bits as &radic;(&#8467;/n) — e.g., GEPA val–test gaps stratified by evolved-prompt length?</p></div>
+<div class="card"><h3>Q6 — Archival sourcing</h3>
+<p>The autoresearch 53%/11% episode and the DGM hallucinated-log episode anchor two theorems but cite informal sources. Are stable archival references (or reproduced incident write-ups) available for camera-ready?</p></div>
+</section>
+
+<!-- ============================================================ -->
+<section id="verdict">
+<h2>Verdict</h2>
+<div class="quote">A genuinely useful dictionary with correct, elementary mathematics and exemplary reproducibility — held one rung below a clear accept by a unification that never becomes a theorem, an assumption that carries the adaptive story unmeasured, and a handful of statement-level defects that a careful pass will fix.<span class="src">Reviewer summary</span></div>
+
+<h3>Score rationale</h3>
+<table>
+<tr><th>Axis</th><th>Score</th><th>Rationale</th></tr>
+<tr><td>Soundness</td><td class="warn">3 / 4 — good</td><td>All proofs check out as arguments; W3 (false uniqueness claim), W4 (codomain violation), W5 (constant mismatch) are statement-level and fixable; W6's prose-vs-artifact variances are presentation, not math.</td></tr>
+<tr><td>Presentation</td><td class="good">4 / 4 — excellent</td><td>Among the best-written submissions in my stack: precise, honest about what is imported vs. proven, every result mapped to practice, limitations real.</td></tr>
+<tr><td>Contribution</td><td class="warn">3 / 4 — good</td><td>The formalism + dictionary + engineering prescriptions will be cited; technique novelty is low and the composed theory is still missing (W1/W2). The open problem (App. H) is a real gift to the community.</td></tr>
+<tr><td><strong>Overall</strong></td><td><strong>6 / 10 — Weak Accept</strong></td><td>Marginally above the acceptance threshold. The field needs this paper to exist; I want it accepted after the W3/W4/W5/W6 fixes, and a Q1- or Q2-scale addition in rebuttal would move me to 7.</td></tr>
+<tr><td>Confidence</td><td>4 / 5</td><td>I verified every proof and re-ran every artifact; I am less certain about completeness of the empirical-systems mapping (the 2025–26 systems literature moves fast).</td></tr>
+<tr><td>Ethics</td><td>—</td><td>No concerns. The impact statement appropriately weighs safety-relevant clarity (evaluator integrity, soundness certificates) against marginal capability acceleration.</td></tr>
+</table>
+
+<h3>What would change my score</h3>
+<p><strong>+1:</strong> any single composed theorem (Q2) <em>or</em> a measured &gamma; on a real proposer (Q1). <strong>+1 further:</strong> one falsifiable scaling prediction from §10 actually tested on a live system. <strong>−1:</strong> if rebuttal defends "zero false accepts" or "&asymp;3.9&sigma;" rather than correcting them — in a paper about fictitious improvement, the prose must be exactly as honest as the theorems.</p>
+</section>
+
+<footer>
+Review generated 2026-06-12 · Sources: main.tex (551 lines, read in full), main.pdf (rebuilt from source), code/simulations.py (re-executed, RNG stream replayed), references.bib (spot-checked), README.md · Independent environment: Python 3.10 / NumPy 2.2.6 / Matplotlib 3.10 / TeX Live
+</footer>
+</div>
+<script>
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('nav button').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('section').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');document.getElementById(b.dataset.t).classList.add('on');
+  history.replaceState(null,'','#'+b.dataset.t);
+}));
+if(location.hash){const b=document.querySelector(`nav button[data-t="${location.hash.slice(1)}"]`);if(b)b.click();}
+</script>
+</body>
+</html>

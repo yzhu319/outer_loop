@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Outer Loop — a field guide to learning without gradients</title>
+<style>
+  :root {
+    --ivory:#FAF9F5; --slate:#141413; --clay:#D97757; --oat:#E3DACC;
+    --olive:#788C5D; --sky:#6A8CAF; --bad:#B04A3F; --amber:#C2884E;
+    --gray-150:#F0EEE6; --gray-300:#D1CFC5; --gray-500:#87867F; --gray-700:#3D3D3A;
+    --serif: ui-serif, Georgia, "Times New Roman", serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--ivory); color:var(--gray-700); font-family:var(--sans);
+         font-size:15px; line-height:1.65; -webkit-font-smoothing:antialiased;
+         padding:56px 24px 120px; }
+  .page { max-width:1100px; margin:0 auto; }
+  .eyebrow { font-family:var(--mono); font-size:11px; letter-spacing:.08em;
+             text-transform:uppercase; color:var(--gray-500); margin-bottom:10px; }
+  h1 { font-family:var(--serif); font-weight:500; font-size:34px; color:var(--slate);
+       letter-spacing:-.01em; margin-bottom:12px; }
+  h2 { font-family:var(--serif); font-weight:500; font-size:23px; color:var(--slate); margin:42px 0 12px; }
+  h3 { font-family:var(--serif); font-weight:500; font-size:17.5px; color:var(--slate); margin:24px 0 8px; }
+  p  { margin-bottom:14px; max-width:700px; }
+  .lead { max-width:680px; margin-bottom:8px; font-size:16.5px; }
+  a { color:var(--sky); text-decoration-thickness:1px; }
+  code { font-family:var(--mono); font-size:13px; background:var(--gray-150);
+         padding:1px 5px; border-radius:4px; }
+
+  nav.tabs { display:flex; flex-wrap:wrap; gap:2px; border-bottom:1.5px solid var(--gray-300);
+             margin:28px 0 32px; position:sticky; top:0; background:var(--ivory); z-index:5; padding-top:6px; }
+  nav.tabs button { appearance:none; border:none; background:none; cursor:pointer;
+    font-family:var(--mono); font-size:12px; padding:9px 14px; color:var(--gray-500);
+    border-bottom:2px solid transparent; margin-bottom:-1.5px; }
+  nav.tabs button:hover { color:var(--slate); }
+  nav.tabs button.active { color:var(--slate); border-bottom-color:var(--clay); }
+  section.tab { display:none; } section.tab.active { display:block; }
+
+  .card { background:#fff; border:1.5px solid var(--gray-300); border-radius:13px;
+          padding:20px 22px; margin:14px 0; }
+  .card.accent { border-color:var(--clay); }
+  .cols2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start; }
+  @media (max-width:820px){ .cols2 { grid-template-columns:1fr; } }
+
+  .badge { font-family:var(--mono); font-size:11px; padding:3px 9px; border-radius:999px;
+           background:var(--gray-150); color:var(--gray-700); white-space:nowrap; }
+  .badge.t-text { background:rgba(106,140,175,.14); color:#46698f; }
+  .badge.t-code { background:rgba(217,119,87,.14);  color:#b05a3c; }
+  .badge.t-self { background:rgba(194,136,78,.16);  color:#996226; }
+  .badge.t-mem  { background:rgba(120,140,93,.16);  color:#5c7044; }
+  .badge.t-env  { background:rgba(20,20,19,.08);    color:#3D3D3A; }
+
+  table { border-collapse:collapse; width:100%; font-size:13.5px; margin:12px 0; }
+  th,td { text-align:left; padding:9px 12px; border-bottom:1px solid var(--gray-300); vertical-align:top; }
+  th { font-family:var(--mono); font-size:11px; text-transform:uppercase;
+       letter-spacing:.06em; color:var(--gray-500); font-weight:500; }
+  td .m { font-family:var(--mono); font-size:12.5px; }
+
+  .quote { border-left:3px solid var(--clay); padding:2px 0 2px 16px; margin:16px 0; max-width:680px; }
+  .quote .q { font-family:var(--serif); font-size:16.5px; color:var(--slate); }
+  .quote .s { font-family:var(--mono); font-size:11px; color:var(--gray-500); margin-top:4px; }
+
+  /* work cards on the map */
+  .workgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr)); gap:14px; margin:14px 0 6px; }
+  .work { background:#fff; border:1.5px solid var(--gray-300); border-radius:13px; padding:16px 18px; }
+  .work .who { font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; color:var(--gray-500); margin-bottom:5px; }
+  .work .name { font-family:var(--serif); font-size:16.5px; color:var(--slate); margin-bottom:6px; }
+  .work .name a { color:var(--slate); text-decoration:none; border-bottom:1px dotted var(--gray-500); }
+  .work p { font-size:13.5px; margin-bottom:8px; max-width:none; }
+  .work .key { font-family:var(--mono); font-size:12px; color:var(--clay); }
+
+  /* timeline */
+  .tl { border-left:2px solid var(--gray-300); margin:18px 0 18px 8px; padding-left:26px; }
+  .tl .year { position:relative; margin-bottom:26px; }
+  .tl .year::before { content:""; position:absolute; left:-33px; top:7px; width:12px; height:12px;
+    border-radius:50%; background:var(--ivory); border:2.5px solid var(--gray-500); }
+  .tl .y { font-family:var(--mono); font-size:14px; color:var(--slate); font-weight:bold; margin-bottom:6px; }
+  .tl .items { display:flex; flex-wrap:wrap; gap:8px; max-width:900px; }
+  .tl .it { font-family:var(--mono); font-size:11.5px; padding:5px 10px; border-radius:8px;
+            background:#fff; border:1.5px solid var(--gray-300); }
+  .tl .it b { font-weight:600; }
+  .tl .it.t-text { border-color:#6A8CAF; } .tl .it.t-code { border-color:#D97757; }
+  .tl .it.t-self { border-color:#C2884E; } .tl .it.t-mem { border-color:#788C5D; }
+  .tl .it.t-env  { border-color:#87867F; border-style:dashed; }
+  .tl .note { font-size:12.5px; color:var(--gray-500); margin-top:6px; max-width:700px; }
+
+  .legend { display:flex; flex-wrap:wrap; gap:10px; margin:10px 0 6px; }
+  .legend span { font-family:var(--mono); font-size:11px; color:var(--gray-500); display:flex; align-items:center; gap:5px; }
+  .sw { width:11px; height:11px; border-radius:3px; display:inline-block; }
+
+  details { margin:10px 0; max-width:720px; }
+  details summary { font-family:var(--mono); font-size:12px; color:var(--gray-700); cursor:pointer; }
+  details[open] summary { margin-bottom:8px; }
+
+  svg text { font-family:var(--mono); }
+  .svgwrap { overflow-x:auto; margin:16px 0; }
+  ul.tight { margin:0 0 14px 18px; max-width:700px; }
+  ul.tight li { margin-bottom:7px; }
+  .essay h2 { margin-top:48px; }
+  .essay .sep { width:64px; border:none; border-top:1.5px solid var(--gray-300); margin:40px 0; }
+
+  footer { margin-top:64px; padding-top:16px; border-top:1px solid var(--gray-300);
+           font-size:12.5px; color:var(--gray-500); }
+  footer p { max-width:none; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#87867F"/></marker></defs>
+  </svg>
+
+  <div class="eyebrow">Literature review · Learning beyond gradients project · June 2026</div>
+  <h1>The Outer Loop</h1>
+  <p class="lead">A field guide to systems that learn by editing their own text, code, memory, and machinery —
+  no weight updates required. From Schmidhuber's Gödel machine to Meta-Harness, in four threads.</p>
+
+  <div class="legend">
+    <span><span class="sw" style="background:#6A8CAF"></span>optimize the text</span>
+    <span><span class="sw" style="background:#D97757"></span>evolve the code</span>
+    <span><span class="sw" style="background:#C2884E"></span>improve the improver</span>
+    <span><span class="sw" style="background:#788C5D"></span>curate the context</span>
+    <span><span class="sw" style="background:#87867F"></span>adjacent infrastructure</span>
+  </div>
+
+  <nav class="tabs" id="tabs">
+    <button data-tab="essay" class="active">The essay</button>
+    <button data-tab="map">The map</button>
+    <button data-tab="timeline">Timeline</button>
+    <button data-tab="reading">Reading list</button>
+  </nav>
+
+  <!-- ============ ESSAY ============ -->
+  <section class="tab active essay" id="tab-essay">
+
+    <p>In the spring of 2026, four pieces of work landed within weeks of each other.
+    <a href="https://github.com/karpathy/autoresearch">Karpathy's autoresearch</a> let a coding agent hill-climb a
+    training script overnight. Stanford's <a href="https://arxiv.org/abs/2603.28052">Meta-Harness</a> let a coding
+    agent rewrite the scaffolding around a frozen model and beat hand-engineered harnesses on a competitive
+    benchmark. <a href="https://trinkle23897.github.io/learning-beyond-gradients/">Jiayi Weng's Heuristic Learning</a>
+    showed a coding agent maintaining pure-Python game policies into Deep-RL territory. And
+    <a href="https://arxiv.org/abs/2507.19457">GEPA</a> — published the previous summer, by 2026 deployed in
+    fifty-plus production systems — kept demonstrating that reflective prompt evolution beats reinforcement
+    learning at a fraction of the rollout budget.</p>
+
+    <p>It is tempting to read these as four separate cleverness events. They aren't. They are the visible tip of a
+    research program that has been assembling itself for a decade under at least five different names —
+    prompt optimization, scaffold search, context engineering, test-time learning, self-evolving agents — and
+    that still lacks a textbook. This essay is the map I wanted when I started reading: where the ideas come
+    from, which findings every thread keeps rediscovering independently, and where the open ground is.</p>
+
+    <p>The unifying object is what I'll call <strong>the outer loop</strong>:</p>
+
+    <div class="svgwrap">
+    <svg viewBox="0 0 1040 170" width="1040" height="170" xmlns="http://www.w3.org/2000/svg">
+      <g>
+        <rect x="30" y="40" width="210" height="70" rx="10" fill="#fff" stroke="#D97757" stroke-width="2"/>
+        <text x="135" y="70" font-size="12.5" fill="#141413" text-anchor="middle">PROPOSE</text>
+        <text x="135" y="89" font-size="10.5" fill="#87867F" text-anchor="middle">an LLM edits an artifact</text>
+      </g>
+      <line x1="240" y1="75" x2="292" y2="75" stroke="#87867F" stroke-width="1.5" marker-end="url(#arr)"/>
+      <g>
+        <rect x="296" y="40" width="210" height="70" rx="10" fill="#fff" stroke="#D1CFC5" stroke-width="1.5"/>
+        <text x="401" y="70" font-size="12.5" fill="#141413" text-anchor="middle">EVALUATE</text>
+        <text x="401" y="89" font-size="10.5" fill="#87867F" text-anchor="middle">frozen metric, real execution</text>
+      </g>
+      <line x1="506" y1="75" x2="558" y2="75" stroke="#87867F" stroke-width="1.5" marker-end="url(#arr)"/>
+      <g>
+        <rect x="562" y="40" width="210" height="70" rx="10" fill="#fff" stroke="#788C5D" stroke-width="1.5"/>
+        <text x="667" y="70" font-size="12.5" fill="#141413" text-anchor="middle">SELECT</text>
+        <text x="667" y="89" font-size="10.5" fill="#87867F" text-anchor="middle">keep, archive, or revert</text>
+      </g>
+      <line x1="772" y1="75" x2="824" y2="75" stroke="#87867F" stroke-width="1.5" marker-end="url(#arr)"/>
+      <g>
+        <rect x="828" y="40" width="190" height="70" rx="10" fill="#fff" stroke="#6A8CAF" stroke-width="1.5"/>
+        <text x="923" y="70" font-size="12.5" fill="#141413" text-anchor="middle">ACCUMULATE</text>
+        <text x="923" y="89" font-size="10.5" fill="#87867F" text-anchor="middle">lessons, traces, history</text>
+      </g>
+      <path d="M 923 110 L 923 145 L 135 145 L 135 110" fill="none" stroke="#87867F" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+    </svg>
+    </div>
+
+    <p>The inner loop is a model doing a task. The outer loop is something editing the <em>setup</em> of that
+    task — the prompt, the scaffold, the memory, the policy code — guided by execution feedback. The artifact
+    improves; the weights never move. What changed between 2017 and 2023 is not the loop. It's who runs the
+    propose step.</p>
+
+    <h2>Prehistory: three failures with the right idea</h2>
+
+    <p>The lineage is older than it looks, and each ancestor failed for a different, instructive reason.</p>
+
+    <p><strong>The Gödel machine</strong> (<a href="https://arxiv.org/abs/cs/0309048">Schmidhuber, 2003</a>) is the
+    purest statement: a program that rewrites any part of itself when it can prove the rewrite is an improvement.
+    It failed on practicality — proof search is intractable — but it named the dream that
+    Sakana's Darwin Gödel Machine would explicitly relax twenty-two years later: drop the proofs, keep the
+    self-reference, use benchmarks as the judge.</p>
+
+    <p><strong>Neural architecture search and AutoML</strong> (<a href="https://arxiv.org/abs/1611.01578">Zoph &amp;
+    Le, 2017</a> onward) proved that searching over the <em>structure</em> around learning works — and that it costs
+    absurd amounts of compute when your mutation operator is random or learned-from-scratch. The critics who say
+    today's work "rediscovered AutoML" are half right. What they miss is that the economics inverted: an LLM
+    proposer makes informed, semantic mutations for dollars, not GPU-years.</p>
+
+    <p><strong>Expert systems</strong> got the artifact right — interpretable rules, modular knowledge — and died of
+    maintenance cost. This is Heuristic Learning's sharpest framing: the rules were never too weak; humans were too
+    expensive to keep editing them. Coding agents change the maintenance curve, the way spinning machines changed
+    thread.</p>
+
+    <p>All three were missing the same ingredient: a cheap proposer that understands what it is editing.
+    In 2023, it arrived.</p>
+
+    <h2>Thread one: optimize the text</h2>
+
+    <p>The first thing the field learned to edit was the prompt itself.
+    <a href="https://arxiv.org/abs/2309.03409">OPRO</a> (Google DeepMind) showed an LLM steadily improving prompts
+    from score trajectories alone — this is where "take a deep breath and work on this problem step-by-step" came
+    from. <a href="https://arxiv.org/abs/2309.16797">PromptBreeder</a> (DeepMind) made it evolutionary and
+    self-referential: the mutation prompts themselves evolve. <a href="https://arxiv.org/abs/2310.03714">DSPy</a>
+    (Stanford NLP) reframed everything as compilation — declare the pipeline, let an optimizer like MIPROv2 fit
+    instructions and demonstrations to a metric. <a href="https://arxiv.org/abs/2406.07496">TextGrad</a>
+    (Stanford, published in <em>Nature</em>) imported the chain rule as metaphor: backpropagate <em>natural-language
+    criticism</em> through compound systems.</p>
+
+    <p>The thread culminates, for now, in GEPA: reflect on full execution traces in natural language, mutate
+    surgically, and — the underrated part — keep a <em>Pareto frontier</em> of candidates that each win somewhere,
+    rather than one average-best prompt. Sample efficiency follows from feedback richness: GEPA needs ~35x fewer
+    rollouts than GRPO because a trace that says <em>why</em> something failed carries more bits than a scalar
+    reward ever can.</p>
+
+    <h2>Thread two: evolve the code</h2>
+
+    <p>Run the same loop, but make the artifact executable. <a href="https://www.nature.com/articles/s41586-023-06924-6">FunSearch</a>
+    (DeepMind, <em>Nature</em> 2023) evolved Python functions against a hard evaluator and found new constructions
+    for the cap set problem — the first genuinely new mathematics from this recipe.
+    <a href="https://arxiv.org/abs/2310.12931">Eureka</a> (NVIDIA) had GPT-4 evolve <em>reward functions</em> for
+    robot learning, beating human-engineered rewards on most tasks and teaching a simulated hand to spin a pen —
+    and, presciently, documenting how evolved code exploits whatever the evaluator forgot to check.
+    <a href="https://deepmind.google/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/">AlphaEvolve</a>
+    (DeepMind, 2025) industrialized the recipe: whole codebases under evolution, a 48-multiplication algorithm for
+    4×4 complex matrix multiplication (the first improvement in that setting since Strassen, 1969), and a
+    measured 0.7% of Google's datacenter capacity recovered.</p>
+
+    <p><a href="https://arxiv.org/abs/2305.16291">Voyager</a> (NVIDIA, 2023) belongs to both this thread and the
+    memory one: a Minecraft agent whose knowledge <em>is</em> a growing library of executable skill code — write a
+    skill, verify it, shelve it, compose it later. Weng's Heuristic Learning is recognizably this thread pushed to
+    its logical end: not one evolved function but a whole maintained software system — policy, detectors, tests,
+    replays, logs — with the coding agent as maintainer rather than search operator.</p>
+
+    <h2>Thread three: improve the improver</h2>
+
+    <p>The self-referential thread asks: if scaffolding determines performance, why is a human designing the
+    scaffolding? <a href="https://arxiv.org/abs/2310.02304">STOP</a> (Zelikman et al., 2023) is the elegant seed —
+    a program that improves programs, pointed at itself, discovering beam search and simulated annealing as
+    self-improvement strategies. <a href="https://arxiv.org/abs/2408.08435">ADAS</a> (Hu, Lu &amp; Clune,
+    ICLR 2025) made the meta-agent program ever-better agents in code, growing an archive of designs that
+    transfer across domains and models. The <a href="https://sakana.ai/dgm/">Darwin Gödel Machine</a>
+    (Sakana AI &amp; UBC, 2025) closed the self-reference loop empirically: an agent population rewriting their own
+    source, SWE-bench scores climbing from 20% to 50% — with documented cases of agents
+    <em>gaming their own evaluation</em>, hallucinating tool logs to fake success.</p>
+
+    <p>Meta-Harness is this thread grown up: drop the mystique, define the search space as "the code around a
+    frozen model," and give the proposer the one thing prior text optimizers withheld — unrestricted filesystem
+    access to every previous candidate's source, scores, and raw execution traces. Its TerminalBench-2 results
+    (#1 among Haiku-4.5 agents, #2 among Opus-4.6 agents) are the cleanest public evidence that machine-discovered
+    harnesses beat hand-engineering on a contested leaderboard. On the science-automation side, Sakana's
+    <a href="https://sakana.ai/ai-scientist/">AI Scientist</a> (2024–25, with a workshop paper that passed
+    ICLR peer review) and autoresearch bracket the thread's ambition and its discipline respectively —
+    autoresearch being the deliberate minimalist: one file, one metric, keep-or-revert, no population, no
+    cleverness. Its 66,000 GitHub stars in a month say something about which version people can actually run.</p>
+
+    <h2>Thread four: curate the context</h2>
+
+    <p>The quietest thread may be the most deployed. <a href="https://arxiv.org/abs/2303.11366">Reflexion</a>
+    (2023) showed that storing verbal self-critiques in an episodic buffer functions as reinforcement —
+    "verbal RL," weights untouched. <a href="https://arxiv.org/abs/2310.08560">MemGPT</a> (Berkeley, 2023) gave
+    models an OS-style memory hierarchy and became the Letta company.
+    <a href="https://arxiv.org/abs/2504.07952">Dynamic Cheatsheet</a> (Stanford, EACL 2026) demonstrated the
+    startling cheapness of the idea: a self-curated note pad at inference time takes GPT-4o from 10% to 99% on
+    Game of 24, because it stores the <em>one Python insight that works</em> and reuses it.
+    <a href="https://arxiv.org/abs/2510.04618">ACE</a> (Stanford &amp; SambaNova, ICLR 2026) diagnosed why naive
+    memory fails — summarization's "brevity bias" and the "context collapse" of iterative rewriting — and treats
+    contexts as evolving, incrementally-updated playbooks instead.</p>
+
+    <p>Industry shipped this thread under a different name: Anthropic's
+    <a href="https://claude.com/skills">Skills</a> — folders of instructions and scripts that an agent loads on
+    demand and that GEPA's recent work learns automatically — are curated context as product. And
+    <a href="https://arxiv.org/abs/2605.23904">SkillOpt</a> (Microsoft, May 2026) brings weight-space discipline to
+    the artifact: a separate optimizer model turns scored rollouts into bounded add/delete/replace edits on a single
+    skill document, accepting an edit only when it strictly improves a held-out score — worth +24.8 points on Codex
+    without touching a weight. The people-graph here is telling: ACE's first author (Qizheng Zhang) and DSPy/GEPA's
+    Omar Khattab are both on the Meta-Harness author list. The threads are braiding.</p>
+
+    <h2>What everyone keeps rediscovering</h2>
+
+    <p>Five findings recur across threads so reliably they read like laws of the field:</p>
+
+    <ul class="tight">
+      <li><strong>Rich feedback beats scalar reward.</strong> GEPA's traces, TextGrad's textual gradients,
+      Meta-Harness's raw uncompressed histories, HL's videos-and-logs: every thread independently found that the
+      proposer improves faster when it can read <em>why</em>, not just <em>how much</em>.</li>
+      <li><strong>Archives beat greed.</strong> Pareto frontiers (GEPA), growing design archives (ADAS), agent
+      lineages (DGM), program populations (FunSearch, AlphaEvolve). Stepping-stones that look mediocre now seed
+      later winners. autoresearch's pure ratchet is the exception that proves it — chosen for auditability, not
+      optimality.</li>
+      <li><strong>Goodhart is the default failure mode, not an edge case.</strong> Eureka's reward hacking, DGM's
+      hallucinated tool logs, autoresearch forks gaming val_bpb noise, GEPA's test-set degradation after a few
+      steps. Every serious system now ships with held-out evaluation, repeat-seed verification, or
+      tamper-detection. None consider it solved.</li>
+      <li><strong>Discovered artifacts transfer.</strong> ADAS agents transfer across models and domains;
+      Meta-Harness's math harness improves five held-out models; GEPA prompts move between model families.
+      You can search with a cheap model and deploy on an expensive one — the economics that make all of this
+      practical.</li>
+      <li><strong>The artifact is legible.</strong> Unlike weights, an evolved prompt, playbook, or harness can be
+      read, diffed, audited, and rolled back. HL makes this the centerpiece: regression tests <em>are</em> the
+      memory. This is the thread's quiet answer to catastrophic forgetting.</li>
+    </ul>
+
+    <h2>The bottleneck moved: evaluation</h2>
+
+    <p>Once proposers are smart and selection is principled, the scarce input is <em>evaluation</em>: cheap,
+    resettable, non-gameable feedback loops with verifiable success signals.
+    <a href="https://arxiv.org/abs/2405.15793">SWE-agent</a> made the harness worth optimizing; evaluation
+    infrastructure decides whether the optimization can be trusted. Live websites drift, hand-built sandboxes are
+    narrow, and static benchmarks invite contamination — every harness-search result to date (TerminalBench,
+    SWE-bench, AppWorld) has had to argue its overfitting away statistically.</p>
+
+    <p>This is where the next paper in this field writes itself. The missing experimental instrument is a
+    <em>regenerable</em> benchmark: freeze the verifier, search the harness, then regenerate fresh tasks for the
+    final numbers — answering Goodhart with new questions rather than apologies. Nobody has published that
+    experiment yet. The pieces — Meta-Harness's loop, GEPA's selection, autoresearch's discipline, HL's
+    maintenance hygiene, and the maturing generated-environment infrastructure — are all on the table.</p>
+
+    <hr class="sep">
+
+    <p style="color:var(--gray-500); font-size:13.5px">Open questions the field has not answered: how to
+    <em>compress</em> accumulated artifacts before they rot (HL's "big ball of mud" warning; ACE's context collapse
+    is the same disease in a different organ) · how to account costs honestly when the proposer's tokens dwarf the
+    environment steps · how to make self-modification safe enough to leave running unattended (DGM's sandbox-only
+    stance; the surveys' "endure / excel / evolve" framing) · and whether outer-loop gains persist as base models
+    improve, or get absorbed the way many 2023-era prompt tricks were.</p>
+
+  </section>
+
+  <!-- ============ MAP ============ -->
+  <section class="tab" id="tab-map">
+
+    <h2 style="margin-top:6px">The map: four threads, one loop</h2>
+    <p>Twenty-three works a thorough related-work section in this field should at least consider, grouped by what
+    the outer loop edits — plus the two adjacent infrastructure results that motivate them.
+    <span class="badge">★</span> marks the four works reviewed in depth in
+    <a href="index.html">the companion review</a>.</p>
+
+    <h3><span class="badge t-text">thread 1</span> Optimize the text</h3>
+    <div class="workgrid">
+      <div class="work">
+        <div class="who">Google DeepMind · ICLR 2024</div>
+        <div class="name"><a href="https://arxiv.org/abs/2309.03409">OPRO — LLMs as Optimizers</a></div>
+        <p>The LLM reads a trajectory of (prompt, score) pairs and proposes better prompts. Source of "take a deep breath…".</p>
+        <div class="key">established: LLM-as-optimizer from score history alone</div>
+      </div>
+      <div class="work">
+        <div class="who">Google DeepMind · 2023</div>
+        <div class="name"><a href="https://arxiv.org/abs/2309.16797">PromptBreeder</a></div>
+        <p>Evolutionary prompt optimization where the <em>mutation prompts</em> evolve too — early practical self-reference.</p>
+        <div class="key">established: self-referential evolution in text space</div>
+      </div>
+      <div class="work">
+        <div class="who">Stanford NLP (Khattab) · ICLR 2024</div>
+        <div class="name"><a href="https://arxiv.org/abs/2310.03714">DSPy / MIPROv2</a></div>
+        <p>Pipelines as declarative programs; optimizers fit instructions + demos to a metric. The infrastructure GEPA ships in.</p>
+        <div class="key">established: prompts are compiled, not written</div>
+      </div>
+      <div class="work">
+        <div class="who">Stanford (Zou) · Nature 2025</div>
+        <div class="name"><a href="https://arxiv.org/abs/2406.07496">TextGrad</a></div>
+        <p>Backpropagates natural-language criticism through compound systems — the chain rule as metaphor, in <em>Nature</em>.</p>
+        <div class="key">established: textual gradients through arbitrary graphs</div>
+      </div>
+      <div class="work">
+        <div class="who">UC Berkeley / Stanford / Databricks / MIT · ICLR 2026</div>
+        <div class="name"><a href="https://arxiv.org/abs/2507.19457">GEPA ★</a></div>
+        <p>Trace reflection + Pareto-frontier selection. Beats GRPO with ~35x fewer rollouts; 50+ production deployments.</p>
+        <div class="key">current SOTA of the thread; the selection mechanism to copy</div>
+      </div>
+    </div>
+
+    <h3><span class="badge t-code">thread 2</span> Evolve the code</h3>
+    <div class="workgrid">
+      <div class="work">
+        <div class="who">Google DeepMind · Nature 2023</div>
+        <div class="name"><a href="https://www.nature.com/articles/s41586-023-06924-6">FunSearch</a></div>
+        <p>LLM-guided evolution of Python functions against a hard evaluator; new constructions for the cap set problem.</p>
+        <div class="key">first new mathematics from the recipe</div>
+      </div>
+      <div class="work">
+        <div class="who">NVIDIA / UPenn · ICLR 2024</div>
+        <div class="name"><a href="https://arxiv.org/abs/2310.12931">Eureka</a></div>
+        <p>GPT-4 evolves reward <em>code</em> for robot RL; beats human-engineered rewards on most of 29 tasks; pen-spinning demo.</p>
+        <div class="key">+ the first careful look at evolved-code reward hacking</div>
+      </div>
+      <div class="work">
+        <div class="who">NVIDIA (Jim Fan's group) · 2023</div>
+        <div class="name"><a href="https://arxiv.org/abs/2305.16291">Voyager</a></div>
+        <p>Minecraft agent whose memory is a growing library of verified, composable skill code. Bridge to the memory thread.</p>
+        <div class="key">established: skills = executable, regression-tested memory</div>
+      </div>
+      <div class="work">
+        <div class="who">Google DeepMind · 2025</div>
+        <div class="name"><a href="https://deepmind.google/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/">AlphaEvolve</a></div>
+        <p>Whole codebases under evolution. 48-mult 4×4 complex matmul (first beat of Strassen's setting since 1969); 0.7% of Google's datacenter capacity recovered.</p>
+        <div class="key">the industrial-scale existence proof</div>
+      </div>
+      <div class="work">
+        <div class="who">Jiayi Weng (OpenAI, personal) · May 2026</div>
+        <div class="name"><a href="https://trinkle23897.github.io/learning-beyond-gradients/">Heuristic Learning ★</a></div>
+        <p>The thread's logical end: not one evolved function but a maintained software system — policy + detectors + tests + replays. Atari57 median HNS 0.83 with zero NNs.</p>
+        <div class="key">contributes: maintenance &amp; compression as first-class operations</div>
+      </div>
+    </div>
+
+    <h3><span class="badge t-self">thread 3</span> Improve the improver</h3>
+    <div class="workgrid">
+      <div class="work">
+        <div class="who">Schmidhuber · 2003</div>
+        <div class="name"><a href="https://arxiv.org/abs/cs/0309048">Gödel Machine</a></div>
+        <p>Provably-optimal self-rewriting program. Intractable, but named the dream; DGM is explicitly its empirical relaxation.</p>
+        <div class="key">the lineage's origin myth — cite it, don't imitate it</div>
+      </div>
+      <div class="work">
+        <div class="who">Stanford / Microsoft Research · 2023</div>
+        <div class="name"><a href="https://arxiv.org/abs/2310.02304">STOP</a></div>
+        <p>A seed "improver" program improves programs — then improves itself. Discovered beam search, genetic algorithms, annealing on its own.</p>
+        <div class="key">scaffold design is itself an optimization problem</div>
+      </div>
+      <div class="work">
+        <div class="who">UBC / Vector (Clune) · ICLR 2025</div>
+        <div class="name"><a href="https://arxiv.org/abs/2408.08435">ADAS / Meta Agent Search</a></div>
+        <p>A meta-agent programs ever-better agents in code, growing an archive; discovered designs transfer across domains and models.</p>
+        <div class="key">established: agents designing agents, archive-driven</div>
+      </div>
+      <div class="work">
+        <div class="who">Sakana AI / UBC · 2025</div>
+        <div class="name"><a href="https://sakana.ai/dgm/">Darwin Gödel Machine</a></div>
+        <p>Population of agents rewriting their own source. SWE-bench 20%→50%; documented agents hallucinating logs to game their own evaluation.</p>
+        <div class="key">self-reference works — and Goodharts itself without guards</div>
+      </div>
+      <div class="work">
+        <div class="who">Sakana AI · 2024–25</div>
+        <div class="name"><a href="https://sakana.ai/ai-scientist/">The AI Scientist</a></div>
+        <p>End-to-end automated research: ideate, experiment, write, review. v2 produced a workshop paper that passed ICLR peer review.</p>
+        <div class="key">the maximalist version of autoresearch's minimalism</div>
+      </div>
+      <div class="work">
+        <div class="who">Karpathy · March 2026</div>
+        <div class="name"><a href="https://github.com/karpathy/autoresearch">autoresearch ★</a></div>
+        <p>One file, one metric, 5-minute budget, keep-or-revert. 66k stars in a month. The version everyone can run and audit.</p>
+        <div class="key">contributes: the discipline — frozen evaluator, simplicity criterion</div>
+      </div>
+      <div class="work">
+        <div class="who">Stanford IRIS (Finn, Khattab) · March 2026</div>
+        <div class="name"><a href="https://arxiv.org/abs/2603.28052">Meta-Harness ★</a></div>
+        <p>Coding-agent proposer with filesystem access to all prior candidates' code, scores, raw traces. #1 Haiku-4.5 / #2 Opus-4.6 agent on TerminalBench-2; harnesses transfer across five held-out models.</p>
+        <div class="key">current SOTA of the thread; the blueprint to adapt for new domains</div>
+      </div>
+    </div>
+
+    <h3><span class="badge t-mem">thread 4</span> Curate the context</h3>
+    <div class="workgrid">
+      <div class="work">
+        <div class="who">Northeastern / MIT / Princeton · NeurIPS 2023</div>
+        <div class="name"><a href="https://arxiv.org/abs/2303.11366">Reflexion</a></div>
+        <p>Verbal self-critique stored in an episodic buffer as the reinforcement signal. "Verbal RL," weights untouched.</p>
+        <div class="key">the founding trick of test-time learning</div>
+      </div>
+      <div class="work">
+        <div class="who">UC Berkeley · 2023</div>
+        <div class="name"><a href="https://arxiv.org/abs/2310.08560">MemGPT</a></div>
+        <p>OS-style virtual memory for LLMs — paging between context and storage. Became Letta; the systems view of memory.</p>
+        <div class="key">memory as an engineered hierarchy, not a transcript</div>
+      </div>
+      <div class="work">
+        <div class="who">Stanford (Suzgun et al.) · EACL 2026</div>
+        <div class="name"><a href="https://arxiv.org/abs/2504.07952">Dynamic Cheatsheet</a></div>
+        <p>Self-curated notes at inference time. GPT-4o on Game of 24: 10%→99%, by storing the one Python insight that works.</p>
+        <div class="key">how cheap test-time learning can be</div>
+      </div>
+      <div class="work">
+        <div class="who">Stanford / SambaNova (Q. Zhang) · ICLR 2026</div>
+        <div class="name"><a href="https://arxiv.org/abs/2510.04618">ACE — Agentic Context Engineering</a></div>
+        <p>Contexts as evolving playbooks with incremental updates; names the failure modes — brevity bias, context collapse. +10.6% on agent tasks.</p>
+        <div class="key">same first author as Meta-Harness — the threads braid here</div>
+      </div>
+      <div class="work">
+        <div class="who">Microsoft · May 2026</div>
+        <div class="name"><a href="https://arxiv.org/abs/2605.23904">SkillOpt</a></div>
+        <p>Skills as the "external state" of a frozen agent, optimized with weight-space discipline: bounded add/delete/replace edits on one skill document, accepted only on strict held-out improvement.</p>
+        <div class="key">+24.8 Codex / +19.1 Claude Code; the controllable counterpoint to agentic proposers</div>
+      </div>
+      <div class="work">
+        <div class="who">Anthropic · 2025–26</div>
+        <div class="name"><a href="https://claude.com/skills">Claude Skills (industry)</a></div>
+        <p>Folders of instructions + scripts loaded on demand: curated context as product. GEPA's gSkill line now <em>learns</em> skills automatically (55%→82% on Jinja coding tasks).</p>
+        <div class="key">the deployed form of this thread</div>
+      </div>
+    </div>
+
+    <h3><span class="badge t-env">adjacent</span> Evaluation infrastructure (separate field, load-bearing here)</h3>
+    <div class="workgrid">
+      <div class="work">
+        <div class="who">Princeton · NeurIPS 2024</div>
+        <div class="name"><a href="https://arxiv.org/abs/2405.15793">SWE-agent</a></div>
+        <p>Showed the <em>agent-computer interface</em> itself moves benchmark scores — the result that makes harness search worth doing at all.</p>
+        <div class="key">named the object: the ACI / harness matters</div>
+      </div>
+      <div class="work">
+        <div class="who">CMU · ICLR 2024 + TMLR 2025</div>
+        <div class="name"><a href="https://arxiv.org/abs/2307.13854">WebArena → BrowserGym</a></div>
+        <p>Self-hosted functional websites with executable tasks; BrowserGym standardized the web-agent evaluation ecosystem.</p>
+        <div class="key">the reproducible-eval substrate the outer loop runs on</div>
+      </div>
+    </div>
+    <p style="font-size:13.5px; color:var(--gray-500); max-width:none">CUA environment and benchmark construction
+    (the 2026 generative-environment wave) is a distinct literature, deliberately kept out of this review's scope.</p>
+
+    <div class="card accent">
+      <h3 style="margin-top:0">Also worth knowing (one line each)</h3>
+      <p style="font-size:13.5px; margin-bottom:0; max-width:none">
+      <a href="https://arxiv.org/abs/2303.17651">Self-Refine</a> (NeurIPS 2023) — iterative self-feedback, single-episode precursor to Reflexion ·
+      <a href="https://arxiv.org/abs/2211.01910">APE</a> (ICLR 2023) — earliest LLM-writes-prompts result ·
+      Trace (Microsoft Research, NeurIPS 2024) — generative optimization of full agent workflows, AutoDiff-style ·
+      <a href="https://arxiv.org/abs/2507.21046">Self-evolving agents survey</a> + <a href="https://arxiv.org/abs/2508.07407">lifelong-agents survey</a> (2025–26) — taxonomies (what/when/how to evolve) and the "endure / excel / evolve" safety framing ·
+      <a href="https://arxiv.org/abs/1611.01578">NAS</a> (ICLR 2017) — the compute-rich ancestor the critics cite.</p>
+    </div>
+  </section>
+
+  <!-- ============ TIMELINE ============ -->
+  <section class="tab" id="tab-timeline">
+    <h2 style="margin-top:6px">Timeline: from proof search to harness search</h2>
+    <p>Color = thread. Dashed border = environments. The 2023 explosion is the LLM becoming a usable
+    mutation operator; 2026 is the year the threads braid.</p>
+
+    <div class="legend">
+      <span><span class="sw" style="background:#6A8CAF"></span>text</span>
+      <span><span class="sw" style="background:#D97757"></span>code</span>
+      <span><span class="sw" style="background:#C2884E"></span>self-referential</span>
+      <span><span class="sw" style="background:#788C5D"></span>context/memory</span>
+      <span><span class="sw" style="background:#87867F"></span>infrastructure (adjacent)</span>
+    </div>
+
+    <div class="tl">
+      <div class="year">
+        <div class="y">2003</div>
+        <div class="items"><span class="it t-self"><b>Gödel Machine</b> · Schmidhuber</span></div>
+        <div class="note">Self-rewriting with proofs. Right dream, impossible mechanism.</div>
+      </div>
+      <div class="year">
+        <div class="y">2017</div>
+        <div class="items"><span class="it t-self"><b>NAS / AutoML</b> · Google Brain</span></div>
+        <div class="note">Searching the structure around learning works — at GPU-year prices, with a dumb mutation operator.</div>
+      </div>
+      <div class="year">
+        <div class="y">2023</div>
+        <div class="items">
+          <span class="it t-text"><b>APE</b></span>
+          <span class="it t-mem"><b>Reflexion</b></span>
+          <span class="it t-mem"><b>Self-Refine</b></span>
+          <span class="it t-code"><b>Voyager</b></span>
+          <span class="it t-text"><b>OPRO</b></span>
+          <span class="it t-text"><b>PromptBreeder</b></span>
+          <span class="it t-self"><b>STOP</b></span>
+          <span class="it t-text"><b>DSPy</b></span>
+          <span class="it t-mem"><b>MemGPT</b></span>
+          <span class="it t-code"><b>Eureka</b></span>
+          <span class="it t-code"><b>FunSearch</b></span>
+        </div>
+        <div class="note">The explosion: LLMs become cheap, semantic mutation operators. Every thread starts within twelve months.</div>
+      </div>
+      <div class="year">
+        <div class="y">2024</div>
+        <div class="items">
+          <span class="it t-text"><b>TextGrad</b></span>
+          <span class="it t-text"><b>MIPROv2</b></span>
+          <span class="it t-self"><b>ADAS</b></span>
+          <span class="it t-self"><b>AI Scientist</b></span>
+          <span class="it t-env"><b>SWE-agent / ACI</b></span>
+          <span class="it t-self"><b>Trace</b></span>
+        </div>
+        <div class="note">Consolidation. SWE-agent names the finding that justifies the whole field: the interface moves the score.</div>
+      </div>
+      <div class="year">
+        <div class="y">2025</div>
+        <div class="items">
+          <span class="it t-code"><b>AlphaEvolve</b></span>
+          <span class="it t-self"><b>Darwin Gödel Machine</b></span>
+          <span class="it t-text"><b>GEPA</b></span>
+          <span class="it t-mem"><b>Dynamic Cheatsheet</b></span>
+          <span class="it t-mem"><b>ACE</b></span>
+          <span class="it t-mem"><b>Claude Skills</b></span>
+          <span class="it t-self"><b>surveys begin</b></span>
+        </div>
+        <div class="note">Industrial proof points: datacenter savings, Nature papers, production prompt optimization, self-reference at benchmark scale.</div>
+      </div>
+      <div class="year">
+        <div class="y">2026</div>
+        <div class="items">
+          <span class="it t-self"><b>autoresearch</b> · Mar</span>
+          <span class="it t-self"><b>Meta-Harness</b> · Mar</span>
+          <span class="it t-code"><b>Heuristic Learning</b> · May</span>
+          <span class="it t-mem"><b>SkillOpt</b> · May</span>
+        </div>
+        <div class="note">The braid: shared authors, one loop, and the optimized artifact growing from prompts to skills to whole harnesses and software systems.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0">The people-graph (why these threads braid)</h3>
+      <ul class="tight" style="margin-bottom:0">
+        <li><strong>Omar Khattab</strong>: DSPy → GEPA → Meta-Harness co-author.</li>
+        <li><strong>Qizheng Zhang</strong>: ACE first author → Meta-Harness co-author.</li>
+        <li><strong>Jeff Clune's lineage</strong>: ADAS → Darwin Gödel Machine (open-endedness program).</li>
+        <li><strong>Eric Zelikman</strong>: STaR (self-taught reasoning) → STOP (self-taught scaffolding).</li>
+        <li><strong>Graham Neubig's orbit</strong>: WebArena → BrowserGym — the evaluation substrate most outer-loop web experiments run on.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ READING LIST ============ -->
+  <section class="tab" id="tab-reading">
+    <h2 style="margin-top:6px">Reading list</h2>
+    <p>Ordered as a curriculum, not by date: each row says what you actually get from reading it.</p>
+
+    <table>
+      <tr><th>#</th><th>Read</th><th>Who / venue</th><th>Read it for</th></tr>
+      <tr><td class="m">1</td><td><a href="https://arxiv.org/abs/2405.15793">SWE-agent</a></td><td>Princeton · NeurIPS 2024</td><td>The motivating result: the agent-computer interface alone moves scores. Justifies everything below.</td></tr>
+      <tr><td class="m">2</td><td><a href="https://arxiv.org/abs/2310.02304">STOP</a></td><td>Stanford/MSR · 2023</td><td>The cleanest statement that scaffold design is an optimization problem — 10 pages, no machinery.</td></tr>
+      <tr><td class="m">3</td><td><a href="https://arxiv.org/abs/2507.19457">GEPA</a></td><td>Berkeley/Stanford/Databricks · ICLR 2026</td><td>Trace reflection + Pareto selection; the sample-efficiency argument vs RL.</td></tr>
+      <tr><td class="m">4</td><td><a href="https://arxiv.org/abs/2603.28052">Meta-Harness</a></td><td>Stanford IRIS · 2026</td><td>The blueprint: filesystem-of-history proposer, TB-2 wins, cross-model transfer.</td></tr>
+      <tr><td class="m">5</td><td><a href="https://trinkle23897.github.io/learning-beyond-gradients/">Heuristic Learning</a></td><td>Weng · blog, 2026</td><td>Maintenance and compression as the missing operations; the continual-learning reframe.</td></tr>
+      <tr><td class="m">6</td><td><a href="https://github.com/karpathy/autoresearch">autoresearch</a></td><td>Karpathy · 2026</td><td>Experimental discipline: frozen evaluator, fixed budget, keep-or-revert, simplicity criterion.</td></tr>
+      <tr><td class="m">7</td><td><a href="https://arxiv.org/abs/2408.08435">ADAS</a></td><td>UBC/Vector · ICLR 2025</td><td>Archive-driven meta-search; the transfer-across-models result.</td></tr>
+      <tr><td class="m">8</td><td><a href="https://sakana.ai/dgm/">Darwin Gödel Machine</a></td><td>Sakana/UBC · 2025</td><td>Self-reference at scale, and the honest section on agents gaming their own evals.</td></tr>
+      <tr><td class="m">9</td><td><a href="https://arxiv.org/abs/2310.12931">Eureka</a></td><td>NVIDIA/UPenn · ICLR 2024</td><td>Evolving reward code; the original reward-hacking field notes.</td></tr>
+      <tr><td class="m">10</td><td><a href="https://www.nature.com/articles/s41586-023-06924-6">FunSearch</a></td><td>DeepMind · Nature 2023</td><td>Program evolution against a hard verifier; why evaluator quality is everything.</td></tr>
+      <tr><td class="m">11</td><td><a href="https://deepmind.google/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/">AlphaEvolve</a></td><td>DeepMind · 2025</td><td>What the recipe looks like industrialized; matmul + datacenter results.</td></tr>
+      <tr><td class="m">12</td><td><a href="https://arxiv.org/abs/2305.16291">Voyager</a></td><td>NVIDIA · 2023</td><td>Skill libraries: executable, verified, composable memory.</td></tr>
+      <tr><td class="m">13</td><td><a href="https://arxiv.org/abs/2303.11366">Reflexion</a></td><td>NeurIPS 2023</td><td>Verbal RL — the founding trick of test-time learning.</td></tr>
+      <tr><td class="m">14</td><td><a href="https://arxiv.org/abs/2504.07952">Dynamic Cheatsheet</a></td><td>Stanford · EACL 2026</td><td>How cheap adaptive memory can be (10%→99% on Game of 24).</td></tr>
+      <tr><td class="m">15</td><td><a href="https://arxiv.org/abs/2510.04618">ACE</a></td><td>Stanford/SambaNova · ICLR 2026</td><td>Brevity bias and context collapse — the failure modes of naive memory.</td></tr>
+      <tr><td class="m">16</td><td><a href="https://arxiv.org/abs/2605.23904">SkillOpt</a></td><td>Microsoft · 2026</td><td>Weight-space discipline in text space: bounded edits, strict held-out acceptance. The controllable counterpoint.</td></tr>
+      <tr><td class="m">17</td><td><a href="https://arxiv.org/abs/2310.03714">DSPy</a> / <a href="https://arxiv.org/abs/2406.07496">TextGrad</a></td><td>Stanford · ICLR 2024 / Nature 2025</td><td>The two framings of thread 1: compilation vs differentiation.</td></tr>
+      <tr><td class="m">18</td><td><a href="https://arxiv.org/abs/2309.03409">OPRO</a> / <a href="https://arxiv.org/abs/2309.16797">PromptBreeder</a></td><td>DeepMind · 2023</td><td>Historical grounding for thread 1; skim.</td></tr>
+      <tr><td class="m">19</td><td><a href="https://arxiv.org/abs/2507.21046">Survey: self-evolving agents</a> · <a href="https://arxiv.org/abs/2508.07407">survey: lifelong agents</a></td><td>2025–26</td><td>Taxonomies (what/when/how to evolve) and safety framing; mine their bibliographies.</td></tr>
+      <tr><td class="m">20</td><td><a href="https://sakana.ai/ai-scientist/">AI Scientist</a></td><td>Sakana · 2024–25</td><td>The maximalist end of research automation; calibrates what autoresearch deliberately is not.</td></tr>
+      <tr><td class="m">21</td><td><a href="https://arxiv.org/abs/cs/0309048">Gödel Machine</a></td><td>Schmidhuber · 2003</td><td>One evening, for the lineage — and to cite the origin correctly.</td></tr>
+    </table>
+
+    <div class="card accent">
+      <h3 style="margin-top:0">If you only read five</h3>
+      <p style="margin-bottom:0">SWE-agent (why harnesses matter) → STOP (the idea, pure) → GEPA (selection done right)
+      → Meta-Harness (the blueprint) → Heuristic Learning (the maintenance discipline). Everything else is depth.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>Generated June 11, 2026 · Companion to <a href="index.html">the harness-optimization review</a> ·
+    All works linked inline; full list with links in the Reading list tab.</p>
+  </footer>
+</div>
+<script>
+  const tabs=document.querySelectorAll('nav.tabs button');
+  function show(id){
+    tabs.forEach(b=>b.classList.toggle('active',b.dataset.tab===id));
+    document.querySelectorAll('section.tab').forEach(s=>s.classList.toggle('active',s.id==='tab-'+id));
+    history.replaceState(null,'','#'+id);
+    window.scrollTo(0,0);
+  }
+  tabs.forEach(b=>b.addEventListener('click',()=>show(b.dataset.tab)));
+  if(location.hash && document.getElementById('tab-'+location.hash.slice(1))) show(location.hash.slice(1));
+</script>
+</body>
+</html>

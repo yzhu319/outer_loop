@@ -1,0 +1,23 @@
+# OS
+.DS_Store
+
+# Third-party reference clones — not ours to version; re-fetch per README
+harness-optimization-review/1-heuristic-learning/learning-beyond-gradients/
+harness-optimization-review/2-gepa/gepa/
+harness-optimization-review/3-karpathy-auto-research/autoresearch/
+harness-optimization-review/4-meta-harness/meta-harness/
+
+# LaTeX build artifacts (the compiled main.pdf IS tracked deliberately)
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.toc
+
+# Python
+__pycache__/
+*.pyc
