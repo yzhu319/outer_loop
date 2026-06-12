@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reviewer 2 — Verification Review: Learning Beyond Gradients</title>
+<style>
+:root{
+  --ivory:#FAF9F5; --slate:#141413; --clay:#D97757; --oat:#E3DACC;
+  --olive:#788C5D; --sky:#6A8CAF; --gray-150:#F0EEE6; --gray-300:#D1CFC5;
+  --gray-500:#87867F; --gray-700:#3D3D3A; --bad:#B04A3F; --warn:#C2884E;
+  --serif:ui-serif, Georgia, "Times New Roman", serif;
+  --sans:system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono:ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ivory);color:var(--gray-700);font:15px/1.65 var(--sans);padding:56px 24px 120px}
+.page{max-width:1100px;margin:0 auto}
+.eyebrow{font:11px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--gray-500);margin-bottom:10px}
+h1{font:500 33px/1.25 var(--serif);color:var(--slate);letter-spacing:-.01em;margin-bottom:14px}
+h2{font:500 22px var(--serif);color:var(--slate);margin:40px 0 12px}
+h3{font:600 15px var(--sans);color:var(--slate);margin:26px 0 8px}
+p{max-width:760px;margin-bottom:12px}
+.lead{font-size:16px;max-width:740px;color:var(--gray-700)}
+a{color:var(--sky)}
+code{font:13px var(--mono);background:var(--gray-150);padding:1px 5px;border-radius:4px}
+pre{background:var(--gray-150);border-radius:8px;padding:14px 16px;font:12.5px/1.55 var(--mono);overflow-x:auto;margin:10px 0 16px;max-width:840px}
+pre code{background:none;padding:0}
+.chips{display:flex;gap:14px;flex-wrap:wrap;margin:24px 0 8px}
+.chip{background:#fff;border:1.5px solid var(--gray-300);border-radius:13px;padding:14px 20px;min-width:120px}
+.chip .n{font:600 26px var(--mono);color:var(--slate)}
+.chip .l{font:10.5px var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--gray-500);margin-top:3px}
+.chip.accent .n{color:var(--clay)}
+nav{display:flex;gap:2px;border-bottom:1.5px solid var(--gray-300);margin:34px 0 26px;flex-wrap:wrap}
+nav button{font:12px var(--mono);text-transform:uppercase;letter-spacing:.05em;background:none;border:none;border-bottom:2px solid transparent;padding:10px 14px;color:var(--gray-500);cursor:pointer}
+nav button.active{color:var(--slate);border-bottom-color:var(--clay)}
+section.tab{display:none}
+section.tab.active{display:block}
+table{border-collapse:collapse;width:100%;margin:12px 0 22px;font-size:13.5px;background:#fff;border:1.5px solid var(--gray-300);border-radius:12px;overflow:hidden}
+th{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--gray-500);text-align:left;padding:10px 12px;border-bottom:1px solid var(--gray-300);background:var(--gray-150)}
+td{padding:10px 12px;border-bottom:1px solid var(--gray-300);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.ok{color:var(--olive);font-weight:600}
+.fail{color:var(--bad);font-weight:600}
+.varn{color:var(--warn);font-weight:600}
+.badge{font:10.5px var(--mono);padding:3px 9px;border-radius:999px;background:var(--gray-150);white-space:nowrap}
+.badge.must{background:rgba(176,74,63,.12);color:var(--bad)}
+.badge.should{background:rgba(194,136,78,.14);color:#8a5e2f}
+.badge.new{background:rgba(106,140,175,.14);color:#41618a}
+.badge.confirm{background:rgba(120,140,93,.14);color:#55663f}
+.card{background:#fff;border:1.5px solid var(--gray-300);border-radius:13px;padding:20px 22px;margin:14px 0;max-width:860px}
+.card.flag{border-left:4px solid var(--bad)}
+.card.note{border-left:4px solid var(--sky)}
+.card.fix{border-left:4px solid var(--olive)}
+.card h3{margin-top:0}
+.mono-num{font:13px var(--mono)}
+details{margin:10px 0;max-width:860px}
+summary{font:12px var(--mono);color:var(--clay);cursor:pointer;padding:6px 0}
+footer{margin-top:60px;border-top:1.5px solid var(--gray-300);padding-top:18px;font-size:12.5px;color:var(--gray-500)}
+footer a{color:var(--gray-500)}
+@media(max-width:760px){.chips{gap:8px}.chip{min-width:46%}}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="eyebrow">ICML 2026 · Independent Verification Review · Reviewer 2</div>
+<h1>Learning Beyond Gradients: A Unifying Theory of LLM-Guided Artifact Search</h1>
+<p class="lead">Full due-diligence pass: every appendix proof re-derived by hand, the committed seeded simulation pipeline re-executed and extended with fresh seeds, every prose-level numeric claim recomputed, and load-bearing citations verified against their public records. This report independently confirms Reviewer&nbsp;1's W3&ndash;W7, adds four findings Reviewer&nbsp;1 missed, and supplies drop-in fixes for everything mandatory.</p>
+
+<div class="chips">
+  <div class="chip accent"><div class="n">6 / 10</div><div class="l">Overall · Weak Accept</div></div>
+  <div class="chip"><div class="n">5 / 5</div><div class="l">Confidence</div></div>
+  <div class="chip"><div class="n">3 / 4</div><div class="l">Soundness</div></div>
+  <div class="chip"><div class="n">4 / 4</div><div class="l">Reproducibility</div></div>
+  <div class="chip"><div class="n">11</div><div class="l">Concrete revisions</div></div>
+  <div class="chip"><div class="n">4</div><div class="l">New findings</div></div>
+</div>
+
+<nav>
+  <button data-tab="summary" class="active">Summary</button>
+  <button data-tab="audit">Verification log</button>
+  <button data-tab="errors">Findings</button>
+  <button data-tab="revisions">Revision plan</button>
+  <button data-tab="questions">Questions &amp; verdict</button>
+</nav>
+
+<!-- ============================ SUMMARY ============================ -->
+<section class="tab active" id="summary">
+<h2>What the paper claims, and what survives scrutiny</h2>
+<p>The paper defines an <em>artifact-search system</em> (Def.&nbsp;2.1) — frozen-LLM proposer, noisy evaluator, selection rule, memory — and proves six elementary-but-sharp results: hitting time = inverse prior mass (Thm&nbsp;3.2), exponential scalar-vs-trace feedback separation (Thms&nbsp;4.1&ndash;4.2), the ratchet illusion under noise with a log-cost repair (Thm&nbsp;5.1, Prop&nbsp;5.2, Cor&nbsp;5.3), greedy-vs-archive separation on deceptive landscapes (Thm&nbsp;5.4), an Occam bound with a U-shaped risk in artifact length (Thm&nbsp;6.1, Cor&nbsp;6.2), and Goodhart transfer limits (Prop&nbsp;7.1).</p>
+<p><strong>Bottom line of my verification:</strong> the mathematical core is sound. All six proof groups check out as <em>arguments</em>. What fails is statement-level hygiene: one theorem's construction contradicts its own statement (Thm&nbsp;5.4's "unique optimum" isn't unique), one stated constant is stronger than what the proof yields (Prop&nbsp;5.2 converse), one construction exits the paper's own model (Prop&nbsp;7.1(iii) needs <span class="mono-num">F&nbsp;&notin;&nbsp;[0,1]</span>), and three prose numbers are contradicted by the paper's own committed code — including a "zero false accepts" claim that the paper's own theory predicts should be &asymp;1.6, and that the committed seed in fact realizes as <span class="mono-num">2</span>.</p>
+<p>That last point deserves emphasis because it is the paper's moral aimed at itself: a paper whose thesis is <em>"single noisy evaluations manufacture fictitious certainty"</em> reported a single lucky-looking zero as if it were a property. Across 20 fresh seeds I measured 0&ndash;3 false accepts (mean&nbsp;1.55, matching the Poisson prediction 1.61). The fix makes the paper <em>stronger</em>: the gate's 0.5%-per-run false-accept rate sits comfortably inside the &delta;&nbsp;=&nbsp;5% certificate, which is exactly what Cor&nbsp;5.3 promises — no more, no less.</p>
+<p>Everything mandatory is fixable in days. The structural criticism that should drive the rebuttal is Reviewer&nbsp;1's W1/Q2 — no theorem requires the unified object — and I sketch a composed theorem (R9) that would answer it with machinery already in the paper.</p>
+</section>
+
+<!-- ============================ AUDIT ============================ -->
+<section class="tab" id="audit">
+<h2>Verification log</h2>
+<p>Environment: clean Linux sandbox, Python 3.10, NumPy 2.2.6, Matplotlib 3.10. All numbers below recomputed from scratch, not taken from the paper or from Reviewer&nbsp;1.</p>
+
+<h3>Proofs (re-derived by hand)</h3>
+<table>
+<tr><th>Result</th><th>Technique</th><th>Status</th><th>Notes</th></tr>
+<tr><td>Thm 3.2 (i)&ndash;(iii) hitting time</td><td>Geometric tails, Wald, iterated conditioning</td><td class="ok">CORRECT</td><td>Peel-the-last-factor induction in (iii) is valid</td></tr>
+<tr><td>Prop 3.3 lower bound</td><td>Union bound + tail sum</td><td class="ok">CORRECT</td><td>But see finding N2: §3's <em>use</em> of it overreaches</td></tr>
+<tr><td>Thm 4.1 transcript bound</td><td>Decision-tree counting</td><td class="ok">CORRECT</td><td>Generous success-crediting; constant log&#8322;6 checks out</td></tr>
+<tr><td>Thm 4.2 (i)&ndash;(iii) separation</td><td>Needle / prefix-fixing / probing</td><td class="ok">CORRECT</td><td>Prefix-certification argument in (ii) is airtight; ≤ L holds</td></tr>
+<tr><td>Thm 5.1 ratchet illusion</td><td>MGF max bound; EVT lower bound; records</td><td class="ok">CORRECT</td><td>See N1: incumbent-baseline convention mismatch in (ii)</td></tr>
+<tr><td>Prop 5.2 sound decision</td><td>Hoeffding; Bretagnolle&ndash;Huber</td><td class="varn">CONSTANT BUG</td><td>Proof yields ln(1/(4&delta;)); statement claims ln(1/(2&delta;)) — stronger than proven (E2)</td></tr>
+<tr><td>Cor 5.3 whole-run certificate</td><td>Union bound</td><td class="ok">CORRECT</td><td>Headline N=85 uses one-sided constant 8, not the stated 16 (N3)</td></tr>
+<tr><td>Thm 5.4 deception</td><td>Birth&ndash;death drift; frontier argument</td><td class="varn">STATEMENT BUG</td><td>f(0)=f(2k)=k: "unique global optimum is 2k" is false as written (E1). Hitting-time analysis itself correct</td></tr>
+<tr><td>Thm 6.1 / Cor 6.2 Occam</td><td>Hoeffding + Kraft union</td><td class="ok">CORRECT</td><td>Clean; simultaneity over adaptive selection valid</td></tr>
+<tr><td>Prop 7.1 Goodhart</td><td>Triangle ineq.; subgaussian max; construction</td><td class="varn">MODEL EXIT</td><td>(iii)'s construction needs F&rarr;&minus;&infin;, but Def 2.1 fixes F:&nbsp;A&rarr;[0,1] (E3)</td></tr>
+</table>
+
+<h3>Simulations (re-executed + extended)</h3>
+<table>
+<tr><th>Check</th><th>Method</th><th>Result</th><th>Status</th></tr>
+<tr><td><code>simulations.py</code> runs as documented</td><td>Fresh dir, committed seed</td><td>Completes &lt;40s, three PDFs regenerate</td><td class="ok">PASS</td></tr>
+<tr><td>§8 "&asymp;3.9&sigma; improvement, hugging the curve"</td><td>Committed seed, t=2000</td><td>mean <span class="mono-num">3.44&sigma;</span>, median <span class="mono-num">3.39&sigma;</span>; 3.90 is the asymptotic <em>bound</em> (second-order EVT correction &asymp;&minus;0.5&sigma;)</td><td class="varn">OVERSTATED</td></tr>
+<tr><td>§5.1 "&asymp;7.6 null edits accepted"</td><td>Exact + simulation</td><td>H&#8322;&#8320;&#8320;&#8320; = <span class="mono-num">8.18</span>; simulated <span class="mono-num">8.30 ± 0.13</span>; 7.6 = ln 2000 drops the Euler&ndash;Mascheroni constant</td><td class="varn">WRONG NUMBER</td></tr>
+<tr><td>App G "gate accepted zero null edits across all runs"</td><td>Replayed identical RNG stream; 20 fresh seeds; analytic tail</td><td>Committed seed: <span class="mono-num">2</span> accepts / 8&times;10&#8309; decisions. Analytic: per-candidate p = <span class="mono-num">2.0&times;10&#8315;&#8310;</span>, expected total <span class="mono-num">1.61</span>. Fresh seeds: 0&ndash;3 (mean 1.55)</td><td class="fail">CONTRADICTED</td></tr>
+<tr><td>N = 85 gate derivation</td><td>Recompute &lceil;8&sigma;² ln(B/&delta;)&rceil;</td><td>&lceil;84.77&rceil; = 85 ✓; two-sided Prop 5.2 constant gives 170</td><td class="ok">PASS</td></tr>
+<tr><td>Tolerant greedy exact E[T] vs bound 2&epsilon;&#8315;&#7503;</td><td>Recurrence re-implemented independently</td><td>Exact/bound ratio &rarr; <span class="mono-num">4.08</span>; bound respected at all k</td><td class="ok">PASS</td></tr>
+<tr><td>Archive E[T] vs 4k(2k+1)</td><td>200 reps at k=5,10,25</td><td>Means <span class="mono-num">111 / 413 / 2486</span> vs bounds <span class="mono-num">220 / 840 / 5100</span> (&asymp;2&times; slack)</td><td class="ok">PASS</td></tr>
+<tr><td>Landscape uniqueness</td><td>Direct evaluation</td><td>f(0) = f(2k) = k — start state is also a global maximizer</td><td class="fail">CONTRADICTED</td></tr>
+<tr><td>First-error mean law L/2+1</td><td>2000 reps, L = 4, 8, 14</td><td><span class="mono-num">2.97 / 4.96 / 7.96</span> vs 3 / 5 / 8</td><td class="ok">PASS</td></tr>
+<tr><td>Fig 3 marker honesty</td><td>Code inspection</td><td>Distance arm is hard-coded <code>L+1</code>; scalar arm samples the hitting position directly. Only first-error runs an algorithm</td><td class="varn">DISCLOSED, MISLEADING CAPTION</td></tr>
+</table>
+
+<h3>Citations (spot-checked against public records, June 2026)</h3>
+<table>
+<tr><th>Entry</th><th>Claim in paper</th><th>Verified</th></tr>
+<tr><td><code>agrawal2025gepa</code></td><td>"outperforms GRPO with up to 35&times; fewer rollouts"</td><td class="ok">YES — <a href="https://arxiv.org/abs/2507.19457">arXiv 2507.19457</a>; note it is now an ICLR 2026 oral (<a href="https://openreview.net/forum?id=RQm2KQTM5r">OpenReview</a>) — update bib venue</td></tr>
+<tr><td><code>xu2025llf</code></td><td>Transfer eluder dimension for language feedback; exponential speedups vs reward</td><td class="ok">YES — <a href="https://arxiv.org/abs/2506.10341">arXiv 2506.10341</a>, "Provably Learning from Language Feedback" (HELiX)</td></tr>
+<tr><td>Classical refs (Levin, Wald, Hoeffding, Tsybakov, Kraft/MDL, PAC-Bayes, NFL, QD)</td><td>Standard techniques, honestly attributed</td><td class="ok">Consistent with the literature; no misattribution found</td></tr>
+<tr><td>2026 system refs (autoresearch, Meta-Harness, HL, SkillOpt)</td><td>Blog/preprint episodes</td><td class="varn">Match their public records per Reviewer 1's 30-entry audit; inherently informal sources (see W8)</td></tr>
+</table>
+<p>Format: 14 pp compiled PDF, body within the 8-page limit, anonymized, clean compile from vendored styles. Verified.</p>
+</section>
+
+<!-- ============================ FINDINGS ============================ -->
+<section class="tab" id="errors">
+<h2>Findings</h2>
+<p>E1&ndash;E4 independently confirm Reviewer&nbsp;1 (W3&ndash;W6). N1&ndash;N4 are new to this review.</p>
+
+<div class="card flag">
+<h3>E1 <span class="badge confirm">confirms W3</span> · Thm 5.4's landscape contradicts its own statement</h3>
+<p>With f(i) = k&minus;i on [0,k] and f(i) = i&minus;k on [k,2k]: f(0) = f(2k) = k. The "unique global optimum 2k" is not unique — strict greedy "failing" at 0 is resting at a global maximizer. The hitting-time separations survive (they concern reaching 2k), but the narrative collapses as stated. Also: the statement says proposals go "to a uniformly random neighbor" while proof and code use the lazy boundary convention (h&#8320; = 2/&epsilon;, not 1/&epsilon;).</p>
+</div>
+
+<div class="card flag">
+<h3>E2 <span class="badge confirm">confirms W5</span> · Prop 5.2's converse claims more than its proof delivers</h3>
+<p>Bretagnolle&ndash;Huber: 2&delta; &ge; &frac12;e&#8315;&#7468;&#7466; &rArr; N &ge; (2&sigma;²/&Delta;²)&middot;ln(1/(4&delta;)). The statement asserts ln(1/(2&delta;)) &gt; ln(1/(4&delta;)) — i.e. the stated lower bound is <em>stronger</em> than the proven one. "Up to the stated constant" in a proof does not license strengthening a statement.</p>
+</div>
+
+<div class="card flag">
+<h3>E3 <span class="badge confirm">confirms W4</span> · Prop 7.1(iii) exits the model</h3>
+<p>Def 2.1 fixes F : A &rarr; [0,1]; the construction takes F(a&#11388;) = &minus;j &rarr; &minus;&infin; ("after affine rescaling" — no affine map unbounds a bounded codomain). The point survives in bounded form; restate it inside the model.</p>
+</div>
+
+<div class="card flag">
+<h3>E4 <span class="badge confirm">confirms W6</span> · Three prose numbers contradicted by the committed code</h3>
+<p>(a) "&asymp;3.9&sigma;" is the bound; the realized median is <span class="mono-num">3.39&sigma;</span>. (b) "&asymp;7.6 accepts" should be H&#8322;&#8320;&#8320;&#8320; &asymp; <span class="mono-num">8.2</span>. (c) "accepted zero null edits across all runs" — the committed seed yields <span class="mono-num">2</span>; theory predicts &asymp;<span class="mono-num">1.6</span>; 20 fresh seeds give 0&ndash;3. The zero was a one-seed illusion, in a paper about one-evaluation illusions.</p>
+</div>
+
+<div class="card note">
+<h3>N1 <span class="badge new">new</span> · Thm 5.1(ii): the stated rule and the counted statistic disagree</h3>
+<p>The rule is "accept iff the measured score beats <em>the incumbent's measured score</em>" — which implies a measured baseline &scirc;&#8320; exists. The proof and simulation instead count records of the edit stream alone, so the first edit is auto-accepted. With a measured incumbent, expected accepts = H&#8348;&#8330;&#8321;&nbsp;&minus;&nbsp;1 &asymp; <span class="mono-num">7.18</span> at t=2000, not H&#8348; = <span class="mono-num">8.18</span> — a full unit. Pick one convention and state it; the theorem is correct under "empty incumbent", which is what the code implements.</p>
+</div>
+
+<div class="card note">
+<h3>N2 <span class="badge new">new</span> · §3 overclaims what Prop 3.3 proves about &gamma; &lt; 1</h3>
+<p>§3 says misleading feedback (&gamma; &lt; 1) "provably <em>slows</em> search below cold sampling (Proposition 3.3)". Prop 3.3 gives E[T] &ge; 1/(2q&#772;) &minus; 1; with q&#772; = &gamma;q&#8320; this exceeds the cold rate 1/q&#8320; only when &gamma; &lt; &asymp;&frac12;. For &gamma; &isin; [&frac12;, 1) the cited proposition proves nothing of the sort. Cheap fix: if the conditional good-mass <em>equals</em> &gamma;q&#8320; at every step, the geometric argument gives E[T] = 1/(&gamma;q&#8320;) exactly &gt; 1/q&#8320; — state that version, or weaken the prose.</p>
+</div>
+
+<div class="card note">
+<h3>N3 <span class="badge new">new (sharpens R1's pass)</span> · Headline N = 85 is not "the Corollary 5.3 prescription"</h3>
+<p>Main text §8 and Fig 2's caption attribute N = 85 to Cor 5.3, whose constant (via Prop 5.2) is 16 — giving N = 170. The 85 comes from a one-sided constant 8 disclosed only in App G, with an extra assumption (known incumbent mean) that contradicts the ratchet model two paragraphs earlier. Either state a one-sided corollary explicitly or run with N = 170; do not let the main text cite a constant the cited result doesn't contain.</p>
+</div>
+
+<div class="card note">
+<h3>N4 <span class="badge new">new</span> · Fig 3 legend mixes worst-case bound and average-case law</h3>
+<p>The green dashed curve plotted is the average-case law L/2+1, but the legend labels it "first-error feedback: &le; L (Thm 4.2)" — a worst-case statement. Markers agreeing with a curve labeled by a theorem they don't instantiate invites misreading (compounding W7's plotting-theory-against-itself issue: the distance arm is the constant L+1 by construction and the scalar arm samples the exact law rather than searching).</p>
+</div>
+</section>
+
+<!-- ============================ REVISIONS ============================ -->
+<section class="tab" id="revisions">
+<h2>Revision plan</h2>
+<p>Ordered by priority. R1&ndash;R4 are conditions for acceptance; R5&ndash;R8 should be done for camera-ready; R9&ndash;R11 are where the score moves.</p>
+
+<div class="card fix">
+<h3>R1 <span class="badge must">must</span> · Fix Thm 5.4's landscape and proposal convention</h3>
+<p>Drop-in statement: asymmetric ascent makes 2k strictly optimal and leaves every recurrence untouched (valley: p=&epsilon;/2, q=&frac12;; ascent: p=&frac12;, q=&epsilon;/2).</p>
+<pre><code>f(i) = k - i           on [0, k]
+f(i) = 2(i - k)        on [k, 2k]   % f(2k) = 2k > k = f(0): unique optimum</code></pre>
+<p>And in the statement: "each step proposes a uniformly random element of {i&minus;1, i+1}; out-of-range proposals are rejected (the walk stays)" — this is what the proof's h&#8320; = 2/&epsilon; and the code already assume.</p>
+</div>
+
+<div class="card fix">
+<h3>R2 <span class="badge must">must</span> · Correct Prop 5.2's converse constant</h3>
+<pre><code>... requires N ≥ (2σ²/Δ²) ln(1/(4δ)).</code></pre>
+</div>
+
+<div class="card fix">
+<h3>R3 <span class="badge must">must</span> · Restate Prop 7.1(iii) inside F : A &rarr; [0,1]</h3>
+<p>Bounded version, same moral: take F(a&#11388;) = 2&#8315;&#11388; &darr; 0 and b(a&#11388;) = 1 &minus; 2&#8315;&#11388;&#8315;&sup1; so F&#771;(a&#11388;) &uarr; 1. A proxy ratchet accepts every step; measured progress &rarr; the full range while true score &rarr; its infimum. Conclusion to state: "no transfer inequality F-progress &ge; &psi;(F&#771;-progress) with &psi; bounded below on positive arguments can hold" — range-filling divergence rather than &plusmn;&infin;.</p>
+</div>
+
+<div class="card fix">
+<h3>R4 <span class="badge must">must</span> · Fix the three prose numbers — and use (c) as a feature</h3>
+<p>(a) §8: "manufacturing a &asymp;3.4&sigma; 'improvement' (median 3.39&sigma;; the asymptotic ceiling is &sigma;&radic;(2 ln t) = 3.90&sigma;)". (b) §5.1: "accept &asymp;8.2 null edits (H&#8322;&#8320;&#8320;&#8320;)". (c) App G: "2 false accepts across 8&times;10&#8309; gated decisions (per-run rate 0.5%, within the &delta; = 5% certificate; the theory's own Poisson prediction is &asymp;1.6)". Suggestion: add one sentence noting that an earlier draft reported "zero" from a single seed — the ratchet illusion in miniature — which converts an embarrassment into the paper's best footnote.</p>
+</div>
+
+<div class="card fix">
+<h3>R5 <span class="badge should">should</span> · State the ratchet baseline convention (N1)</h3>
+<p>Add to Thm 5.1: "the first candidate is accepted unconditionally (empty incumbent); under a measured incumbent the count is H&#8348;&#8330;&#8321; &minus; 1, an O(1) difference." One sentence.</p>
+</div>
+
+<div class="card fix">
+<h3>R6 <span class="badge should">should</span> · Repair the &gamma; &lt; 1 claim in §3 (N2)</h3>
+<p>Either add the exact-mass remark (E[T] = 1/(&gamma;q&#8320;) when conditioning multiplies mass by exactly &gamma; at every step) or weaken to "can slow search below cold sampling (e.g. for &gamma; &lt; &frac12; via Prop 3.3)".</p>
+</div>
+
+<div class="card fix">
+<h3>R7 <span class="badge should">should</span> · Harmonize N = 85 vs the constant 16 (N3)</h3>
+<p>Add a one-sided corollary: "against an incumbent of known mean, N &ge; (8&sigma;²/&Delta;²) ln(B/&delta;) suffices" — then the main text can cite it honestly. Or simply use N = 170 in the figure; the green curve will look identical.</p>
+</div>
+
+<div class="card fix">
+<h3>R8 <span class="badge should">should</span> · Honest Fig 3 caption + Fig 2b inset (N4, W7, W9-iv)</h3>
+<p>Caption: distinguish "simulated algorithm" (first-error) from "exact law, plotted" (scalar, distance). Relabel the green dashed curve as "average case L/2+1". Fig 2b: log-y inset showing the gated rate &asymp;5&times;10&#8315;&sup3;/run rather than visually-exactly-zero.</p>
+</div>
+
+<div class="card fix">
+<h3>R9 <span class="badge should">score-moving</span> · Add one composed theorem (answers W1/Q2)</h3>
+<p>The "unifying theory" title currently rests on a definition. A theorem that <em>needs</em> the unified object is available from parts already proven. Sketch:</p>
+<pre><code>Theorem (certified-improvement run). Consider the loop of Def 2.1 with
+proposer satisfying Assumption 3.1 (boost γ), σ-subgaussian evaluator,
+and the gate of Prop 5.2 run at confidence δ' = δ/B with per-decision
+budget N = ⌈(16σ²/Δ²) ln(B/δ)⌉. If every artifact in G_ε improves the
+incumbent by ≥ Δ, then with probability ≥ 1 − 2δ the run makes no false
+accept AND accepts an ε-good artifact within
+
+    T ≤ ln(1/δ) / [ γ q₀(G_ε) (1 − δ/B) ]   proposals,
+
+i.e. total evaluator calls ≤ N·T = O( (σ²/Δ²) ln(B/δ) ln(1/δ) / (γ q₀(G_ε)) ).
+
+Proof: Thm 3.2(iii) gives the proposal tail; the gate accepts a true
+Δ-improvement w.p. ≥ 1 − δ/B (Prop 5.2, other side of the same Hoeffding
+bound); thin the geometric sequence accordingly; union-bound with Cor 5.3.</code></pre>
+<p>This couples prior mass, noise, and selection in one statement — the three resources the paper insists belong in one object. It is a rebuttal-scale addition (the pieces are all proven) and in my judgment moves the paper from 6 to 7.</p>
+</div>
+
+<div class="card fix">
+<h3>R10 <span class="badge should">score-moving</span> · Measure &gamma; once (answers W2/Q1)</h3>
+<p>Rebuttal-scale protocol: take ~100 small buggy functions with unit tests; sample K = 50 patch proposals from one frozen open model per condition — (a) bug report only, (b) bug report + stack trace; report q&#770;(G) = pass-rate of proposals with Wilson intervals, and &gamma;&#770; = ratio. One GPU-day, and Assumption 3.1 stops being unfalsifiable. The blog companion's CUA/ShopGym harness experiment is the larger version of the same measurement.</p>
+</div>
+
+<div class="card fix">
+<h3>R11 <span class="badge should">minor</span> · Bib freshness</h3>
+<p><code>agrawal2025gepa</code> is now published — ICLR 2026 (oral); update the venue. Keep arXiv IDs on the 2026 informal refs and mark them clearly as blog/preprint sources.</p>
+</div>
+</section>
+
+<!-- ============================ QUESTIONS ============================ -->
+<section class="tab" id="questions">
+<h2>Questions for the authors</h2>
+<div class="card">
+<p><strong>Q1.</strong> Thm 5.1(ii): which acceptance convention do you intend — empty incumbent (H&#8348;) or measured incumbent (H&#8348;&#8330;&#8321; &minus; 1)? The rule as worded says the latter; the proof and code implement the former.</p>
+<p><strong>Q2.</strong> Can you state and prove the composed certified-improvement theorem (R9), or explain what obstruction prevents the geometric-thinning argument from going through when accepts feed back into the proposer's conditioning (the history-dependence Assumption 3.1 is supposed to absorb)?</p>
+<p><strong>Q3.</strong> For Prop 3.3 as used in §3: do you claim slowdown below cold sampling for all &gamma; &lt; 1, or only &gamma; &lt; &frac12;? If the former, you need the exact-mass version (R6); please confirm which you will state.</p>
+<p><strong>Q4.</strong> The Occam bound's falsifiable prediction (validation size linear in artifact bits) is the most testable sentence in the paper. Do you have even one system's (&#8467;(a), n, gap) triple — e.g. from GEPA's reported validation overfitting — to plot against it?</p>
+</div>
+
+<h2>Verdict</h2>
+<div class="card">
+<p><strong>6/10, Weak Accept</strong>, confidence 5/5. The dictionary (Def 2.1 + App I) is a real contribution the field needs and will cite; the proofs are correct as arguments; reproducibility hygiene is exemplary by theory-paper standards (seeded, vendored, bit-stable — verified). The defects are real but shallow: every one of E1&ndash;E4 and N1&ndash;N4 is fixable with the drop-ins above, none threatens a result's substance. What separates this from a 7&ndash;8 is structural: no theorem requires the unified object (W1), and the central adaptive assumption is never measured (W2). R9 + R10 are both rebuttal-scale and address exactly those two. I would raise to 7 on R1&ndash;R8 + R9, and consider 8 with a credible &gamma; measurement.</p>
+<p>I also note agreement with Reviewer 1 on every overlapping finding, established here by independent re-derivation and re-execution rather than by reading their review first — the two reports' numeric agreement (3.39&sigma;, 8.18/8.30, 2 false accepts, ratio-to-bound &asymp;4) should give the AC high confidence in the factual record.</p>
+</div>
+</section>
+
+<footer>
+<p>Reviewer 2 verification report · generated 2026-06-12 · Sources: <code>main.tex</code> (551 lines, all appendix proofs), <code>code/simulations.py</code> (re-executed, seed 0 + 20 fresh seeds), <code>main.pdf</code> / <code>main.log</code> / <code>main.aux</code> (compile audit), <code>references.bib</code> (66 entries, spot-checked), <code>review-icml2026.html</code> (Reviewer 1, read after verification), <a href="https://arxiv.org/abs/2507.19457">GEPA arXiv 2507.19457</a>, <a href="https://openreview.net/forum?id=RQm2KQTM5r">GEPA OpenReview (ICLR 2026 oral)</a>, <a href="https://arxiv.org/abs/2506.10341">Provably Learning from Language Feedback, arXiv 2506.10341</a>.</p>
+</footer>
+</div>
+
+<script>
+const tabs=document.querySelectorAll('nav button'),secs=document.querySelectorAll('section.tab');
+function show(id){tabs.forEach(b=>b.classList.toggle('active',b.dataset.tab===id));secs.forEach(s=>s.classList.toggle('active',s.id===id));}
+tabs.forEach(b=>b.addEventListener('click',()=>{show(b.dataset.tab);history.replaceState(null,'','#'+b.dataset.tab);}));
+if(location.hash){const id=location.hash.slice(1);if(document.getElementById(id))show(id);}
+</script>
+</body>
+</html>
