@@ -1,0 +1,23 @@
+{
+  "axes": {
+    "obs_modality": ["screenshot", "ax_tree", "dom_text", "hybrid_ax_ss", "hybrid_dom_ss"],
+    "action_vocab": ["low_level", "high_level", "mixed"],
+    "ctx_window":   ["last_1", "last_3", "last_5", "full_summary"],
+    "scaffold":     ["none", "step_counter", "error_overlay", "task_decomp", "full"],
+    "retry_policy": ["none", "once", "backtrack"]
+  },
+  "default_harness": {
+    "obs_modality": "screenshot",
+    "action_vocab": "high_level",
+    "ctx_window":   "last_3",
+    "scaffold":     "none",
+    "retry_policy": "once"
+  },
+  "best_checkout_harness": {
+    "obs_modality": "hybrid_ax_ss",
+    "action_vocab": "mixed",
+    "ctx_window":   "full_summary",
+    "scaffold":     "full",
+    "retry_policy": "backtrack"
+  }
+}

@@ -1,0 +1,9 @@
+task,p_0,p_trace,gamma,gamma_ci_lo,gamma_ci_hi,n_candidates
+product_search,0.59,0.67,1.14,0.92,1.41,100
+add_to_cart,0.92,1.0,1.09,1.03,1.16,100
+multi_item_cart,0.57,0.86,1.51,1.29,1.83,100
+checkout_single_item,0.72,0.97,1.35,1.19,1.51,100
+checkout_with_coupon,0.59,0.73,1.24,1.01,1.52,100
+checkout_with_address_entry,0.42,0.71,1.69,1.32,2.24,100
+order_tracking,0.39,0.25,0.64,0.38,1.03,100
+product_comparison,0.61,0.42,0.69,0.52,0.88,100

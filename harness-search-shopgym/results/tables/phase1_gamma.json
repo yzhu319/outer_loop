@@ -1,0 +1,98 @@
+{
+  "product_search": {
+    "task": "product_search",
+    "baseline_rate": 0.623,
+    "p_0": 0.25,
+    "p_trace": 0.1,
+    "gamma": 0.4,
+    "gamma_ci_lower": 0.0,
+    "gamma_ci_upper": 2.0,
+    "n_trace_accepts": 2,
+    "n_random_accepts": 5,
+    "n_candidates": 20
+  },
+  "add_to_cart": {
+    "task": "add_to_cart",
+    "baseline_rate": 0.541,
+    "p_0": 0.1,
+    "p_trace": 0.0,
+    "gamma": 0.0,
+    "gamma_ci_lower": 0.0,
+    "gamma_ci_upper": 0.0,
+    "n_trace_accepts": 0,
+    "n_random_accepts": 2,
+    "n_candidates": 20
+  },
+  "multi_item_cart": {
+    "task": "multi_item_cart",
+    "baseline_rate": 0.448,
+    "p_0": 0.5,
+    "p_trace": 0.5,
+    "gamma": 1.0,
+    "gamma_ci_lower": 0.5384615384615384,
+    "gamma_ci_upper": 2.0,
+    "n_trace_accepts": 10,
+    "n_random_accepts": 10,
+    "n_candidates": 20
+  },
+  "checkout_single_item": {
+    "task": "checkout_single_item",
+    "baseline_rate": 0.372,
+    "p_0": 0.55,
+    "p_trace": 0.55,
+    "gamma": 1.0,
+    "gamma_ci_lower": 0.5712053571428573,
+    "gamma_ci_upper": 1.7499999999999998,
+    "n_trace_accepts": 11,
+    "n_random_accepts": 11,
+    "n_candidates": 20
+  },
+  "checkout_with_coupon": {
+    "task": "checkout_with_coupon",
+    "baseline_rate": 0.318,
+    "p_0": 0.1,
+    "p_trace": 0.1,
+    "gamma": 1.0,
+    "gamma_ci_lower": 0.0,
+    "gamma_ci_upper": 150000.0,
+    "n_trace_accepts": 2,
+    "n_random_accepts": 2,
+    "n_candidates": 20
+  },
+  "checkout_with_address_entry": {
+    "task": "checkout_with_address_entry",
+    "baseline_rate": 0.294,
+    "p_0": 0.15,
+    "p_trace": 0.25,
+    "gamma": 1.6666666666666667,
+    "gamma_ci_lower": 0.4,
+    "gamma_ci_upper": 250000.0,
+    "n_trace_accepts": 5,
+    "n_random_accepts": 3,
+    "n_candidates": 20
+  },
+  "order_tracking": {
+    "task": "order_tracking",
+    "baseline_rate": 0.587,
+    "p_0": 0.2,
+    "p_trace": 0.1,
+    "gamma": 0.5,
+    "gamma_ci_lower": 0.0,
+    "gamma_ci_upper": 2.9999999999999996,
+    "n_trace_accepts": 2,
+    "n_random_accepts": 4,
+    "n_candidates": 20
+  },
+  "product_comparison": {
+    "task": "product_comparison",
+    "baseline_rate": 0.512,
+    "p_0": 0.1,
+    "p_trace": 0.15,
+    "gamma": 1.4999999999999998,
+    "gamma_ci_lower": 0.0,
+    "gamma_ci_upper": 200000.00000000003,
+    "n_trace_accepts": 3,
+    "n_random_accepts": 2,
+    "n_candidates": 20
+  }
+}

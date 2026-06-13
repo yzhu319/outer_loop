@@ -1,0 +1,26 @@
+{
+  "N=5": {
+    "n_eval": 5,
+    "illusion_rate": 1.0,
+    "illusion_count": 2,
+    "accept_count": 2,
+    "final_oracle_rate": 0.47,
+    "certified": false
+  },
+  "N=20": {
+    "n_eval": 20,
+    "illusion_rate": 0.0,
+    "illusion_count": 0,
+    "accept_count": 1,
+    "final_oracle_rate": 0.43,
+    "certified": false
+  },
+  "N=85": {
+    "n_eval": 85,
+    "illusion_rate": 0.0,
+    "illusion_count": 0,
+    "accept_count": 1,
+    "final_oracle_rate": 0.44,
+    "certified": true
+  }
+}

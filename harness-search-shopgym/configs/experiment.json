@@ -1,0 +1,25 @@
+{
+  "model": "claude-sonnet-4-6",
+  "n_eval": 85,
+  "alpha": 0.05,
+  "archive_size": 20,
+  "max_steps": 15,
+  "n_trace_episodes": 10,
+  "proposer_temperature": 0.7,
+  "agent_temperature": 0.0,
+  "task_categories": [
+    "product_search",
+    "add_to_cart",
+    "multi_item_cart",
+    "checkout_single_item",
+    "checkout_with_coupon",
+    "checkout_with_address_entry",
+    "order_tracking",
+    "product_comparison"
+  ],
+  "phase1_candidates_per_category": 200,
+  "phase3_naive_n_values": [5, 20, 85],
+  "phase3_oracle_n": 1000,
+  "shopgym_base_url": "http://localhost:5000",
+  "results_dir": "results"
+}
