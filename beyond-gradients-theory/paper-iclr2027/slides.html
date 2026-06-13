@@ -7,7 +7,7 @@
 <style>
 /* ── Reset & base ──────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #f0f4f8; }
 
 /* ── Slide deck container ──────────────────────── */
 #deck {
@@ -21,8 +21,9 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
   position: absolute;
   width: min(900px, 97vw);
   min-height: min(560px, 96vh);
-  background: #0f1117;
-  border: 1px solid #2d3350;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
   border-radius: 16px;
   padding: 52px 64px 48px;
   display: none;
@@ -45,33 +46,33 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
 .slide-label {
   font-family: system-ui, sans-serif;
   font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
-  color: #7c9ef8; margin-bottom: 10px;
+  color: #2563eb; margin-bottom: 10px;
 }
 .slide h1 {
   font-family: 'Georgia', serif;
   font-size: clamp(22px, 4vw, 36px);
-  font-weight: normal; color: #fff;
+  font-weight: normal; color: #1e293b;
   line-height: 1.2; margin-bottom: 14px;
 }
 .slide h2 {
   font-family: 'Georgia', serif;
   font-size: clamp(18px, 3vw, 26px);
-  font-weight: normal; color: #fff;
+  font-weight: normal; color: #1e293b;
   margin-bottom: 16px; line-height: 1.3;
 }
 .slide h3 {
   font-family: system-ui, sans-serif;
   font-size: 14px; font-weight: 600;
-  color: #c8d0f0; margin-bottom: 8px;
+  color: #374151; margin-bottom: 8px;
   text-transform: uppercase; letter-spacing: 0.04em;
 }
 .slide p {
   font-family: 'Georgia', serif;
   font-size: 15px; line-height: 1.65;
-  color: #8892b0; margin-bottom: 12px;
+  color: #64748b; margin-bottom: 12px;
 }
-.slide p strong { color: #e8eaf6; }
-.slide p em { color: #f7c94b; font-style: normal; }
+.slide p strong { color: #1e293b; }
+.slide p em { color: #b45309; font-style: normal; }
 
 /* ── Layout helpers ─────────────────────────────── */
 .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -85,46 +86,46 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
 
 /* ── Cards ──────────────────────────────────────── */
 .card {
-  background: #181c27; border: 1px solid #2d3350;
+  background: #f8fafc; border: 1px solid #e2e8f0;
   border-radius: 10px; padding: 18px 20px;
 }
-.card.accent-blue  { border-color: #3b82f655; }
-.card.accent-green { border-color: #56d49b55; }
-.card.accent-amber { border-color: #f7c94b55; }
-.card.accent-red   { border-color: #f0707055; }
-.card.accent-purple{ border-color: #a78bfa55; }
+.card.accent-blue  { border-color: #bfdbfe; }
+.card.accent-green { border-color: #bbf7d0; }
+.card.accent-amber { border-color: #fde68a; }
+.card.accent-red   { border-color: #fca5a5; }
+.card.accent-purple{ border-color: #ddd6fe; }
 .card h3 { margin-bottom: 6px; }
 .card p  { font-size: 14px; margin: 0; }
 
 /* ── Highlight box ──────────────────────────────── */
 .hl {
-  background: linear-gradient(135deg, #1e3a8a22, #56d49b11);
-  border: 1px solid #3b82f644;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
   border-radius: 10px; padding: 16px 20px; margin: 12px 0;
-  font-family: 'Georgia', serif; font-size: 15px; color: #c8cfe8; line-height: 1.6;
+  font-family: 'Georgia', serif; font-size: 15px; color: #1e3a8a; line-height: 1.6;
 }
 .hl .label {
   font-family: system-ui, sans-serif; font-size: 10px;
   letter-spacing: 0.12em; text-transform: uppercase;
-  color: #7c9ef8; margin-bottom: 6px;
+  color: #2563eb; margin-bottom: 6px;
 }
-.hl.amber { background: linear-gradient(135deg, #f7c94b11, #f0a05011); border-color: #f7c94b44; }
-.hl.red   { background: linear-gradient(135deg, #f0707011, #f0a05011); border-color: #f0707044; }
-.hl.green { background: linear-gradient(135deg, #56d49b11, #1e3a8a11); border-color: #56d49b44; }
+.hl.amber { background: #fffbeb; border-color: #fcd34d; color: #78350f; }
+.hl.red   { background: #fef2f2; border-color: #fca5a5; color: #7f1d1d; }
+.hl.green { background: #f0fdf4; border-color: #86efac; color: #14532d; }
 
 /* ── Big number / stat ──────────────────────────── */
 .big-num {
   font-family: system-ui, sans-serif;
   font-size: clamp(36px, 7vw, 72px);
   font-weight: 700; line-height: 1;
-  color: #f7c94b; margin: 8px 0 4px;
+  color: #d97706; margin: 8px 0 4px;
 }
-.big-num.blue  { color: #7c9ef8; }
-.big-num.green { color: #56d49b; }
-.big-num.red   { color: #f07070; }
+.big-num.blue  { color: #2563eb; }
+.big-num.green { color: #059669; }
+.big-num.red   { color: #dc2626; }
 .big-caption {
   font-family: system-ui, sans-serif; font-size: 13px;
-  color: #8892b0; margin-bottom: 0;
+  color: #64748b; margin-bottom: 0;
 }
 
 /* ── Tag pills ──────────────────────────────────── */
@@ -133,26 +134,26 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
   font-size: 11px; padding: 3px 10px; border-radius: 99px;
   border: 1px solid; letter-spacing: 0.04em; margin-right: 6px; margin-bottom: 4px;
 }
-.pill-blue   { color: #7c9ef8; border-color: #7c9ef855; background: #7c9ef811; }
-.pill-green  { color: #56d49b; border-color: #56d49b55; background: #56d49b11; }
-.pill-amber  { color: #f7c94b; border-color: #f7c94b55; background: #f7c94b11; }
-.pill-red    { color: #f07070; border-color: #f0707055; background: #f0707011; }
-.pill-purple { color: #a78bfa; border-color: #a78bfa55; background: #a78bfa11; }
-.pill-orange { color: #f0a050; border-color: #f0a05055; background: #f0a05011; }
+.pill-blue   { color: #1d4ed8; border-color: #bfdbfe; background: #eff6ff; }
+.pill-green  { color: #15803d; border-color: #bbf7d0; background: #f0fdf4; }
+.pill-amber  { color: #b45309; border-color: #fde68a; background: #fffbeb; }
+.pill-red    { color: #b91c1c; border-color: #fca5a5; background: #fef2f2; }
+.pill-purple { color: #6d28d9; border-color: #ddd6fe; background: #f5f3ff; }
+.pill-orange { color: #c2410c; border-color: #fdba74; background: #fff7ed; }
 
 /* ── List ───────────────────────────────────────── */
 .slide ul { list-style: none; padding: 0; }
 .slide ul li {
-  font-family: 'Georgia', serif; font-size: 15px; color: #8892b0;
-  padding: 6px 0 6px 22px; position: relative; border-bottom: 1px solid #1e2338;
+  font-family: 'Georgia', serif; font-size: 15px; color: #64748b;
+  padding: 6px 0 6px 22px; position: relative; border-bottom: 1px solid #f1f5f9;
 }
 .slide ul li:last-child { border-bottom: none; }
 .slide ul li::before {
   content: '▸'; position: absolute; left: 0;
-  color: #7c9ef8; font-size: 11px; top: 10px;
+  color: #2563eb; font-size: 11px; top: 10px;
 }
-.slide ul li strong { color: #e8eaf6; }
-.slide ul li em { color: #f7c94b; font-style: normal; }
+.slide ul li strong { color: #1e293b; }
+.slide ul li em { color: #b45309; font-style: normal; }
 
 /* ── Loop diagram ───────────────────────────────── */
 .loop-diagram {
@@ -160,48 +161,48 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
   gap: 0; margin: 20px 0;
 }
 .loop-node {
-  background: #1e2338; border: 1px solid #3b82f655;
+  background: #eff6ff; border: 1px solid #bfdbfe;
   border-radius: 10px; padding: 12px 16px; text-align: center;
   min-width: 100px;
 }
 .loop-node .icon { font-size: 22px; margin-bottom: 4px; }
-.loop-node .name { font-family: system-ui, sans-serif; font-size: 12px; color: #7c9ef8; font-weight: 600; }
-.loop-node .sub  { font-family: system-ui, sans-serif; font-size: 10px; color: #8892b0; margin-top: 2px; }
+.loop-node .name { font-family: system-ui, sans-serif; font-size: 12px; color: #1d4ed8; font-weight: 600; }
+.loop-node .sub  { font-family: system-ui, sans-serif; font-size: 10px; color: #64748b; margin-top: 2px; }
 .loop-arrow {
   display: flex; flex-direction: column; align-items: center;
   padding: 0 6px;
 }
-.loop-arrow .arr { font-size: 18px; color: #3b82f688; }
-.loop-arrow .lbl { font-family: system-ui, sans-serif; font-size: 10px; color: #56d49b; white-space: nowrap; }
+.loop-arrow .arr { font-size: 18px; color: #93c5fd; }
+.loop-arrow .lbl { font-family: system-ui, sans-serif; font-size: 10px; color: #059669; white-space: nowrap; }
 
 /* ── Formula display ────────────────────────────── */
 .formula {
   font-family: 'Georgia', serif; font-size: 18px;
-  color: #f7c94b; text-align: center;
-  padding: 16px; background: #1e2338;
+  color: #b45309; text-align: center;
+  padding: 16px; background: #fffbeb; border: 1px solid #fde68a;
   border-radius: 10px; margin: 12px 0; letter-spacing: 0.02em;
 }
-.formula small { font-size: 13px; color: #8892b0; }
+.formula small { font-size: 13px; color: #64748b; }
 
 /* ── Paper citation card ────────────────────────── */
 .paper-card {
-  background: #181c27; border: 1px solid #2d3350;
+  background: #f8fafc; border: 1px solid #e2e8f0;
   border-radius: 12px; padding: 20px 22px; margin-bottom: 14px;
   border-left: 4px solid;
 }
-.paper-card.blue   { border-left-color: #5b9cf6; }
-.paper-card.green  { border-left-color: #56d49b; }
-.paper-card.amber  { border-left-color: #f7c94b; }
-.paper-card.purple { border-left-color: #a78bfa; }
-.paper-card .ptitle { font-family: 'Georgia', serif; font-size: 15px; color: #fff; margin-bottom: 4px; }
-.paper-card .pauth  { font-family: system-ui, sans-serif; font-size: 11px; color: #8892b0; margin-bottom: 8px; }
-.paper-card .pkv    { font-family: system-ui, sans-serif; font-size: 13px; color: #c8cfe8; }
-.paper-card .pkv strong { color: #f7c94b; }
+.paper-card.blue   { border-left-color: #3b82f6; }
+.paper-card.green  { border-left-color: #10b981; }
+.paper-card.amber  { border-left-color: #f59e0b; }
+.paper-card.purple { border-left-color: #8b5cf6; }
+.paper-card .ptitle { font-family: 'Georgia', serif; font-size: 15px; color: #1e293b; margin-bottom: 4px; }
+.paper-card .pauth  { font-family: system-ui, sans-serif; font-size: 11px; color: #94a3b8; margin-bottom: 8px; }
+.paper-card .pkv    { font-family: system-ui, sans-serif; font-size: 13px; color: #374151; }
+.paper-card .pkv strong { color: #b45309; }
 
 /* ── Progress bar ───────────────────────────────── */
 #progress-bar {
   position: fixed; bottom: 0; left: 0;
-  height: 3px; background: #7c9ef8;
+  height: 3px; background: #2563eb;
   transition: width 0.3s ease; border-radius: 0 2px 2px 0;
 }
 
@@ -210,33 +211,35 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
   position: fixed; bottom: 20px; left: 50%;
   transform: translateX(-50%);
   display: flex; align-items: center; gap: 14px;
-  background: rgba(15, 17, 23, 0.92);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(12px);
-  border: 1px solid #2d3350; border-radius: 99px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  border-radius: 99px;
   padding: 8px 20px;
 }
 #nav button {
-  background: none; border: none; color: #8892b0;
+  background: none; border: none; color: #64748b;
   font-size: 16px; cursor: pointer; padding: 4px 8px;
   border-radius: 6px; transition: color 0.15s, background 0.15s;
 }
-#nav button:hover { color: #fff; background: #2d3350; }
+#nav button:hover { color: #1e293b; background: #f1f5f9; }
 #nav button:disabled { opacity: 0.3; cursor: default; }
 #slide-counter {
-  font-family: system-ui, sans-serif; font-size: 12px; color: #8892b0;
+  font-family: system-ui, sans-serif; font-size: 12px; color: #64748b;
   min-width: 56px; text-align: center;
 }
-#slide-counter span { color: #7c9ef8; }
+#slide-counter span { color: #2563eb; }
 
 /* ── Section header slides ──────────────────────── */
 .section-slide {
   align-items: center; justify-content: center; text-align: center;
-  background: radial-gradient(ellipse at center, #1e2338 0%, #0f1117 70%);
+  background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
 }
 .section-num {
   font-family: system-ui, sans-serif;
   font-size: 80px; font-weight: 700;
-  color: #2d3350; line-height: 1; margin-bottom: 10px;
+  color: #dbeafe; line-height: 1; margin-bottom: 10px;
 }
 .section-slide h1 { font-size: clamp(24px, 5vw, 42px); }
 .section-slide p  { max-width: 520px; }
@@ -244,7 +247,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
 /* ── Scrollbar ──────────────────────────────────── */
 .slide::-webkit-scrollbar { width: 6px; }
 .slide::-webkit-scrollbar-track { background: transparent; }
-.slide::-webkit-scrollbar-thumb { background: #2d3350; border-radius: 3px; }
+.slide::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
 
 /* ── Responsive ─────────────────────────────────── */
 @media (max-width: 640px) {
@@ -266,15 +269,15 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
     <span class="pill pill-amber">Under Review</span>
   </div>
   <h1>The Outer Loop</h1>
-  <p style="font-size: 20px; color: #7c9ef8; margin: 6px 0 20px; font-family: Georgia, serif;">
+  <p style="font-size: 20px; color: #2563eb; margin: 6px 0 20px; font-family: Georgia, serif;">
     A Unified Theory of Gradient-Free LLM Improvement Loops
   </p>
-  <p style="max-width: 520px; font-size: 14px; color: #8892b0;">
-    Lecture slides — 28 slides · ~50 min · For college-level ML audience
+  <p style="max-width: 520px; font-size: 14px; color: #64748b;">
+    28 slides · ~50 min
   </p>
-  <p style="margin-top: 28px; font-size: 13px; color: #4a5270;">
+  <p style="margin-top: 28px; font-size: 13px; color: #94a3b8;">
     Navigate: ← → arrow keys, or buttons below &nbsp;·&nbsp;
-    <a href="index.html" style="color: #7c9ef8;">← Back to project page</a>
+    <a href="index.html" style="color: #2563eb;">← Back to project page</a>
   </p>
 </div>
 
@@ -321,29 +324,29 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
   <div class="cols">
     <div>
       <div class="card accent-blue" style="margin-bottom: 12px;">
-        <h3 style="color: #7c9ef8;">❓ Why so sample-efficient?</h3>
+        <h3 style="color: #2563eb;">❓ Why so sample-efficient?</h3>
         <p>Why are these loops surprisingly good when classical program search is provably hopeless?</p>
       </div>
       <div class="card accent-blue" style="margin-bottom: 12px;">
-        <h3 style="color: #7c9ef8;">❓ When do traces matter?</h3>
+        <h3 style="color: #2563eb;">❓ When do traces matter?</h3>
         <p>When does a scalar reward suffice, and when do you need structured execution traces?</p>
       </div>
       <div class="card accent-blue">
-        <h3 style="color: #7c9ef8;">❓ Why does it overfit?</h3>
+        <h3 style="color: #2563eb;">❓ Why does it overfit?</h3>
         <p>Why do greedy prompt optimizers sometimes overfit their validation sets?</p>
       </div>
     </div>
     <div>
       <div class="card accent-red" style="margin-bottom: 12px;">
-        <h3 style="color: #f07070;">❓ Why do results fail to replicate?</h3>
+        <h3 style="color: #dc2626;">❓ Why do results fail to replicate?</h3>
         <p>Why do noisy single evaluations produce "celebrated improvements" that later collapse?</p>
       </div>
       <div class="card accent-red" style="margin-bottom: 12px;">
-        <h3 style="color: #f07070;">❓ Why archives everywhere?</h3>
+        <h3 style="color: #dc2626;">❓ Why archives everywhere?</h3>
         <p>Why do archives and Pareto frontiers keep appearing in independently developed systems?</p>
       </div>
       <div class="card accent-green">
-        <h3 style="color: #56d49b;">❓ Can you certify improvement?</h3>
+        <h3 style="color: #059669;">❓ Can you certify improvement?</h3>
         <p>Is there a sound test that guarantees a candidate is actually better than the incumbent?</p>
       </div>
     </div>
@@ -356,7 +359,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
 <div class="slide section-slide" id="s4">
   <div class="section-num">01</div>
   <h1>The Anchor Papers</h1>
-  <p style="color: #8892b0;">Four systems that inspired this theory — what they did, and what they left unexplained</p>
+  <p style="color: #64748b;">Four systems that inspired this theory — what they did, and what they left unexplained</p>
 </div>
 
 <!-- ══════════════════════════════════════════════
@@ -459,7 +462,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
 <div class="slide" id="s8">
   <div class="slide-label">Anchor Paper 4 of 4</div>
   <h2>Meta-Harness</h2>
-  <div class="paper-card" style="border-left-color: #a78bfa;">
+  <div class="paper-card" style="border-left-color: #7c3aed;">
     <div class="ptitle">Meta-Harness: Self-Improving Evaluation Scaffolding</div>
     <div class="pauth">Lee et al. (2026) · Stanford IRIS Lab</div>
     <div class="pkv">Key result: beats <strong>hand-built context management</strong> on multiple benchmarks</div>
@@ -469,7 +472,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
     <div>
       <h3>The setup</h3>
       <p>Instead of tuning the agent, tune the <em>scaffolding around it</em> — the code that manages memory, tool calls, retry logic. The LLM evaluates each scaffolding version by running benchmark tasks. Keeps what works.</p>
-      <div class="hl" style="margin-top: 12px; border-color: #a78bfa44; background: linear-gradient(135deg, #a78bfa11, #1e2338); font-size: 14px;">
+      <div class="hl" style="margin-top: 12px; border-color: #7c3aed44; background: #f5f3ff; color: #4c1d95; font-size: 14px;">
         <strong>The artifact</strong> = harness code (not agent weights)<br>
         <strong>Insight</strong>: the <em>harness</em> is often the bottleneck, not the model
       </div>
@@ -489,7 +492,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
 <div class="slide section-slide" id="s9">
   <div class="section-num">02</div>
   <h1>The Formal Model</h1>
-  <p style="color: #8892b0;">One definition to contain them all — artifacts, evaluators, proposers, selectors</p>
+  <p style="color: #64748b;">One definition to contain them all — artifacts, evaluators, proposers, selectors</p>
 </div>
 
 <!-- ══════════════════════════════════════════════
@@ -560,29 +563,29 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
     <div>
       <div class="card accent-blue" style="margin-bottom: 10px;">
         <span class="pill pill-blue">§3</span>
-        <h3 style="color: #7c9ef8; margin-top: 6px;">Prior Mass γ</h3>
+        <h3 style="color: #2563eb; margin-top: 6px;">Prior Mass γ</h3>
         <p>How often the LLM proposes good artifacts. Controls hitting time.</p>
       </div>
       <div class="card accent-green" style="margin-bottom: 10px;">
         <span class="pill pill-green">§4</span>
-        <h3 style="color: #56d49b;">Feedback Information</h3>
+        <h3 style="color: #059669;">Feedback Information</h3>
         <p>Scalar reward vs. structured traces — exponential difference.</p>
       </div>
       <div class="card accent-red">
         <span class="pill pill-red">§5</span>
-        <h3 style="color: #f07070;">Ratchet Illusion</h3>
+        <h3 style="color: #dc2626;">Ratchet Illusion</h3>
         <p>Noisy evaluations create fake 3.4σ "improvements" from pure noise.</p>
       </div>
     </div>
     <div>
       <div class="card accent-purple" style="margin-bottom: 10px;">
         <span class="pill pill-purple">§5</span>
-        <h3 style="color: #a78bfa;">Landscape Deception</h3>
+        <h3 style="color: #7c3aed;">Landscape Deception</h3>
         <p>Valleys trap greedy search. Archives escape exponentially faster.</p>
       </div>
       <div class="card accent-amber">
         <span class="pill pill-amber">§7</span>
-        <h3 style="color: #f7c94b;">Description Length</h3>
+        <h3 style="color: #d97706;">Description Length</h3>
         <p>Occam bound predicts overfitting — U-shaped risk in artifact length.</p>
       </div>
       <div class="hl green" style="margin-top: 10px; font-size: 13px;">
@@ -599,7 +602,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
 <div class="slide section-slide" id="s12">
   <div class="section-num">03</div>
   <h1>Resource 1: Prior Mass</h1>
-  <p style="color: #8892b0;">Why frozen LLMs find good artifacts faster than random search — and how to measure the boost</p>
+  <p style="color: #64748b;">Why frozen LLMs find good artifacts faster than random search — and how to measure the boost</p>
 </div>
 
 <!-- ══════════════════════════════════════════════
@@ -637,7 +640,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
 <div class="slide section-slide" id="s14">
   <div class="section-num">04</div>
   <h1>Resource 2: Feedback Information</h1>
-  <p style="color: #8892b0;">Scalar rewards vs. structured traces — why GEPA's 35× speedup is theoretically inevitable</p>
+  <p style="color: #64748b;">Scalar rewards vs. structured traces — why GEPA's 35× speedup is theoretically inevitable</p>
 </div>
 
 <!-- ══════════════════════════════════════════════
@@ -651,19 +654,19 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
   <div class="cols-3 mt16">
     <div class="card accent-red">
       <span class="pill pill-red">Worst</span>
-      <h3 style="color: #f07070; margin-top: 8px;">Scalar 0/1 Reward</h3>
+      <h3 style="color: #dc2626; margin-top: 8px;">Scalar 0/1 Reward</h3>
       <div class="big-num red" style="font-size: 28px;">2<sup>L</sup>/2</div>
       <p style="font-size: 13px;">Only told pass/fail. Must search all 2<sup>L</sup> possibilities. Exponential in artifact length.</p>
     </div>
     <div class="card accent-amber">
       <span class="pill pill-orange">Better</span>
-      <h3 style="color: #f0a050; margin-top: 8px;">Distance Feedback</h3>
-      <div class="big-num" style="color: #f0a050; font-size: 28px;">L+1</div>
+      <h3 style="color: #ea580c; margin-top: 8px;">Distance Feedback</h3>
+      <div class="big-num" style="color: #ea580c; font-size: 28px;">L+1</div>
       <p style="font-size: 13px;">Told Hamming distance to target. One probe per bit. Linear — already exponentially better.</p>
     </div>
     <div class="card accent-green">
       <span class="pill pill-green">Best</span>
-      <h3 style="color: #56d49b; margin-top: 8px;">First-Error Trace</h3>
+      <h3 style="color: #059669; margin-top: 8px;">First-Error Trace</h3>
       <div class="big-num green" style="font-size: 28px;">L/2</div>
       <p style="font-size: 13px;">Told which bit fails first. Can fix greedily. Only half the bits need probing on average.</p>
     </div>
@@ -683,7 +686,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
 <div class="slide section-slide" id="s16">
   <div class="section-num">05</div>
   <h1>The Ratchet Illusion</h1>
-  <p style="color: #f07070;">The most dangerous result in the paper — fake improvements from pure noise</p>
+  <p style="color: #dc2626;">The most dangerous result in the paper — fake improvements from pure noise</p>
 </div>
 
 <!-- ══════════════════════════════════════════════
@@ -702,9 +705,9 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
       <div class="hl red mt16">
         <div class="label">Result (Theorem 5.1, simulated)</div>
         After 2,000 null edits:<br>
-        <span style="font-size: 28px; font-weight: 700; color: #f07070;">3.4σ</span>
+        <span style="font-size: 28px; font-weight: 700; color: #dc2626;">3.4σ</span>
         median reported "improvement"<br>
-        <span style="font-size: 13px; color: #8892b0;">True improvement: exactly 0</span>
+        <span style="font-size: 13px; color: #64748b;">True improvement: exactly 0</span>
       </div>
     </div>
     <div>
@@ -749,7 +752,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
         The whole run is certified — not just the last step.
       </div>
 
-      <p style="font-size: 13px; margin-top: 12px; color: #8892b0;">The cost is N× more evaluations per decision. Theorem 6.1 tells you whether that cost is worth it given your specific γ and q₀.</p>
+      <p style="font-size: 13px; margin-top: 12px; color: #64748b;">The cost is N× more evaluations per decision. Theorem 6.1 tells you whether that cost is worth it given your specific γ and q₀.</p>
     </div>
   </div>
 </div>
@@ -760,7 +763,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
 <div class="slide section-slide" id="s19">
   <div class="section-num">06</div>
   <h1>Deceptive Landscapes</h1>
-  <p style="color: #a78bfa;">Why archives appear everywhere — and why they're not just a trick</p>
+  <p style="color: #7c3aed;">Why archives appear everywhere — and why they're not just a trick</p>
 </div>
 
 <!-- ══════════════════════════════════════════════
@@ -776,29 +779,29 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
       <p>A k-wide valley: to reach the global optimum, you must first pass through a region where every step locally looks worse.</p>
 
       <!-- ASCII art valley -->
-      <div style="background: #1e2338; border-radius: 8px; padding: 14px; font-family: monospace; font-size: 13px; color: #8892b0; margin-top: 10px; line-height: 1.5;">
-        <span style="color: #56d49b;">▲ Global opt</span><br>
+      <div style="background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; font-family: monospace; font-size: 13px; color: #475569; margin-top: 10px; line-height: 1.5;">
+        <span style="color: #059669;">▲ Global opt</span><br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;<span style="color: #f7c94b;">← uphill, but greedy</span><br>
-        &nbsp;&nbsp;<span style="color: #f07070;">Start</span>&nbsp;&nbsp;\&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;must go down first<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;<span style="color: #d97706;">← uphill, but greedy</span><br>
+        &nbsp;&nbsp;<span style="color: #dc2626;">Start</span>&nbsp;&nbsp;\&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;must go down first<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\____/<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #f07070;">valley (width k)</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #dc2626;">valley (width k)</span>
       </div>
     </div>
     <div>
       <h3>Greedy vs. Archive</h3>
       <div class="card accent-red" style="margin-bottom: 10px;">
-        <h3 style="color: #f07070;">ε-tolerant greedy</h3>
+        <h3 style="color: #dc2626;">ε-tolerant greedy</h3>
         <p>Sometimes accepts worse moves (prob ε). Must get lucky k times in a row to cross the valley.</p>
         <p>Expected time: <strong>Ω(ε<sup>−k</sup>)</strong> — exponential in valley width</p>
       </div>
       <div class="card accent-green">
-        <h3 style="color: #56d49b;">Archive search</h3>
+        <h3 style="color: #059669;">Archive search</h3>
         <p>Keeps <em>all visited states</em>. Explores the valley breadth-first. No lucky streak needed.</p>
         <p>Expected time: <strong>O(k²)</strong> — polynomial in valley width</p>
       </div>
 
-      <p style="font-size: 13px; margin-top: 10px; color: #8892b0;">This is why AlphaEvolve, Meta-Harness, and other top systems independently invented archives and Pareto frontiers.</p>
+      <p style="font-size: 13px; margin-top: 10px; color: #64748b;">This is why AlphaEvolve, Meta-Harness, and other top systems independently invented archives and Pareto frontiers.</p>
     </div>
   </div>
 </div>
@@ -825,14 +828,14 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
     <div>
       <h3>Two failure modes it predicts</h3>
       <div class="card accent-blue" style="margin-bottom: 10px;">
-        <h3 style="color: #7c9ef8;">Context collapse (too short)</h3>
+        <h3 style="color: #2563eb;">Context collapse (too short)</h3>
         <p>Artifact is compressed below information content of the task. Performance degrades — observed in over-pruned prompts.</p>
       </div>
       <div class="card accent-red">
-        <h3 style="color: #f07070;">Validation overfitting (too long)</h3>
+        <h3 style="color: #dc2626;">Validation overfitting (too long)</h3>
         <p>Artifact is longer than n bits — it memorizes the validation set. "Prompt hacking" — prompts that pass validation but fail deployment.</p>
       </div>
-      <p style="font-size: 13px; margin-top: 10px; color: #8892b0;">The bound gives a principled answer to "how long should my prompt be?"</p>
+      <p style="font-size: 13px; margin-top: 10px; color: #64748b;">The bound gives a principled answer to "how long should my prompt be?"</p>
     </div>
   </div>
 </div>
@@ -843,7 +846,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
 <div class="slide section-slide" id="s22">
   <div class="section-num">07</div>
   <h1>The Composed Theorem</h1>
-  <p style="color: #56d49b;">Putting all five resources together — a single certified-improvement guarantee</p>
+  <p style="color: #059669;">Putting all five resources together — a single certified-improvement guarantee</p>
 </div>
 
 <!-- ══════════════════════════════════════════════
@@ -857,7 +860,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
     <div class="label">Theorem 6.1 — Composed Certified Improvement</div>
     A gated artifact-search loop finds and soundly certifies a Δ-improvement over the incumbent (failure prob ≤ δ, across B candidates) using at most:
     <br><br>
-    <span style="font-size: 20px; color: #f7c94b;">C = (8σ²/Δ²) · ln(B/δ) · ln(1/δ) / (γ · q₀(G<sub>ε</sub>))</span>
+    <span style="font-size: 20px; color: #d97706;">C = (8σ²/Δ²) · ln(B/δ) · ln(1/δ) / (γ · q₀(G<sub>ε</sub>))</span>
     <br><br>
     evaluator calls in expectation.
     <br>False-reject slowdown: explicit factor (1 − δ/B).
@@ -878,7 +881,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
       <h3>Why it matters</h3>
       <p>For the first time, you can compute whether running a gated outer loop is worth it before you start: plug in your σ, Δ, and estimated γ.</p>
       <p>All five resources appear — and they <em>multiply</em>: improving any one improves the total budget. The theory tells you where to invest.</p>
-      <p style="font-size: 13px;"><a href="index.html#calculator" style="color: #7c9ef8;">→ Try the interactive calculator on the project page</a></p>
+      <p style="font-size: 13px;"><a href="index.html#calculator" style="color: #2563eb;">→ Try the interactive calculator on the project page</a></p>
     </div>
   </div>
 </div>
@@ -911,7 +914,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
         <h3>Prompt hacking</h3>
         <p>Prompts that score perfectly on the validation set of a frozen evaluator but fail on unseen tasks.</p>
       </div>
-      <p style="font-size: 13px; margin-top: 10px; color: #8892b0;">Goodhart's Law formally: "When a measure becomes a target, it ceases to be a good measure." Proposition 8.1 is the precise version.</p>
+      <p style="font-size: 13px; margin-top: 10px; color: #64748b;">Goodhart's Law formally: "When a measure becomes a target, it ceases to be a good measure." Proposition 8.1 is the precise version.</p>
     </div>
   </div>
 </div>
@@ -922,7 +925,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
 <div class="slide section-slide" id="s25">
   <div class="section-num">08</div>
   <h1>Simulations</h1>
-  <p style="color: #8892b0;">All figures are executed algorithms — not illustrations. Byte-stable with seed 0.</p>
+  <p style="color: #64748b;">All figures are executed algorithms — not illustrations. Byte-stable with seed 0.</p>
 </div>
 
 <!-- ══════════════════════════════════════════════
@@ -946,7 +949,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
       <p class="big-caption" style="font-size: 12px;">Gated false accepts<br><span style="color:#4a5270;">in 800,000 decisions<br>Poisson pred: 1.61</span></p>
     </div>
     <div class="card" style="text-align:center;">
-      <div class="big-num" style="color: #a78bfa; font-size: 28px;">4.08×</div>
+      <div class="big-num" style="color: #7c3aed; font-size: 28px;">4.08×</div>
       <p class="big-caption" style="font-size: 12px;">Archive/greedy ratio<br><span style="color:#4a5270;">at k=25 valley width</span></p>
     </div>
   </div>
@@ -962,7 +965,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
     </div>
   </div>
 
-  <p style="font-size: 13px; margin-top: 12px;"><a href="index.html#demos" style="color: #7c9ef8;">→ Run the interactive demos yourself on the project page</a> &nbsp;·&nbsp; <a href="code/simulations.py" style="color: #7c9ef8;">Full Python source</a></p>
+  <p style="font-size: 13px; margin-top: 12px;"><a href="index.html#demos" style="color: #2563eb;">→ Run the interactive demos yourself on the project page</a> &nbsp;·&nbsp; <a href="code/simulations.py" style="color: #2563eb;">Full Python source</a></p>
 </div>
 
 <!-- ══════════════════════════════════════════════
@@ -987,7 +990,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
       <div><p style="margin:0; font-size:14px;"><strong>Single-eval ratchet false-positives scale as ln t</strong> — observable in any deployed system by tracking accept history.</p></div>
     </div>
     <div class="card" style="margin-bottom: 8px; display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: start;">
-      <div style="font-family:system-ui; font-size:18px; font-weight:700; color:#a78bfa;">P4</div>
+      <div style="font-family:system-ui; font-size:18px; font-weight:700; color:#7c3aed;">P4</div>
       <div><p style="margin:0; font-size:14px;"><strong>Archive search wins on deceptive benchmarks</strong> — measurable by comparing archive vs. greedy on tasks with known local optima.</p></div>
     </div>
     <div class="card" style="display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: start;">
@@ -996,7 +999,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
     </div>
   </div>
 
-  <p style="font-size: 13px; margin-top: 12px; color: #8892b0;">Pre-registered measurement protocol for γ in Appendix I: 120 buggy programs, 70 patches/condition, Wilson confidence intervals, falsifier pre-stated.</p>
+  <p style="font-size: 13px; margin-top: 12px; color: #64748b;">Pre-registered measurement protocol for γ in Appendix I: 120 buggy programs, 70 patches/condition, Wilson confidence intervals, falsifier pre-stated.</p>
 </div>
 
 <!-- ══════════════════════════════════════════════
@@ -1038,7 +1041,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0c14; }
     </div>
   </div>
 
-  <p style="text-align:center; margin-top: 24px; font-size: 13px; color: #4a5270;">
+  <p style="text-align:center; margin-top: 24px; font-size: 13px; color: #94a3b8;">
     Anonymous submission · ICLR 2027 · Under double-blind review
   </p>
 </div>

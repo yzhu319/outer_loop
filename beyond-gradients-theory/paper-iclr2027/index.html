@@ -7,20 +7,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   :root {
-    --bg: #0f1117;
-    --bg2: #181c27;
-    --bg3: #1e2338;
-    --border: #2d3350;
-    --text: #e8eaf6;
-    --muted: #8892b0;
-    --accent: #7c9ef8;
-    --accent2: #56d49b;
-    --accent3: #f7c94b;
-    --red: #f07070;
-    --orange: #f0a050;
-    --blue: #5b9cf6;
-    --green: #56d49b;
-    --gray: #888;
+    --bg: #f8fafc;
+    --bg2: #ffffff;
+    --bg3: #f1f5f9;
+    --border: #e2e8f0;
+    --text: #1e293b;
+    --muted: #64748b;
+    --accent: #2563eb;
+    --accent2: #059669;
+    --accent3: #d97706;
+    --red: #dc2626;
+    --orange: #ea580c;
+    --blue: #3b82f6;
+    --green: #059669;
+    --gray: #94a3b8;
     --max: 900px;
     --card-r: 12px;
   }
@@ -39,7 +39,8 @@
   /* NAV */
   nav {
     position: sticky; top: 0; z-index: 100;
-    background: rgba(15,17,23,0.92);
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 1px 8px rgba(0,0,0,0.08);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
     display: flex; align-items: center; justify-content: center;
@@ -57,8 +58,8 @@
   }
   .venue-tag {
     display: inline-block;
-    background: linear-gradient(135deg, #1e3a8a33, #3b82f633);
-    border: 1px solid #3b82f655;
+    background: linear-gradient(135deg, #eff6ff, #f0fdf4);
+    border: 1px solid #bfdbfe;
     border-radius: 99px;
     padding: 4px 16px;
     font-size: 12px; font-family: 'system-ui', sans-serif;
@@ -91,7 +92,7 @@
     cursor: pointer; transition: border-color 0.15s, background 0.15s;
   }
   .btn:hover { border-color: var(--accent); background: var(--bg3); text-decoration: none; }
-  .btn-primary { background: #1e3a8a; border-color: #3b82f6; color: #eff6ff; }
+  .btn-primary { background: #2563eb; border-color: #1d4ed8; color: #ffffff; }
   .btn-primary:hover { background: #1d4ed8; }
 
   /* SECTIONS */
@@ -112,7 +113,7 @@
   .abstract-box {
     background: var(--bg2); border: 1px solid var(--border);
     border-radius: var(--card-r); padding: 28px 32px;
-    font-size: 15px; line-height: 1.75; color: #c8cfe8;
+    font-size: 15px; line-height: 1.75; color: #374151;
   }
   .abstract-box em { color: var(--accent3); font-style: normal; }
 
@@ -165,8 +166,8 @@
   }
   .run-btn {
     padding: 8px 20px; border-radius: 7px;
-    background: #1e3a8a; border: 1px solid #3b82f6;
-    color: #eff6ff; font-family: 'system-ui', sans-serif;
+    background: #2563eb; border: 1px solid #1d4ed8;
+    color: #ffffff; font-family: 'system-ui', sans-serif;
     font-size: 13px; font-weight: 500; cursor: pointer;
     transition: background 0.15s;
   }
@@ -203,8 +204,8 @@
   }
   .calc-field input:focus { outline: none; border-color: var(--accent); }
   .calc-result {
-    background: linear-gradient(135deg, #1e3a8a22, #56d49b11);
-    border: 1px solid #3b82f644; border-radius: var(--card-r);
+    background: linear-gradient(135deg, #eff6ff, #f0fdf4);
+    border: 1px solid #bfdbfe; border-radius: var(--card-r);
     padding: 20px 24px;
   }
   .calc-result .big {
@@ -225,7 +226,7 @@
     color: var(--muted); font-weight: 500;
     letter-spacing: 0.05em; text-transform: uppercase; font-size: 11px;
   }
-  .struct-table td { padding: 8px 12px; border-bottom: 1px solid #1e2338; color: var(--muted); vertical-align: top; }
+  .struct-table td { padding: 8px 12px; border-bottom: 1px solid #f1f5f9; color: var(--muted); vertical-align: top; }
   .struct-table td:first-child { color: var(--accent); font-weight: 600; white-space: nowrap; }
   .struct-table tr:hover td { background: var(--bg3); }
   .highlight-row td { color: var(--accent3) !important; }
@@ -256,7 +257,7 @@
   .thm-box {
     background: var(--bg3); border-left: 3px solid var(--accent);
     border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 16px 0;
-    font-size: 14px; color: #c8cfe8;
+    font-size: 14px; color: #374151;
   }
   .thm-box .thm-label {
     font-family: 'system-ui', sans-serif; font-size: 11px;
@@ -666,16 +667,16 @@ function runRatchet() {
         },
         {
           type: 'line', label: 'σ√(2 ln t) upper bound', data: boundData,
-          borderColor: '#f07070', borderWidth: 1.5, borderDash: [5, 4],
+          borderColor: '#dc2626', borderWidth: 1.5, borderDash: [5, 4],
           pointRadius: 0, yAxisID: 'y',
         },
         {
           type: 'line', label: 'Mean false accepts (single eval)', data: accData,
-          borderColor: '#56d49b', borderWidth: 2, pointRadius: 0, yAxisID: 'y2',
+          borderColor: '#059669', borderWidth: 2, pointRadius: 0, yAxisID: 'y2',
         },
         {
           type: 'line', label: 'H_t = Σ 1/i', data: htData,
-          borderColor: '#f07070', borderWidth: 1.5, borderDash: [4, 3],
+          borderColor: '#dc2626', borderWidth: 1.5, borderDash: [4, 3],
           pointRadius: 0, yAxisID: 'y2',
         },
       ]
@@ -685,24 +686,24 @@ function runRatchet() {
       scales: {
         x: {
           type: 'logarithmic',
-          ticks: { color: '#8892b0', maxTicksLimit: 8 },
-          grid: { color: '#2d3350' },
-          title: { display: true, text: 'Candidate edits t', color: '#8892b0' }
+          ticks: { color: '#64748b', maxTicksLimit: 8 },
+          grid: { color: '#e2e8f0' },
+          title: { display: true, text: 'Candidate edits t', color: '#64748b' }
         },
         y: {
-          ticks: { color: '#8892b0' },
-          grid: { color: '#2d3350' },
-          title: { display: true, text: 'Score (σ units)', color: '#8892b0' }
+          ticks: { color: '#64748b' },
+          grid: { color: '#e2e8f0' },
+          title: { display: true, text: 'Score (σ units)', color: '#64748b' }
         },
         y2: {
           position: 'right',
-          ticks: { color: '#56d49b' },
+          ticks: { color: '#059669' },
           grid: { drawOnChartArea: false },
-          title: { display: true, text: 'Accepted null edits', color: '#56d49b' }
+          title: { display: true, text: 'Accepted null edits', color: '#059669' }
         }
       },
       plugins: {
-        legend: { labels: { color: '#8892b0', font: { size: 11 }, boxWidth: 20 } }
+        legend: { labels: { color: '#64748b', font: { size: 11 }, boxWidth: 20 } }
       }
     }
   });
@@ -791,12 +792,12 @@ function runFeedback() {
       datasets: [
         {
           type: 'line', label: '0/1 reward (simulated)', data: scalarMeans,
-          borderColor: '#f07070', borderWidth: 0, pointRadius: 4, pointStyle: 'circle',
-          backgroundColor: '#f07070',
+          borderColor: '#dc2626', borderWidth: 0, pointRadius: 4, pointStyle: 'circle',
+          backgroundColor: '#dc2626',
         },
         {
           type: 'line', label: '0/1 reward theory (2^L+1)/2', data: scalarTheory,
-          borderColor: '#f07070', borderWidth: 1.5, borderDash: [5, 4], pointRadius: 0,
+          borderColor: '#dc2626', borderWidth: 1.5, borderDash: [5, 4], pointRadius: 0,
         },
         {
           type: 'line', label: 'Distance probing (L+1)', data: distMeans,
@@ -805,12 +806,12 @@ function runFeedback() {
         },
         {
           type: 'line', label: 'First-error (simulated)', data: firstErrMeans,
-          borderColor: '#56d49b', borderWidth: 0, pointRadius: 4, pointStyle: 'triangle',
-          backgroundColor: '#56d49b',
+          borderColor: '#059669', borderWidth: 0, pointRadius: 4, pointStyle: 'triangle',
+          backgroundColor: '#059669',
         },
         {
           type: 'line', label: 'First-error theory L/2+1', data: feTheory,
-          borderColor: '#56d49b', borderWidth: 1.5, borderDash: [4, 3], pointRadius: 0,
+          borderColor: '#059669', borderWidth: 1.5, borderDash: [4, 3], pointRadius: 0,
         },
       ]
     },
@@ -818,19 +819,19 @@ function runFeedback() {
       animation: false,
       scales: {
         x: {
-          ticks: { color: '#8892b0' },
-          grid: { color: '#2d3350' },
-          title: { display: true, text: 'Artifact length L (bits)', color: '#8892b0' }
+          ticks: { color: '#64748b' },
+          grid: { color: '#e2e8f0' },
+          title: { display: true, text: 'Artifact length L (bits)', color: '#64748b' }
         },
         y: {
           type: 'logarithmic',
-          ticks: { color: '#8892b0' },
-          grid: { color: '#2d3350' },
-          title: { display: true, text: 'Queries to identify target', color: '#8892b0' }
+          ticks: { color: '#64748b' },
+          grid: { color: '#e2e8f0' },
+          title: { display: true, text: 'Queries to identify target', color: '#64748b' }
         }
       },
       plugins: {
-        legend: { labels: { color: '#8892b0', font: { size: 11 }, boxWidth: 20 } }
+        legend: { labels: { color: '#64748b', font: { size: 11 }, boxWidth: 20 } }
       }
     }
   });
@@ -908,12 +909,12 @@ function runDeception() {
         {
           type: 'line', label: `Tolerant greedy exact E[T] (ε=${eps.toFixed(2)})`,
           data: exactData,
-          borderColor: '#f07070', borderWidth: 2, borderDash: [5, 4], pointRadius: 0,
+          borderColor: '#dc2626', borderWidth: 2, borderDash: [5, 4], pointRadius: 0,
         },
         {
           type: 'line', label: 'Archive search (simulated)',
           data: archData,
-          borderColor: '#56d49b', borderWidth: 2, pointRadius: 4, backgroundColor: '#56d49b',
+          borderColor: '#059669', borderWidth: 2, pointRadius: 4, backgroundColor: '#059669',
         },
         {
           type: 'line', label: '4k(2k+1) archive bound (Thm. 5.4)',
@@ -926,19 +927,19 @@ function runDeception() {
       animation: false,
       scales: {
         x: {
-          ticks: { color: '#8892b0' },
-          grid: { color: '#2d3350' },
-          title: { display: true, text: 'Valley half-width k', color: '#8892b0' }
+          ticks: { color: '#64748b' },
+          grid: { color: '#e2e8f0' },
+          title: { display: true, text: 'Valley half-width k', color: '#64748b' }
         },
         y: {
           type: 'logarithmic',
-          ticks: { color: '#8892b0' },
-          grid: { color: '#2d3350' },
-          title: { display: true, text: 'Steps to reach optimum', color: '#8892b0' }
+          ticks: { color: '#64748b' },
+          grid: { color: '#e2e8f0' },
+          title: { display: true, text: 'Steps to reach optimum', color: '#64748b' }
         }
       },
       plugins: {
-        legend: { labels: { color: '#8892b0', font: { size: 11 }, boxWidth: 20 } }
+        legend: { labels: { color: '#64748b', font: { size: 11 }, boxWidth: 20 } }
       }
     }
   });
