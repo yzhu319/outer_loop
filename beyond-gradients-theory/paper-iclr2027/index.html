@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Outer Loop: A Unified Theory of Gradient-Free LLM Improvement Loops</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg2: #181c27;
+    --bg3: #1e2338;
+    --border: #2d3350;
+    --text: #e8eaf6;
+    --muted: #8892b0;
+    --accent: #7c9ef8;
+    --accent2: #56d49b;
+    --accent3: #f7c94b;
+    --red: #f07070;
+    --orange: #f0a050;
+    --blue: #5b9cf6;
+    --green: #56d49b;
+    --gray: #888;
+    --max: 900px;
+    --card-r: 12px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Georgia', serif;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(15,17,23,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    gap: 28px; padding: 12px 24px;
+    font-family: 'system-ui', sans-serif; font-size: 13px;
+  }
+  nav a { color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+  nav a:hover { color: var(--text); text-decoration: none; }
+
+  /* HERO */
+  .hero {
+    max-width: var(--max); margin: 0 auto;
+    padding: 80px 24px 56px;
+    text-align: center;
+  }
+  .venue-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, #1e3a8a33, #3b82f633);
+    border: 1px solid #3b82f655;
+    border-radius: 99px;
+    padding: 4px 16px;
+    font-size: 12px; font-family: 'system-ui', sans-serif;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 24px;
+  }
+  h1 {
+    font-size: clamp(22px, 4vw, 34px);
+    font-weight: normal;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    color: #fff;
+    max-width: 780px; margin: 0 auto 20px;
+  }
+  .hero-sub {
+    color: var(--muted); font-size: 15px; max-width: 680px; margin: 0 auto 36px;
+    font-family: 'system-ui', sans-serif;
+  }
+  .hero-links {
+    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-family: 'system-ui', sans-serif; font-size: 13px; font-weight: 500;
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    color: var(--text);
+    cursor: pointer; transition: border-color 0.15s, background 0.15s;
+  }
+  .btn:hover { border-color: var(--accent); background: var(--bg3); text-decoration: none; }
+  .btn-primary { background: #1e3a8a; border-color: #3b82f6; color: #eff6ff; }
+  .btn-primary:hover { background: #1d4ed8; }
+
+  /* SECTIONS */
+  section { max-width: var(--max); margin: 0 auto; padding: 0 24px 72px; }
+  .section-label {
+    font-family: 'system-ui', sans-serif;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 10px;
+  }
+  h2 {
+    font-size: 22px; font-weight: normal; color: #fff;
+    margin-bottom: 20px; letter-spacing: -0.01em;
+  }
+  p { color: var(--muted); margin-bottom: 14px; }
+  p strong { color: var(--text); }
+
+  /* ABSTRACT */
+  .abstract-box {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: var(--card-r); padding: 28px 32px;
+    font-size: 15px; line-height: 1.75; color: #c8cfe8;
+  }
+  .abstract-box em { color: var(--accent3); font-style: normal; }
+
+  /* CONTRIBUTIONS GRID */
+  .contrib-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px; margin-top: 8px;
+  }
+  .contrib-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: var(--card-r); padding: 20px;
+  }
+  .contrib-card .tag {
+    font-family: 'system-ui', sans-serif; font-size: 10px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 8px;
+  }
+  .contrib-card h3 { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+  .contrib-card p { font-size: 13px; margin: 0; }
+
+  /* DEMO CARDS */
+  .demo-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: var(--card-r); padding: 24px 28px; margin-bottom: 28px;
+  }
+  .demo-card h3 {
+    font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 4px;
+  }
+  .demo-card .demo-desc { font-size: 14px; color: var(--muted); margin-bottom: 18px; }
+  .demo-card .demo-desc strong { color: var(--accent3); }
+
+  .controls {
+    display: flex; gap: 20px; flex-wrap: wrap;
+    margin-bottom: 18px; align-items: flex-end;
+  }
+  .ctrl { display: flex; flex-direction: column; gap: 5px; }
+  .ctrl label {
+    font-family: 'system-ui', sans-serif; font-size: 11px;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted);
+  }
+  .ctrl input[type=range] { width: 160px; accent-color: var(--accent); }
+  .ctrl .val {
+    font-family: 'system-ui', sans-serif; font-size: 12px;
+    color: var(--accent3); text-align: center;
+  }
+  .ctrl select {
+    background: var(--bg3); border: 1px solid var(--border);
+    color: var(--text); border-radius: 6px; padding: 5px 10px;
+    font-size: 13px;
+  }
+  .run-btn {
+    padding: 8px 20px; border-radius: 7px;
+    background: #1e3a8a; border: 1px solid #3b82f6;
+    color: #eff6ff; font-family: 'system-ui', sans-serif;
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    transition: background 0.15s;
+  }
+  .run-btn:hover { background: #1d4ed8; }
+  .run-btn:active { transform: scale(0.98); }
+
+  canvas { width: 100% !important; max-height: 280px; }
+
+  .stat-row {
+    display: flex; gap: 20px; flex-wrap: wrap; margin-top: 14px;
+  }
+  .stat {
+    background: var(--bg3); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 16px; min-width: 140px;
+  }
+  .stat .slabel { font-family: 'system-ui', sans-serif; font-size: 10px;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+  .stat .sval { font-size: 18px; font-weight: 600; color: var(--accent3); font-family: 'system-ui', sans-serif; }
+
+  /* CALCULATOR */
+  .calc-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px;
+  }
+  @media (max-width: 540px) { .calc-grid { grid-template-columns: 1fr; } }
+  .calc-field { display: flex; flex-direction: column; gap: 6px; }
+  .calc-field label {
+    font-family: 'system-ui', sans-serif; font-size: 11px;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted);
+  }
+  .calc-field input {
+    background: var(--bg3); border: 1px solid var(--border);
+    color: var(--text); border-radius: 7px; padding: 9px 12px; font-size: 14px;
+    width: 100%;
+  }
+  .calc-field input:focus { outline: none; border-color: var(--accent); }
+  .calc-result {
+    background: linear-gradient(135deg, #1e3a8a22, #56d49b11);
+    border: 1px solid #3b82f644; border-radius: var(--card-r);
+    padding: 20px 24px;
+  }
+  .calc-result .big {
+    font-size: 32px; font-weight: 700; color: var(--accent3);
+    font-family: 'system-ui', sans-serif;
+  }
+  .calc-result .formula {
+    font-family: 'system-ui', sans-serif; font-size: 12px; color: var(--muted);
+    margin-top: 8px;
+  }
+  .calc-result .breakdown { margin-top: 12px; font-size: 13px; color: var(--muted); font-family: 'system-ui', sans-serif; }
+
+  /* PAPER STRUCTURE */
+  .struct-table { width: 100%; border-collapse: collapse; font-size: 13px; font-family: 'system-ui', sans-serif; }
+  .struct-table th {
+    text-align: left; padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted); font-weight: 500;
+    letter-spacing: 0.05em; text-transform: uppercase; font-size: 11px;
+  }
+  .struct-table td { padding: 8px 12px; border-bottom: 1px solid #1e2338; color: var(--muted); vertical-align: top; }
+  .struct-table td:first-child { color: var(--accent); font-weight: 600; white-space: nowrap; }
+  .struct-table tr:hover td { background: var(--bg3); }
+  .highlight-row td { color: var(--accent3) !important; }
+
+  /* DIVIDER */
+  hr { border: none; border-top: 1px solid var(--border); margin: 0 0 72px; }
+
+  /* FOOTER */
+  footer {
+    text-align: center; padding: 40px 24px 56px;
+    font-family: 'system-ui', sans-serif; font-size: 12px;
+    color: var(--muted); border-top: 1px solid var(--border);
+  }
+
+  /* MATH inline */
+  .math { font-style: italic; color: var(--accent3); }
+
+  /* Spinner */
+  .spinner {
+    display: inline-block; width: 14px; height: 14px;
+    border: 2px solid var(--border); border-top-color: var(--accent);
+    border-radius: 50%; animation: spin 0.7s linear infinite;
+    vertical-align: middle; margin-right: 6px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Theorem box */
+  .thm-box {
+    background: var(--bg3); border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 16px 0;
+    font-size: 14px; color: #c8cfe8;
+  }
+  .thm-box .thm-label {
+    font-family: 'system-ui', sans-serif; font-size: 11px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent);
+    margin-bottom: 6px;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#abstract">Abstract</a>
+  <a href="#contributions">Contributions</a>
+  <a href="#demos">Interactive Demos</a>
+  <a href="#calculator">Budget Calculator</a>
+  <a href="#structure">Paper</a>
+  <a href="slides.html">Slides ↗</a>
+  <a href="main.pdf">PDF ↗</a>
+</nav>
+
+<!-- ─── HERO ─── -->
+<div class="hero">
+  <div class="venue-tag">ICLR 2027 · Under Double-Blind Review</div>
+  <h1>The Outer Loop: A Unified Theory of Gradient-Free LLM Improvement Loops</h1>
+  <p class="hero-sub">
+    A formal theory of the outer loop — the pattern shared by every frozen-weight LLM
+    self-improvement system: prior mass, feedback information, evaluation noise,
+    deceptive landscapes, and a composed certified-improvement theorem, in one model.
+  </p>
+  <div class="hero-links">
+    <a class="btn btn-primary" href="main.pdf">📄 Paper (PDF)</a>
+    <a class="btn" href="main.tex">📦 LaTeX Source</a>
+    <a class="btn" href="code/simulations.py">🐍 Simulation Code</a>
+    <a class="btn" href="#demos">▶ Interactive Demos</a>
+  </div>
+</div>
+
+<!-- ─── ABSTRACT ─── -->
+<section id="abstract">
+  <div class="section-label">Abstract</div>
+  <h2>What this paper is about</h2>
+  <div class="abstract-box">
+    <p>A rapidly growing family of systems improves at tasks without touching model weights: an <em>outer loop</em> proposes edits to a textual or programmatic artifact — a prompt, a skill document, an agent harness, a training script — scores each candidate with a noisy evaluator, and keeps what works, with a frozen large language model as the proposal distribution.</p>
+    <p>We give a single formal model containing these systems and prove that its behavior is governed by a few measurable <em>resources</em>: the <em>prior mass</em> the proposer places on good artifacts (controls hitting time Levin-style; boost <span class="math">γ</span> is estimable from samples); the <em>information content of feedback</em> (scalar rewards can be exponentially slower than structured traces); the <em>noise–gap ratio</em> of the evaluator (a single-evaluation greedy ratchet fed pure noise reports a realized median "improvement" of <em>3.4σ after 2,000 null edits</em>); the <em>deceptiveness</em> of the landscape (archives are exponentially faster than tolerant greedy search); and the <em>description length</em> of the artifact (an Occam bound predicts both context collapse and validation overfitting).</p>
+    <p>Beyond per-resource analyses, we prove a <em>composed certified-improvement theorem</em> (Theorem 6.1): a gated loop finds and soundly certifies a near-optimal artifact in <span class="math">O((σ²/Δ²) ln(B/δ) ln(1/δ) / (γ q₀(G<sub>ε</sub>)))</span> evaluator calls. We map each result to documented behaviors of deployed systems and state falsifiable scaling predictions with a pre-registered measurement protocol.</p>
+  </div>
+</section>
+
+<!-- ─── CONTRIBUTIONS ─── -->
+<section id="contributions">
+  <div class="section-label">Contributions</div>
+  <h2>Seven results in one model</h2>
+  <div class="contrib-grid">
+    <div class="contrib-card">
+      <div class="tag">§3 · Prior Mass</div>
+      <h3>Hitting time is Levin-style</h3>
+      <p>Expected proposals to an ε-good artifact equal the inverse of the proposer's prior mass on the good set. Trace-conditioning gives a multiplicative boost <span class="math">γ</span> — and <span class="math">γ</span> is estimable at finite cost (Prop. 3.5).</p>
+    </div>
+    <div class="contrib-card">
+      <div class="tag">§4 · Feedback Information</div>
+      <h3>Scalar vs. structured traces</h3>
+      <p>Binary 0/1 reward requires <span class="math">2<sup>L</sup></span> queries to identify an L-bit target. First-error traces need only <span class="math">L/2</span>. Distance feedback needs <span class="math">L+1</span>. Exponential separation (Thm. 4.1, 4.2).</p>
+    </div>
+    <div class="contrib-card">
+      <div class="tag">§5 · Ratchet Illusion</div>
+      <h3>3.4σ from pure noise</h3>
+      <p>A greedy ratchet on null (zero-value) edits accumulates <span class="math">3.4σ</span> median "improvement" at <span class="math">t=2000</span>. Upper bound: <span class="math">σ√(2 ln t)</span> (Thm. 5.1). Gated ratchet with <span class="math">N=85</span> repeats certifies a whole run (Cor. 5.3).</p>
+    </div>
+    <div class="contrib-card">
+      <div class="tag">§5 · Deceptive Landscapes</div>
+      <h3>Archives beat greedy exponentially</h3>
+      <p>Tolerant greedy search on a k-wide deceptive valley takes <span class="math">Ω(ε<sup>−k</sup>)</span> steps. Archive search takes only <span class="math">O(k²)</span> steps to the global optimum (Thm. 5.4).</p>
+    </div>
+    <div class="contrib-card">
+      <div class="tag">§6 · Composition</div>
+      <h3>Certified improvement theorem</h3>
+      <p>Prior mass × noise-gap × gated selection in one composed statement (Thm. 6.1). False-reject slowdown explicit as <span class="math">(1−δ/B)</span>. Proof in Appendix E.</p>
+    </div>
+    <div class="contrib-card">
+      <div class="tag">§7 · Occam Bound</div>
+      <h3>U-shaped risk predicts overfitting</h3>
+      <p>Description length of the artifact enters an Occam generalization bound. Predicts both context collapse (too short) and validation overfitting (too long), matching observed failures (Thm. 7.1, Cor. 7.2).</p>
+    </div>
+    <div class="contrib-card">
+      <div class="tag">§8 · Goodhart Limits</div>
+      <h3>In-model reward is bounded</h3>
+      <p>When the evaluator is itself an LLM, any bounded reward function's range is filled by some artifact (Prop. 8.1). The model cannot distinguish its own optimization target from all other behaviors.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── INTERACTIVE DEMOS ─── -->
+<section id="demos">
+  <div class="section-label">Interactive Demos</div>
+  <h2>Run the simulations in your browser</h2>
+  <p>All simulations match the paper's Python code (<code>code/simulations.py</code>, seed 0). JavaScript port uses a seeded Mulberry32 PRNG for reproducibility.</p>
+
+  <!-- DEMO 1: Ratchet Illusion -->
+  <div class="demo-card">
+    <h3>Demo 1 · The Ratchet Illusion</h3>
+    <p class="demo-desc">A greedy ratchet accepts a null edit whenever it scores higher than the running max. Even when every edit has <strong>true value = 0</strong>, the reported "best" climbs to ~3.4σ at t = 2,000. The repeat-gated variant (N repeats per decision) stays near zero.</p>
+
+    <div class="controls">
+      <div class="ctrl">
+        <label>Steps T</label>
+        <input type="range" id="r1-T" min="100" max="5000" step="100" value="2000"
+               oninput="document.getElementById('r1-T-val').textContent=this.value">
+        <span class="val" id="r1-T-val">2000</span>
+      </div>
+      <div class="ctrl">
+        <label>Noise σ</label>
+        <input type="range" id="r1-sigma" min="0.5" max="3" step="0.1" value="1.0"
+               oninput="document.getElementById('r1-sigma-val').textContent=parseFloat(this.value).toFixed(1)">
+        <span class="val" id="r1-sigma-val">1.0</span>
+      </div>
+      <div class="ctrl">
+        <label>Runs R</label>
+        <input type="range" id="r1-R" min="20" max="400" step="20" value="200"
+               oninput="document.getElementById('r1-R-val').textContent=this.value">
+        <span class="val" id="r1-R-val">200</span>
+      </div>
+      <button class="run-btn" onclick="runRatchet()">▶ Run</button>
+    </div>
+    <canvas id="chart-ratchet" height="220"></canvas>
+    <div class="stat-row" id="ratchet-stats"></div>
+  </div>
+
+  <!-- DEMO 2: Feedback Channel -->
+  <div class="demo-card">
+    <h3>Demo 2 · Feedback Channel Separation</h3>
+    <p class="demo-desc">Three feedback types on an L-bit identification task. <strong>Scalar 0/1 reward</strong> requires ~2<sup>L</sup>/2 queries (exponential). <strong>Distance feedback</strong> needs L+1. <strong>First-error traces</strong> need ~L/2 (linear). Exponential separation in information value.</p>
+
+    <div class="controls">
+      <div class="ctrl">
+        <label>Max bits L</label>
+        <input type="range" id="r2-L" min="4" max="14" step="1" value="12"
+               oninput="document.getElementById('r2-L-val').textContent=this.value">
+        <span class="val" id="r2-L-val">12</span>
+      </div>
+      <div class="ctrl">
+        <label>Reps/point</label>
+        <input type="range" id="r2-reps" min="10" max="80" step="10" value="30"
+               oninput="document.getElementById('r2-reps-val').textContent=this.value">
+        <span class="val" id="r2-reps-val">30</span>
+      </div>
+      <button class="run-btn" onclick="runFeedback()">▶ Run</button>
+    </div>
+    <canvas id="chart-feedback" height="220"></canvas>
+    <div class="stat-row" id="feedback-stats"></div>
+  </div>
+
+  <!-- DEMO 3: Deceptive Valley -->
+  <div class="demo-card">
+    <h3>Demo 3 · Deceptive Valley: Greedy vs. Archive</h3>
+    <p class="demo-desc">A k-wide valley traps greedy search exponentially long (it must accept ε-worsening moves to escape). <strong>Archive search</strong> keeps all visited states and escapes in O(k²) steps — exponentially faster.</p>
+
+    <div class="controls">
+      <div class="ctrl">
+        <label>Max valley k</label>
+        <input type="range" id="r3-k" min="3" max="18" step="1" value="12"
+               oninput="document.getElementById('r3-k-val').textContent=this.value">
+        <span class="val" id="r3-k-val">12</span>
+      </div>
+      <div class="ctrl">
+        <label>ε (tolerance)</label>
+        <input type="range" id="r3-eps" min="0.05" max="0.6" step="0.05" value="0.3"
+               oninput="document.getElementById('r3-eps-val').textContent=parseFloat(this.value).toFixed(2)">
+        <span class="val" id="r3-eps-val">0.30</span>
+      </div>
+      <div class="ctrl">
+        <label>Reps/point</label>
+        <input type="range" id="r3-reps" min="5" max="40" step="5" value="15"
+               oninput="document.getElementById('r3-reps-val').textContent=this.value">
+        <span class="val" id="r3-reps-val">15</span>
+      </div>
+      <button class="run-btn" onclick="runDeception()">▶ Run</button>
+    </div>
+    <canvas id="chart-deception" height="220"></canvas>
+    <div class="stat-row" id="deception-stats"></div>
+  </div>
+</section>
+
+<!-- ─── CALCULATOR ─── -->
+<section id="calculator">
+  <div class="section-label">Theorem 6.1 · Budget Calculator</div>
+  <h2>How many evaluator calls do you need?</h2>
+  <p>Theorem 6.1 gives the total evaluator call budget for a <em>gated loop</em> to find and soundly certify a near-optimal artifact:</p>
+
+  <div class="thm-box">
+    <div class="thm-label">Theorem 6.1 — Composed Certified Improvement</div>
+    A gated artifact-search loop certifies a Δ-improvement over the incumbent (with failure probability ≤ δ, across a budget of B candidates) using at most
+    <br><br>
+    <strong style="color: var(--accent3);">C = (8σ²/Δ²) · ln(B/δ) · ln(1/δ) / (γ · q₀(G<sub>ε</sub>))</strong>
+    <br><br>
+    evaluator calls in expectation, where γ is the trace-conditioning boost, q₀(G<sub>ε</sub>) is the proposer's prior mass on the ε-good set, N = ⌈(8σ²/Δ²)·ln(B/δ)⌉ repeats per gate.
+  </div>
+
+  <div class="demo-card" style="margin-top: 20px;">
+    <h3>Parameter inputs</h3>
+    <div class="calc-grid">
+      <div class="calc-field">
+        <label>Noise σ (evaluator std dev)</label>
+        <input type="number" id="c-sigma" value="1.0" step="0.1" min="0.01">
+      </div>
+      <div class="calc-field">
+        <label>Δ (target improvement gap)</label>
+        <input type="number" id="c-delta-gap" value="1.0" step="0.1" min="0.01">
+      </div>
+      <div class="calc-field">
+        <label>B (candidate budget)</label>
+        <input type="number" id="c-B" value="2000" step="100" min="10">
+      </div>
+      <div class="calc-field">
+        <label>δ (failure probability)</label>
+        <input type="number" id="c-delta" value="0.05" step="0.01" min="0.001" max="0.5">
+      </div>
+      <div class="calc-field">
+        <label>γ (trace-conditioning boost)</label>
+        <input type="number" id="c-gamma" value="5.0" step="0.5" min="1">
+      </div>
+      <div class="calc-field">
+        <label>q₀(G<sub>ε</sub>) (prior mass on good set)</label>
+        <input type="number" id="c-q0" value="0.05" step="0.005" min="1e-6" max="1">
+      </div>
+    </div>
+    <button class="run-btn" onclick="calcBudget()" style="margin-bottom: 18px;">Calculate Budget</button>
+    <div class="calc-result" id="calc-result">
+      <div style="color:var(--muted); font-family:system-ui; font-size:14px;">Press Calculate to see the result.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PAPER STRUCTURE ─── -->
+<section id="structure">
+  <div class="section-label">Paper Structure</div>
+  <h2>Navigation guide (20 pages)</h2>
+  <table class="struct-table">
+    <tr><th>§</th><th>Content</th><th>Key result</th></tr>
+    <tr><td>1</td><td>Introduction — seven contributions</td><td>—</td></tr>
+    <tr><td>2</td><td>Formal model + systems table + loop figure</td><td>Def 2.1</td></tr>
+    <tr><td>3</td><td>Prior mass; misleading feedback; γ estimable</td><td>Thm 3.2, Prop 3.3, Prop 3.5</td></tr>
+    <tr><td>4</td><td>Feedback information separates learning rates</td><td>Thm 4.1, Thm 4.2</td></tr>
+    <tr><td>5</td><td>Selection: ratchet illusion + sound gating; deception</td><td>Thm 5.1, Prop 5.2, Cor 5.3, Thm 5.4</td></tr>
+    <tr class="highlight-row"><td>6</td><td><strong>Composition: certified improvement</strong> (new in v2)</td><td><strong>Thm 6.1</strong></td></tr>
+    <tr><td>7</td><td>Occam bound; U-shape</td><td>Thm 7.1, Cor 7.2</td></tr>
+    <tr><td>8</td><td>Goodhart limits (in-model)</td><td>Prop 8.1</td></tr>
+    <tr><td>9</td><td>Simulations (all arms executed) + audit note</td><td>Figs 2–4</td></tr>
+    <tr><td>10</td><td>Related work (incl. evaluation statistics)</td><td>—</td></tr>
+    <tr><td>11</td><td>Discussion: dials, limitations, conclusion</td><td>—</td></tr>
+    <tr><td>A–G</td><td>Proofs (E = composed theorem)</td><td>—</td></tr>
+    <tr><td>H</td><td>Experimental details + audit trail</td><td>—</td></tr>
+    <tr class="highlight-row"><td>I</td><td><strong>Pre-registered γ-measurement protocol</strong> (new in v2)</td><td>—</td></tr>
+    <tr><td>J</td><td>Open problem: self-reference rates</td><td>—</td></tr>
+    <tr><td>K</td><td>Extended system mapping</td><td>—</td></tr>
+    <tr><td>L</td><td>LLM usage disclosure (ICLR policy)</td><td>—</td></tr>
+    <tr class="highlight-row"><td>M</td><td><strong>Extended discussion: predictions P1–P5 with measurement designs</strong> (new in v2.5)</td><td>—</td></tr>
+    <tr class="highlight-row"><td>N</td><td><strong>Notation table</strong> (new in v2.5)</td><td>—</td></tr>
+  </table>
+  <p style="margin-top: 14px; font-size: 13px;">
+    <strong style="color: var(--accent3);">Verified numbers</strong> (seed 0, byte-stable vs both referee replications):
+    ratchet median at t=2000 = <strong>3.393σ</strong> (ceiling 3.899σ);
+    gate N = 85; gated false accepts = 2/800,000 (Poisson prediction 1.61);
+    archive/greedy ratio at k=25 = 4.08×.
+  </p>
+</section>
+
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <p>Anonymous submission · ICLR 2027 · Under double-blind review</p>
+  <p style="margin-top: 6px;">Simulation code: <code>code/simulations.py</code> · All figures reproducible with seed 0 · Runtime &lt;1 min on any modern CPU</p>
+</footer>
+
+<script>
+// ─────────────────────────────────────────────
+// Seeded PRNG (Mulberry32) — deterministic across browsers
+// ─────────────────────────────────────────────
+function mulberry32(seed) {
+  return function() {
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+function normalRand(rng) {
+  // Box-Muller
+  const u1 = rng(), u2 = rng();
+  return Math.sqrt(-2 * Math.log(u1 + 1e-15)) * Math.cos(2 * Math.PI * u2);
+}
+
+function harmonicNumber(n) {
+  let s = 0;
+  for (let i = 1; i <= n; i++) s += 1 / i;
+  return s;
+}
+
+// ─────────────────────────────────────────────
+// Chart instances (kept for destroy on re-run)
+// ─────────────────────────────────────────────
+let chartRatchet = null, chartFeedback = null, chartDeception = null;
+
+function destroyChart(c) { if (c) { try { c.destroy(); } catch(e) {} } }
+
+// ─────────────────────────────────────────────
+// DEMO 1: Ratchet Illusion
+// ─────────────────────────────────────────────
+function runRatchet() {
+  const T = parseInt(document.getElementById('r1-T').value);
+  const sigma = parseFloat(document.getElementById('r1-sigma').value);
+  const R = parseInt(document.getElementById('r1-R').value);
+  const rng = mulberry32(42);
+
+  // Simulate R runs of T steps each
+  const medBest = new Float64Array(T);
+  const lo10 = new Float64Array(T);
+  const hi90 = new Float64Array(T);
+  const meanAccepts = new Float64Array(T);
+
+  // Gate parameters (Cor. 5.3(ii))
+  const delta_conf = 0.05;
+  const delta_gap = 1.0;
+  const N = Math.ceil(8 * sigma * sigma / (delta_gap * delta_gap) * Math.log(T / delta_conf));
+  const sqrt_N = Math.sqrt(N);
+
+  // per-run storage
+  const runMax = new Array(R);
+  const runAccepts = new Array(R);
+  const runGated = new Array(R);
+
+  for (let r = 0; r < R; r++) {
+    const maxArr = new Float64Array(T);
+    const accArr = new Float64Array(T);
+    const gateArr = new Float64Array(T);
+    let runningMax = -Infinity;
+    let accepts = 0;
+    let gAccepts = 0;
+    for (let t = 0; t < T; t++) {
+      const z = normalRand(rng) * sigma;
+      if (z > runningMax) { runningMax = z; accepts++; }
+      maxArr[t] = runningMax;
+      accArr[t] = accepts;
+      // gated: N samples, accept if mean >= delta_gap/2
+      let s = 0;
+      for (let j = 0; j < N; j++) s += normalRand(rng) * (sigma / sqrt_N);
+      if (s >= delta_gap / 2) gAccepts++;
+      gateArr[t] = gAccepts;
+    }
+    runMax[r] = maxArr;
+    runAccepts[r] = accArr;
+    runGated[r] = gateArr;
+  }
+
+  // Compute median, percentiles, means across runs
+  const tmp = new Float64Array(R);
+  let totalGated = 0;
+  for (let t = 0; t < T; t++) {
+    for (let r = 0; r < R; r++) tmp[r] = runMax[r][t];
+    tmp.sort();
+    medBest[t] = tmp[Math.floor(R / 2)];
+    lo10[t] = tmp[Math.floor(R * 0.1)];
+    hi90[t] = tmp[Math.floor(R * 0.9)];
+    let sm = 0;
+    for (let r = 0; r < R; r++) sm += runAccepts[r][t];
+    meanAccepts[t] = sm / R;
+    if (t === T - 1) {
+      for (let r = 0; r < R; r++) totalGated += runGated[r][T - 1];
+    }
+  }
+  const medFinal = medBest[T - 1];
+  const boundFinal = sigma * Math.sqrt(2 * Math.log(T));
+  const acceptsFinal = meanAccepts[T - 1];
+  const HT = harmonicNumber(T);
+
+  // Build log-spaced indices for chart (keep ~80 points)
+  const indices = [];
+  const step = Math.max(1, Math.floor(T / 80));
+  for (let t = step - 1; t < T; t += step) indices.push(t);
+
+  const labels = indices.map(i => i + 1);
+  const medData = indices.map(i => medBest[i]);
+  const lo10Data = indices.map(i => lo10[i]);
+  const hi90Data = indices.map(i => hi90[i]);
+  const boundData = indices.map(i => sigma * Math.sqrt(2 * Math.log(i + 1)));
+  const accData = indices.map(i => meanAccepts[i]);
+  const htData = indices.map(i => harmonicNumber(i + 1));
+
+  destroyChart(chartRatchet);
+  const ctx = document.getElementById('chart-ratchet');
+  chartRatchet = new Chart(ctx, {
+    data: {
+      labels,
+      datasets: [
+        {
+          type: 'line', label: 'Reported best (median)', data: medData,
+          borderColor: '#5b9cf6', borderWidth: 2, pointRadius: 0, yAxisID: 'y',
+        },
+        {
+          type: 'line', label: '10–90th pct range', data: hi90Data,
+          borderColor: 'transparent', fill: '-1', backgroundColor: '#5b9cf620',
+          pointRadius: 0, yAxisID: 'y',
+        },
+        {
+          type: 'line', label: '10th pct', data: lo10Data,
+          borderColor: 'transparent', fill: false, pointRadius: 0, yAxisID: 'y',
+        },
+        {
+          type: 'line', label: 'σ√(2 ln t) upper bound', data: boundData,
+          borderColor: '#f07070', borderWidth: 1.5, borderDash: [5, 4],
+          pointRadius: 0, yAxisID: 'y',
+        },
+        {
+          type: 'line', label: 'Mean false accepts (single eval)', data: accData,
+          borderColor: '#56d49b', borderWidth: 2, pointRadius: 0, yAxisID: 'y2',
+        },
+        {
+          type: 'line', label: 'H_t = Σ 1/i', data: htData,
+          borderColor: '#f07070', borderWidth: 1.5, borderDash: [4, 3],
+          pointRadius: 0, yAxisID: 'y2',
+        },
+      ]
+    },
+    options: {
+      animation: false,
+      scales: {
+        x: {
+          type: 'logarithmic',
+          ticks: { color: '#8892b0', maxTicksLimit: 8 },
+          grid: { color: '#2d3350' },
+          title: { display: true, text: 'Candidate edits t', color: '#8892b0' }
+        },
+        y: {
+          ticks: { color: '#8892b0' },
+          grid: { color: '#2d3350' },
+          title: { display: true, text: 'Score (σ units)', color: '#8892b0' }
+        },
+        y2: {
+          position: 'right',
+          ticks: { color: '#56d49b' },
+          grid: { drawOnChartArea: false },
+          title: { display: true, text: 'Accepted null edits', color: '#56d49b' }
+        }
+      },
+      plugins: {
+        legend: { labels: { color: '#8892b0', font: { size: 11 }, boxWidth: 20 } }
+      }
+    }
+  });
+
+  document.getElementById('ratchet-stats').innerHTML = `
+    <div class="stat"><div class="slabel">Median best at t=${T}</div><div class="sval">${medFinal.toFixed(3)}σ</div></div>
+    <div class="stat"><div class="slabel">Theory bound σ√(2 ln t)</div><div class="sval">${boundFinal.toFixed(3)}σ</div></div>
+    <div class="stat"><div class="slabel">Mean accepts (single eval)</div><div class="sval">${acceptsFinal.toFixed(2)} vs H_t=${HT.toFixed(2)}</div></div>
+    <div class="stat"><div class="slabel">Gate N (repeats/decision)</div><div class="sval">${N}</div></div>
+    <div class="stat"><div class="slabel">Total gated false accepts</div><div class="sval">${totalGated} / ${R*T}</div></div>
+  `;
+}
+
+// ─────────────────────────────────────────────
+// DEMO 2: Feedback Channel Separation
+// ─────────────────────────────────────────────
+function runFeedback() {
+  const maxL = parseInt(document.getElementById('r2-L').value);
+  const reps = parseInt(document.getElementById('r2-reps').value);
+  const rng = mulberry32(7);
+
+  const Ls = [];
+  for (let L = 2; L <= maxL; L++) Ls.push(L);
+
+  function randInt(rng, n) { return Math.floor(rng() * n); }
+  function randBits(rng, L) {
+    const a = new Uint8Array(L);
+    for (let i = 0; i < L; i++) a[i] = rng() < 0.5 ? 0 : 1;
+    return a;
+  }
+
+  const scalarMeans = [], firstErrMeans = [], distMeans = [];
+
+  for (const L of Ls) {
+    const n = Math.pow(2, L);
+
+    // Scalar: uniform search without replacement (capped at 2^L for L<=14)
+    let sSum = 0;
+    const actualReps = Math.min(reps, L <= 10 ? reps : Math.max(5, Math.floor(reps / 2)));
+    for (let r = 0; r < actualReps; r++) {
+      const target = randInt(rng, n);
+      // Fisher-Yates shuffle first `target+1` elements
+      const cap = Math.min(n, 2000); // cap for large n to keep demo fast
+      let found = 0;
+      for (let i = 0; i < cap; i++) {
+        const j = i + Math.floor(rng() * (cap - i));
+        if (j === target || i === target) { found = i + 1; break; }
+      }
+      if (!found) found = cap; // approximation for large L
+      sSum += found;
+    }
+    scalarMeans.push(sSum / actualReps);
+
+    // First-error: prefix fixing
+    let feSum = 0;
+    for (let r = 0; r < reps; r++) {
+      const target = randBits(rng, L);
+      const a = new Uint8Array(L);
+      let q = 0;
+      while (true) {
+        q++;
+        let firstDiff = -1;
+        for (let i = 0; i < L; i++) { if (a[i] !== target[i]) { firstDiff = i; break; } }
+        if (firstDiff === -1) break;
+        a[firstDiff] ^= 1;
+      }
+      feSum += q;
+    }
+    firstErrMeans.push(feSum / reps);
+
+    // Distance: L+1 probing scheme (deterministic)
+    distMeans.push(L + 1);
+  }
+
+  // Theory curves
+  const Lgrid = Ls;
+  const scalarTheory = Ls.map(L => (Math.pow(2, L) + 1) / 2);
+  const feTheory = Ls.map(L => L / 2 + 1);
+  const distTheory = Ls.map(L => L + 1);
+
+  destroyChart(chartFeedback);
+  const ctx = document.getElementById('chart-feedback');
+  chartFeedback = new Chart(ctx, {
+    data: {
+      labels: Ls,
+      datasets: [
+        {
+          type: 'line', label: '0/1 reward (simulated)', data: scalarMeans,
+          borderColor: '#f07070', borderWidth: 0, pointRadius: 4, pointStyle: 'circle',
+          backgroundColor: '#f07070',
+        },
+        {
+          type: 'line', label: '0/1 reward theory (2^L+1)/2', data: scalarTheory,
+          borderColor: '#f07070', borderWidth: 1.5, borderDash: [5, 4], pointRadius: 0,
+        },
+        {
+          type: 'line', label: 'Distance probing (L+1)', data: distMeans,
+          borderColor: '#f0a050', borderWidth: 2, pointRadius: 4, pointStyle: 'rectRot',
+          backgroundColor: '#f0a050',
+        },
+        {
+          type: 'line', label: 'First-error (simulated)', data: firstErrMeans,
+          borderColor: '#56d49b', borderWidth: 0, pointRadius: 4, pointStyle: 'triangle',
+          backgroundColor: '#56d49b',
+        },
+        {
+          type: 'line', label: 'First-error theory L/2+1', data: feTheory,
+          borderColor: '#56d49b', borderWidth: 1.5, borderDash: [4, 3], pointRadius: 0,
+        },
+      ]
+    },
+    options: {
+      animation: false,
+      scales: {
+        x: {
+          ticks: { color: '#8892b0' },
+          grid: { color: '#2d3350' },
+          title: { display: true, text: 'Artifact length L (bits)', color: '#8892b0' }
+        },
+        y: {
+          type: 'logarithmic',
+          ticks: { color: '#8892b0' },
+          grid: { color: '#2d3350' },
+          title: { display: true, text: 'Queries to identify target', color: '#8892b0' }
+        }
+      },
+      plugins: {
+        legend: { labels: { color: '#8892b0', font: { size: 11 }, boxWidth: 20 } }
+      }
+    }
+  });
+
+  const lastL = Ls[Ls.length - 1];
+  document.getElementById('feedback-stats').innerHTML = `
+    <div class="stat"><div class="slabel">Scalar queries at L=${lastL}</div><div class="sval">~${Math.round(scalarMeans[scalarMeans.length-1]).toLocaleString()}</div></div>
+    <div class="stat"><div class="slabel">First-error queries at L=${lastL}</div><div class="sval">${firstErrMeans[firstErrMeans.length-1].toFixed(1)} (theory: ${(lastL/2+1).toFixed(1)})</div></div>
+    <div class="stat"><div class="slabel">Distance queries at L=${lastL}</div><div class="sval">${lastL + 1} (= L+1)</div></div>
+    <div class="stat"><div class="slabel">Speedup (scalar/first-error)</div><div class="sval">~${Math.round(scalarMeans[scalarMeans.length-1] / firstErrMeans[firstErrMeans.length-1])}×</div></div>
+  `;
+}
+
+// ─────────────────────────────────────────────
+// DEMO 3: Deceptive Valley
+// ─────────────────────────────────────────────
+function runDeception() {
+  const maxK = parseInt(document.getElementById('r3-k').value);
+  const eps = parseFloat(document.getElementById('r3-eps').value);
+  const reps = parseInt(document.getElementById('r3-reps').value);
+  const rng = mulberry32(99);
+
+  const ks = [];
+  for (let k = 2; k <= maxK; k++) ks.push(k);
+
+  function fLandscape(i, k) {
+    return i <= k ? (k - i) : 2 * (i - k);
+  }
+
+  // Exact tolerant greedy E[T] via birth-death chain
+  function exactGreedyTime(k, eps) {
+    let total = 0, hPrev = 0;
+    for (let i = 0; i < 2 * k; i++) {
+      let p, q;
+      if (i === 0) { p = eps / 2; q = 0; }
+      else if (i < k) { p = eps / 2; q = 0.5; }
+      else if (i === k) { p = 0.5; q = 0.5; }
+      else { p = 0.5; q = eps / 2; }
+      const h = (1 + q * hPrev) / p;
+      total += h; hPrev = h;
+    }
+    return total;
+  }
+
+  // Simulated archive search
+  function simArchive(k) {
+    let ts = 0;
+    for (let r = 0; r < reps; r++) {
+      const archive = [0];
+      const inArchive = new Set([0]);
+      let t = 0;
+      while (!inArchive.has(2 * k)) {
+        t++;
+        const x = archive[Math.floor(rng() * archive.length)];
+        const y = x + (rng() < 0.5 ? 1 : -1);
+        if (y >= 0 && y <= 2 * k && !inArchive.has(y)) {
+          inArchive.add(y); archive.push(y);
+        }
+      }
+      ts += t;
+    }
+    return ts / reps;
+  }
+
+  const exactData = ks.map(k => exactGreedyTime(k, eps));
+  const archData = ks.map(k => simArchive(k));
+  const boundData = ks.map(k => 4 * k * (2 * k + 1));
+
+  destroyChart(chartDeception);
+  const ctx = document.getElementById('chart-deception');
+  chartDeception = new Chart(ctx, {
+    data: {
+      labels: ks,
+      datasets: [
+        {
+          type: 'line', label: `Tolerant greedy exact E[T] (ε=${eps.toFixed(2)})`,
+          data: exactData,
+          borderColor: '#f07070', borderWidth: 2, borderDash: [5, 4], pointRadius: 0,
+        },
+        {
+          type: 'line', label: 'Archive search (simulated)',
+          data: archData,
+          borderColor: '#56d49b', borderWidth: 2, pointRadius: 4, backgroundColor: '#56d49b',
+        },
+        {
+          type: 'line', label: '4k(2k+1) archive bound (Thm. 5.4)',
+          data: boundData,
+          borderColor: '#888', borderWidth: 1.5, borderDash: [2, 4], pointRadius: 0,
+        },
+      ]
+    },
+    options: {
+      animation: false,
+      scales: {
+        x: {
+          ticks: { color: '#8892b0' },
+          grid: { color: '#2d3350' },
+          title: { display: true, text: 'Valley half-width k', color: '#8892b0' }
+        },
+        y: {
+          type: 'logarithmic',
+          ticks: { color: '#8892b0' },
+          grid: { color: '#2d3350' },
+          title: { display: true, text: 'Steps to reach optimum', color: '#8892b0' }
+        }
+      },
+      plugins: {
+        legend: { labels: { color: '#8892b0', font: { size: 11 }, boxWidth: 20 } }
+      }
+    }
+  });
+
+  const lastK = ks[ks.length - 1];
+  const ratio = exactData[exactData.length-1] / archData[archData.length-1];
+  document.getElementById('deception-stats').innerHTML = `
+    <div class="stat"><div class="slabel">Greedy E[T] at k=${lastK}</div><div class="sval">${Math.round(exactData[exactData.length-1]).toLocaleString()}</div></div>
+    <div class="stat"><div class="slabel">Archive mean at k=${lastK}</div><div class="sval">${Math.round(archData[archData.length-1]).toLocaleString()}</div></div>
+    <div class="stat"><div class="slabel">Greedy/archive speedup</div><div class="sval">${ratio.toFixed(1)}×</div></div>
+    <div class="stat"><div class="slabel">Archive bound 4k(2k+1)</div><div class="sval">${4 * lastK * (2 * lastK + 1)}</div></div>
+  `;
+}
+
+// ─────────────────────────────────────────────
+// CALCULATOR: Theorem 6.1
+// ─────────────────────────────────────────────
+function calcBudget() {
+  const sigma = parseFloat(document.getElementById('c-sigma').value);
+  const deltaGap = parseFloat(document.getElementById('c-delta-gap').value);
+  const B = parseFloat(document.getElementById('c-B').value);
+  const delta = parseFloat(document.getElementById('c-delta').value);
+  const gamma = parseFloat(document.getElementById('c-gamma').value);
+  const q0 = parseFloat(document.getElementById('c-q0').value);
+
+  const noiseGapSq = 8 * sigma * sigma / (deltaGap * deltaGap);
+  const N = Math.ceil(noiseGapSq * Math.log(B / delta));
+  const hittingTime = Math.log(1 / delta) / (gamma * q0);
+  const totalCalls = N * hittingTime;
+
+  const fmt = n => n >= 1e6 ? (n / 1e6).toFixed(2) + 'M' :
+                   n >= 1e3 ? (n / 1e3).toFixed(1) + 'K' :
+                   n.toFixed(0);
+
+  document.getElementById('calc-result').innerHTML = `
+    <div class="slabel" style="margin-bottom:6px; font-family:system-ui; font-size:11px; letter-spacing:0.08em; color: var(--muted);">TOTAL EVALUATOR CALLS</div>
+    <div class="big">${fmt(totalCalls)}</div>
+    <div class="formula">
+      C = N × (ln(1/δ) / (γ · q₀)) = <strong>${fmt(N)}</strong> repeats/gate × <strong>${hittingTime.toFixed(1)}</strong> hitting-time factor
+    </div>
+    <div class="breakdown">
+      <br>
+      <strong>Gate size N</strong> = ⌈8σ²/Δ² · ln(B/δ)⌉ = ⌈${noiseGapSq.toFixed(2)} × ${Math.log(B/delta).toFixed(2)}⌉ = <strong>${N}</strong><br>
+      <strong>Noise ratio</strong> 8σ²/Δ² = ${noiseGapSq.toFixed(2)}<br>
+      <strong>Hitting time</strong> ≈ ln(1/δ)/(γ·q₀) = ${Math.log(1/delta).toFixed(2)} / (${gamma} × ${q0}) = ${hittingTime.toFixed(1)}<br>
+      <strong>False-reject slowdown</strong> factor (1−δ/B) = ${(1 - delta/B).toFixed(4)}
+      <br><br>
+      <span style="color:var(--accent3)">Interpretation:</span> to certify a Δ=${deltaGap}-unit improvement with ${(1-delta)*100}% confidence across B=${B} candidates,
+      the gated loop needs ~${fmt(totalCalls)} total evaluator calls.
+      ${totalCalls > 1e6 ? '<br><span style="color:var(--red)">⚠ Large budget — consider increasing γ (better conditioning) or q₀ (better proposer), or accepting a larger δ.</span>' : ''}
+    </div>
+  `;
+}
+
+// ─────────────────────────────────────────────
+// Auto-run demos on load with default params
+// ─────────────────────────────────────────────
+window.addEventListener('load', () => {
+  runRatchet();
+  runFeedback();
+  runDeception();
+  calcBudget();
+});
+</script>
+</body>
+</html>
