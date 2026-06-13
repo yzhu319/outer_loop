@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harness Taxonomy · Section C Idea 1</title>
+<style>
+  :root {
+    --bg: #FAF9F5; --bg2: #F0EEE6; --bg3: #fff;
+    --border: #D1CFC5; --border-strong: #B0AEA4;
+    --text: #141413; --muted: #87867F; --muted2: #5a5a55;
+    --clay: #D97757; --olive: #788C5D; --sky: #6A8CAF;
+    --amber: #C4892A; --red: #B04A3F; --purple: #7B68B0;
+    --radius: 13px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif;
+    font-size: 15px; line-height: 1.65; }
+  a { color: var(--sky); }
+
+  /* ── Layout ── */
+  .page { max-width: 1060px; margin: 0 auto; padding: 40px 28px 80px; }
+
+  /* ── Header ── */
+  .eyebrow { font-family: monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 8px; }
+  h1 { font-family: ui-serif, Georgia, serif; font-size: 28px; font-weight: normal;
+    color: var(--text); line-height: 1.3; margin-bottom: 10px; }
+  .lead { font-size: 15px; color: var(--muted2); max-width: 680px; margin-bottom: 10px; }
+  .tag { display: inline-block; font-size: 11px; font-family: monospace; padding: 3px 10px;
+    border-radius: 99px; border: 1.5px solid; margin-right: 6px; margin-bottom: 14px; }
+  .tag-hot  { color: var(--red); border-color: var(--red); background: #B04A3F11; }
+  .tag-sys  { color: var(--sky); border-color: var(--sky); background: #6A8CAF11; }
+  .tag-emp  { color: var(--olive); border-color: var(--olive); background: #788C5D11; }
+
+  hr { border: none; border-top: 1.5px solid var(--border); margin: 32px 0; }
+
+  /* ── Section headings ── */
+  h2 { font-family: ui-serif, Georgia, serif; font-size: 19px; font-weight: normal;
+    color: var(--text); margin: 36px 0 12px; padding-bottom: 6px; border-bottom: 1.5px solid var(--border); }
+  h3 { font-size: 14px; font-weight: 600; color: var(--text); margin: 20px 0 7px; }
+  p { color: var(--muted2); margin-bottom: 10px; }
+  p strong { color: var(--text); }
+
+  /* ── Dimension cards ── */
+  .dim-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; margin: 16px 0; }
+  .dim-card {
+    background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius);
+    border-top: 4px solid; padding: 16px 18px;
+  }
+  .dim-card.mem   { border-top-color: var(--sky); }
+  .dim-card.obs   { border-top-color: var(--olive); }
+  .dim-card.act   { border-top-color: var(--clay); }
+  .dim-card.retry { border-top-color: var(--amber); }
+  .dim-card.ctx   { border-top-color: var(--purple); }
+  .dim-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .dim-card.mem   .dim-title { color: var(--sky); }
+  .dim-card.obs   .dim-title { color: var(--olive); }
+  .dim-card.act   .dim-title { color: var(--clay); }
+  .dim-card.retry .dim-title { color: var(--amber); }
+  .dim-card.ctx   .dim-title { color: var(--purple); }
+  .dim-options { font-family: monospace; font-size: 12px; color: var(--muted2); margin-bottom: 8px; line-height: 1.7; }
+  .dim-meta { font-size: 12px; color: var(--muted); }
+  .dim-meta strong { color: var(--text); }
+
+  /* ── Scorability table ── */
+  .score-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+  .score-table th { font-family: monospace; font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase;
+    color: var(--muted); text-align: left; padding: 8px 12px; border-bottom: 1.5px solid var(--border); }
+  .score-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .score-table tr:last-child td { border-bottom: none; }
+  .score-table td:first-child { font-weight: 600; color: var(--text); white-space: nowrap; }
+  .score-table tr:hover td { background: var(--bg2); }
+
+  /* ── Score bar ── */
+  .bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .bar { height: 8px; border-radius: 4px; min-width: 4px; }
+  .bar-high   { background: var(--olive); }
+  .bar-mid    { background: var(--amber); }
+  .bar-low    { background: var(--muted); }
+  .bar-label  { font-size: 11px; font-family: monospace; color: var(--muted2); }
+
+  /* ── Protocol box ── */
+  .protocol { background: var(--bg2); border: 1.5px solid var(--border); border-radius: var(--radius);
+    padding: 20px 22px; margin: 16px 0; }
+  .protocol h3 { margin-top: 0; }
+
+  /* ── Key question callout ── */
+  .kq { background: #D9775711; border-left: 4px solid var(--clay);
+    border-radius: 0 var(--radius) var(--radius) 0; padding: 14px 18px; margin: 16px 0; }
+  .kq .kq-label { font-family: monospace; font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--clay); margin-bottom: 5px; }
+  .kq p { color: var(--text); font-size: 14px; margin: 0; }
+
+  /* ── Landscape diagrams ── */
+  .landscape-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+  @media (max-width: 680px) { .landscape-row { grid-template-columns: 1fr; } }
+  .landscape-card { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
+  .landscape-card h3 { font-size: 13px; margin-bottom: 10px; }
+
+  /* ── Hypothesis list ── */
+  .hyp-list { list-style: none; padding: 0; margin: 10px 0; }
+  .hyp-list li { padding: 8px 0 8px 22px; border-bottom: 1px solid var(--border); position: relative;
+    font-size: 13px; color: var(--muted2); }
+  .hyp-list li:last-child { border-bottom: none; }
+  .hyp-list li::before { content: "H" attr(data-n); font-family: monospace; font-size: 10px;
+    position: absolute; left: 0; top: 10px; color: var(--clay); font-weight: 700; }
+  .hyp-list li strong { color: var(--text); }
+
+  /* ── Footer ── */
+  .footer { margin-top: 60px; padding-top: 18px; border-top: 1.5px solid var(--border);
+    font-size: 12px; color: var(--muted); font-family: monospace; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="eyebrow">Section C · Idea 1 &nbsp;·&nbsp; Systems + Empirical &nbsp;·&nbsp; ICLR 2027 Outer Loop</div>
+  <h1>A Taxonomy of Harness Components<br>and Their Searchability</h1>
+  <p class="lead">Map every dimension a CUA harness can vary, measure γ and q₀ for each, characterize the landscape topology, and produce a practitioner-facing "searchability score" per component.</p>
+  <span class="tag tag-hot">🔥 Hot</span>
+  <span class="tag tag-sys">Systems</span>
+  <span class="tag tag-emp">Empirical</span>
+
+  <hr>
+
+  <!-- Motivation -->
+  <h2>Motivation &amp; Gap</h2>
+  <p>The outer-loop paper (§C) proves that frozen-weight improvement is possible when γ&gt;0 and q₀&gt;0. But it treats the artifact space 𝒜 as abstract. In the CUA / web-agent setting, the artifact <em>is the harness</em> — the scaffolding that wraps a frozen LLM backbone. No existing work has:</p>
+  <ol style="padding-left:22px; color:var(--muted2); font-size:14px; line-height:2;">
+    <li>Enumerated the full harness design space for web agents</li>
+    <li>Measured γ per component (how much do execution traces help a proposer improve that component?)</li>
+    <li>Characterized which components have deceptive landscapes (local optima that fail downstream)</li>
+    <li>Produced a ranked searchability score a practitioner can use to prioritize outer-loop budget</li>
+  </ol>
+  <p>Meta-Harness (Lee et al. 2026) runs the outer loop but uses a fixed proposer without measuring γ. ShopGym benchmarks harnesses but does not search them. This paper bridges both.</p>
+
+  <hr>
+
+  <!-- The Design Space -->
+  <h2>The Harness Design Space — Five Dimensions</h2>
+  <p>A harness is fully described by five orthogonal knobs. Each knob is a discrete or structured choice; the outer loop searches the product space.</p>
+
+  <div class="dim-grid">
+
+    <div class="dim-card mem">
+      <div class="dim-title">① Memory Policy</div>
+      <div class="dim-options">
+        sliding_window(k)<br>
+        hierarchical_summary<br>
+        episodic_retrieve_top_k<br>
+        external_kv_store<br>
+        no_memory
+      </div>
+      <div class="dim-meta">
+        <strong>Description length ℓ:</strong> low–mid (a choice tag + 1–3 params)<br>
+        <strong>Prior mass q₀:</strong> moderate (5 variants, well-known)<br>
+        <strong>Landscape:</strong> likely smooth; retrieval quality degrades gracefully<br>
+        <strong>γ hypothesis:</strong> moderate — traces show what context was missing
+      </div>
+    </div>
+
+    <div class="dim-card obs">
+      <div class="dim-title">② Observation Modality</div>
+      <div class="dim-options">
+        raw_html<br>
+        accessibility_tree<br>
+        screenshot_only<br>
+        diff_from_prev<br>
+        structured_extraction<br>
+        hybrid(ax_tree + screenshot)
+      </div>
+      <div class="dim-meta">
+        <strong>Description length ℓ:</strong> low (enum choice)<br>
+        <strong>Prior mass q₀:</strong> high (small vocabulary)<br>
+        <strong>Landscape:</strong> potentially deceptive — ax_tree beats screenshot locally but hybrid beats both globally<br>
+        <strong>γ hypothesis:</strong> high — traces directly reveal perception failures
+      </div>
+    </div>
+
+    <div class="dim-card act">
+      <div class="dim-title">③ Action Space</div>
+      <div class="dim-options">
+        low_level(click, type, scroll)<br>
+        high_level_api<br>
+        code_exec(playwright)<br>
+        hybrid_with_fallback<br>
+        natural_language_only
+      </div>
+      <div class="dim-meta">
+        <strong>Description length ℓ:</strong> mid (choice + optional whitelist)<br>
+        <strong>Prior mass q₀:</strong> moderate<br>
+        <strong>Landscape:</strong> task-dependent; code_exec dominates on form-heavy tasks, low-level dominates on CAPTCHA-adjacent<br>
+        <strong>γ hypothesis:</strong> high — action errors are clearly visible in traces
+      </div>
+    </div>
+
+    <div class="dim-card retry">
+      <div class="dim-title">④ Retry &amp; Error Recovery</div>
+      <div class="dim-options">
+        none<br>
+        immediate_retry(n)<br>
+        exponential_backoff<br>
+        reflective_retry (LLM re-plan)<br>
+        rollback_to_checkpoint<br>
+        hybrid_reflect_then_roll
+      </div>
+      <div class="dim-meta">
+        <strong>Description length ℓ:</strong> mid<br>
+        <strong>Prior mass q₀:</strong> moderate<br>
+        <strong>Landscape:</strong> likely deceptive — reflective_retry looks better locally (recovers from mistakes) but may over-commit to wrong plan globally<br>
+        <strong>γ hypothesis:</strong> very high — recovery traces are the richest signal
+      </div>
+    </div>
+
+    <div class="dim-card ctx">
+      <div class="dim-title">⑤ Context Management</div>
+      <div class="dim-options">
+        include_all<br>
+        recency_only(k)<br>
+        task_relevant_compression<br>
+        goal_anchored_summary<br>
+        structured_scratchpad
+      </div>
+      <div class="dim-meta">
+        <strong>Description length ℓ:</strong> mid<br>
+        <strong>Prior mass q₀:</strong> moderate<br>
+        <strong>Landscape:</strong> smooth for short tasks, becomes critical (and potentially deceptive) for multi-page e-commerce flows<br>
+        <strong>γ hypothesis:</strong> moderate — context failures are diffuse; traces may not pinpoint them clearly
+      </div>
+    </div>
+
+  </div>
+
+  <hr>
+
+  <!-- Searchability Score -->
+  <h2>Searchability Score — Definition and Predictions</h2>
+  <p>Define the <strong>searchability score</strong> S(d) for dimension d as a composite of three measurable quantities:</p>
+
+  <div class="protocol">
+    <h3>Formal definition</h3>
+    <p style="margin-bottom:10px;"><strong>S(d) = γ(d) × q₀(d) / ℓ(d)</strong></p>
+    <p>where:<br>
+    &nbsp;&nbsp;<strong>γ(d)</strong> — trace-conditioning improvement for proposals touching dimension d<br>
+    &nbsp;&nbsp;<strong>q₀(d)</strong> — baseline proposer success rate on dimension d (prior mass)<br>
+    &nbsp;&nbsp;<strong>ℓ(d)</strong> — median description length (tokens) of a proposal to dimension d</p>
+    <p>Higher S(d) → dimension d is cheapest to improve via the outer loop.<br>
+    Low S(d) but high γ(d) → worth expensive search. Low γ(d) → not searchable; engineer manually.</p>
+  </div>
+
+  <table class="score-table">
+    <thead>
+      <tr>
+        <th>Dimension</th>
+        <th>Predicted γ</th>
+        <th>Predicted q₀</th>
+        <th>ℓ (tokens)</th>
+        <th>Pred. S</th>
+        <th>Landscape</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Observation modality</td>
+        <td><div class="bar-wrap"><div class="bar bar-high" style="width:72px"></div><span class="bar-label">high</span></div></td>
+        <td><div class="bar-wrap"><div class="bar bar-high" style="width:68px"></div><span class="bar-label">high</span></div></td>
+        <td><span style="font-family:monospace">~15</span></td>
+        <td style="color:var(--olive); font-weight:700">★★★★</td>
+        <td>Deceptive (local: ax_tree)</td>
+      </tr>
+      <tr>
+        <td>Retry / error recovery</td>
+        <td><div class="bar-wrap"><div class="bar bar-high" style="width:80px"></div><span class="bar-label">very high</span></div></td>
+        <td><div class="bar-wrap"><div class="bar bar-mid" style="width:50px"></div><span class="bar-label">mid</span></div></td>
+        <td><span style="font-family:monospace">~25</span></td>
+        <td style="color:var(--olive); font-weight:700">★★★★</td>
+        <td>Deceptive (reflective over-commits)</td>
+      </tr>
+      <tr>
+        <td>Action space</td>
+        <td><div class="bar-wrap"><div class="bar bar-high" style="width:68px"></div><span class="bar-label">high</span></div></td>
+        <td><div class="bar-wrap"><div class="bar bar-mid" style="width:50px"></div><span class="bar-label">mid</span></div></td>
+        <td><span style="font-family:monospace">~30</span></td>
+        <td style="color:var(--amber); font-weight:700">★★★</td>
+        <td>Task-dependent</td>
+      </tr>
+      <tr>
+        <td>Memory policy</td>
+        <td><div class="bar-wrap"><div class="bar bar-mid" style="width:50px"></div><span class="bar-label">mid</span></div></td>
+        <td><div class="bar-wrap"><div class="bar bar-mid" style="width:55px"></div><span class="bar-label">mid</span></div></td>
+        <td><span style="font-family:monospace">~20</span></td>
+        <td style="color:var(--amber); font-weight:700">★★★</td>
+        <td>Smooth</td>
+      </tr>
+      <tr>
+        <td>Context management</td>
+        <td><div class="bar-wrap"><div class="bar bar-mid" style="width:42px"></div><span class="bar-label">mid</span></div></td>
+        <td><div class="bar-wrap"><div class="bar bar-mid" style="width:48px"></div><span class="bar-label">mid</span></div></td>
+        <td><span style="font-family:monospace">~35</span></td>
+        <td style="color:var(--muted); font-weight:700">★★</td>
+        <td>Smooth for short; critical for long</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="kq">
+    <div class="kq-label">Key Question</div>
+    <p>Do Observation and Retry dominate the searchability ranking empirically, as predicted? Is the joint search over all 5 dimensions strictly worse than sequential search ordered by S(d)?</p>
+  </div>
+
+  <hr>
+
+  <!-- Landscape topology -->
+  <h2>Landscape Topology — Deceptive vs. Smooth</h2>
+  <p>The outer-loop theory (§5) shows deceptive landscapes (local ≠ global optimum) require archives, not greedy search. For each harness dimension, we need to know which regime it falls into.</p>
+
+  <div class="landscape-row">
+    <div class="landscape-card">
+      <h3 style="color:var(--clay);">Deceptive landscape — Observation modality</h3>
+      <svg viewBox="0 0 260 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px;">
+        <defs>
+          <marker id="arr1" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#87867F"/>
+          </marker>
+        </defs>
+        <!-- axes -->
+        <line x1="20" y1="100" x2="250" y2="100" stroke="#D1CFC5" stroke-width="1.5" marker-end="url(#arr1)"/>
+        <line x1="20" y1="100" x2="20" y2="10" stroke="#D1CFC5" stroke-width="1.5" marker-end="url(#arr1)"/>
+        <!-- curve: local max then valley then global max -->
+        <path d="M25,85 Q60,30 95,45 Q120,58 140,75 Q175,95 200,35 Q215,18 240,22" fill="none" stroke="#6A8CAF" stroke-width="2"/>
+        <!-- labels -->
+        <text x="90" y="38" font-family="monospace" font-size="9" fill="#6A8CAF">ax_tree (local)</text>
+        <text x="195" y="28" font-family="monospace" font-size="9" fill="#788C5D">hybrid (global)</text>
+        <text x="130" y="85" font-family="monospace" font-size="8" fill="#B04A3F">valley</text>
+        <!-- greedy gets stuck marker -->
+        <circle cx="95" cy="45" r="4" fill="#B04A3F" opacity="0.8"/>
+        <circle cx="220" cy="30" r="4" fill="#788C5D" opacity="0.8"/>
+        <text x="22" y="112" font-family="monospace" font-size="9" fill="#87867F">observation → richer</text>
+        <text x="22" y="108" font-family="monospace" font-size="9" fill="transparent">score ↑</text>
+      </svg>
+      <p style="font-size:12px; margin-top:8px;">Greedy selector gets stuck at ax_tree; archive escapes to hybrid. Requires archive search.</p>
+    </div>
+
+    <div class="landscape-card">
+      <h3 style="color:var(--olive);">Smooth landscape — Memory policy</h3>
+      <svg viewBox="0 0 260 120" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px;">
+        <defs>
+          <marker id="arr2" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#87867F"/>
+          </marker>
+        </defs>
+        <line x1="20" y1="100" x2="250" y2="100" stroke="#D1CFC5" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <line x1="20" y1="100" x2="20" y2="10" stroke="#D1CFC5" stroke-width="1.5" marker-end="url(#arr2)"/>
+        <!-- smooth unimodal curve -->
+        <path d="M25,88 Q80,80 120,38 Q145,18 160,20 Q185,22 220,50 Q235,65 245,80" fill="none" stroke="#788C5D" stroke-width="2"/>
+        <circle cx="160" cy="20" r="4" fill="#788C5D" opacity="0.9"/>
+        <text x="140" y="15" font-family="monospace" font-size="9" fill="#788C5D">episodic_top_k</text>
+        <text x="22" y="112" font-family="monospace" font-size="9" fill="#87867F">memory capacity →</text>
+      </svg>
+      <p style="font-size:12px; margin-top:8px;">Greedy search works fine. Larger context helps monotonically up to a point; no hidden valleys. Archive adds no value here.</p>
+    </div>
+  </div>
+
+  <p>Empirical protocol: for each dimension, run greedy-ratchet vs. archive-ratchet. If archive wins significantly, the landscape is deceptive; record the valley width k (Defn 5.2 of main paper).</p>
+
+  <hr>
+
+  <!-- Formal hypotheses -->
+  <h2>Pre-Registered Hypotheses</h2>
+
+  <ul class="hyp-list">
+    <li data-n="1"><strong>Observation modality has the highest γ</strong> across all 5 dimensions, because execution traces directly encode perception failures (e.g., "element not found" after a click).</li>
+    <li data-n="2"><strong>Retry logic has a deceptive landscape</strong>: reflective_retry outperforms rollback locally (recovers from single-step errors) but rollback_to_checkpoint outperforms globally (avoids plan commitment errors on multi-step checkout flows).</li>
+    <li data-n="3"><strong>Memory policy has a smooth landscape</strong>: performance increases monotonically with retrieval quality up to the context window limit. No deception.</li>
+    <li data-n="4"><strong>Archive search outperforms greedy on deceptive dimensions</strong> (H2 above) but matches greedy on smooth ones (H3), consistent with Thm 5.4 of the outer-loop theory.</li>
+    <li data-n="5"><strong>Searchability scores are task-class-specific</strong>: on single-page tasks (product search), action space dominates; on multi-step tasks (cart → checkout → confirm), retry logic dominates.</li>
+    <li data-n="6"><strong>Joint search over all 5 dimensions is strictly worse</strong> than sequential search ordered by S(d) due to interference (optimizing observation while holding retry fixed finds a local joint optimum).</li>
+  </ul>
+
+  <hr>
+
+  <!-- Experimental design -->
+  <h2>Experimental Design</h2>
+
+  <div class="protocol">
+    <h3>Phase 1 — Individual dimension sweep (8 GPU-days)</h3>
+    <p><strong>Task set:</strong> 200 ShopGym episodes (stratified: 50 product search, 50 add-to-cart, 50 checkout, 50 cross-page navigation)</p>
+    <p><strong>Backbone:</strong> Claude 3.5 Sonnet, frozen throughout</p>
+    <p><strong>Procedure:</strong> For each dimension d ∈ {mem, obs, act, retry, ctx}:</p>
+    <ol style="padding-left:20px; color:var(--muted2); font-size:13px; line-height:1.9; margin:8px 0;">
+      <li>Hold all other dimensions fixed at their default value</li>
+      <li>Run 50 episodes at each option variant, collect traces</li>
+      <li>Measure task completion rate per variant → this is F(a_d)</li>
+      <li>Condition proposer on traces, re-propose within same dimension → measure γ(d)</li>
+      <li>Run greedy-ratchet and archive-ratchet for 10 outer-loop steps → compare final F</li>
+    </ol>
+    <p><strong>Output:</strong> γ(d), q₀(d), landscape topology, deception flag per dimension</p>
+  </div>
+
+  <div class="protocol">
+    <h3>Phase 2 — Sequential joint search (4 GPU-days)</h3>
+    <p>Sort dimensions by S(d) from Phase 1. Run sequential outer-loop search: fix dims 2–5, optimize dim 1 until convergence; then fix dims 1,3–5, optimize dim 2; etc. Compare against:</p>
+    <ol style="padding-left:20px; color:var(--muted2); font-size:13px; line-height:1.9; margin:8px 0;">
+      <li>Fully joint search (random order, all dims simultaneously)</li>
+      <li>Random ordering (permute dims)</li>
+      <li>Human-engineered best harness (ShopGym baseline)</li>
+    </ol>
+  </div>
+
+  <div class="kq">
+    <div class="kq-label">Key Output</div>
+    <p>A <strong>searchability score leaderboard</strong> — a ranked table any practitioner can use to decide which harness component to budget outer-loop compute on first. The first principled answer to "where should I run my outer loop?"</p>
+  </div>
+
+  <hr>
+
+  <!-- Connections -->
+  <h2>Connections to Other Work</h2>
+  <p><strong>Meta-Harness (Lee et al. 2026):</strong> introduces harness search; does not measure γ or topology. This paper is the theoretical grounding for Meta-Harness design choices.</p>
+  <p><strong>Outer-Loop theory (main paper, §C + Appendix I):</strong> provides the γ estimator and gated-ratchet budget formula used in both phases.</p>
+  <p><strong>ShopGym (arxiv 2605.16116):</strong> the task environment for Phase 1+2; this work makes ShopGym the first benchmark with a formal harness searchability characterization.</p>
+  <p><strong>GEPA (Guo et al. 2025):</strong> shows 35× speedup from trace feedback — this is the empirical γ &gt; 1 claim this paper will measure per-dimension and explain mechanistically.</p>
+
+  <div class="footer">
+    Idea C-1 · Harness Taxonomy &amp; Searchability · ICLR 2027 Outer Loop &nbsp;·&nbsp; Generated 2026-06-13 &nbsp;·&nbsp; Source: research-internal.html §C
+  </div>
+</div>
+</body>
+</html>

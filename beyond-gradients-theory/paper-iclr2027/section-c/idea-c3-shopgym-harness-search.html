@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopGym Harness Search · Section C Idea 3</title>
+<style>
+  :root {
+    --bg: #FAF9F5; --bg2: #F0EEE6; --bg3: #fff;
+    --border: #D1CFC5;
+    --text: #141413; --muted: #87867F; --muted2: #5a5a55;
+    --clay: #D97757; --olive: #788C5D; --sky: #6A8CAF;
+    --amber: #C4892A; --red: #B04A3F; --purple: #7B68B0;
+    --radius: 13px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif;
+    font-size: 15px; line-height: 1.65; }
+  a { color: var(--sky); }
+
+  .page { max-width: 1060px; margin: 0 auto; padding: 40px 28px 80px; }
+
+  .eyebrow { font-family: monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 8px; }
+  h1 { font-family: ui-serif, Georgia, serif; font-size: 28px; font-weight: normal;
+    color: var(--text); line-height: 1.3; margin-bottom: 10px; }
+  .lead { font-size: 15px; color: var(--muted2); max-width: 680px; margin-bottom: 10px; }
+  .tag { display: inline-block; font-size: 11px; font-family: monospace; padding: 3px 10px;
+    border-radius: 99px; border: 1.5px solid; margin-right: 6px; margin-bottom: 14px; }
+  .tag-hot   { color: var(--red); border-color: var(--red); background: #B04A3F11; }
+  .tag-web   { color: var(--purple); border-color: var(--purple); background: #7B68B011; }
+  .tag-emp   { color: var(--olive); border-color: var(--olive); background: #788C5D11; }
+  .tag-app   { color: var(--sky); border-color: var(--sky); background: #6A8CAF11; }
+
+  hr { border: none; border-top: 1.5px solid var(--border); margin: 32px 0; }
+
+  h2 { font-family: ui-serif, Georgia, serif; font-size: 19px; font-weight: normal;
+    color: var(--text); margin: 36px 0 12px; padding-bottom: 6px; border-bottom: 1.5px solid var(--border); }
+  h3 { font-size: 14px; font-weight: 600; color: var(--text); margin: 18px 0 7px; }
+  p { color: var(--muted2); margin-bottom: 10px; }
+  p strong { color: var(--text); }
+
+  /* ── Loop diagram ── */
+  .loop-wrap { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 20px; margin: 16px 0; }
+
+  /* ── Contribution cards ── */
+  .contrib-list { list-style: none; padding: 0; margin: 14px 0; }
+  .contrib-list li { padding: 12px 14px 12px 52px; border-bottom: 1px solid var(--border); position: relative; font-size: 13px; color: var(--muted2); }
+  .contrib-list li:last-child { border-bottom: none; }
+  .contrib-num { position: absolute; left: 12px; top: 12px; font-family: monospace; font-size: 13px;
+    font-weight: 700; color: var(--purple); background: #7B68B011; border: 1.5px solid var(--purple);
+    border-radius: 6px; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; }
+  .contrib-list li strong { color: var(--text); }
+
+  /* ── Deception story ── */
+  .deception-box { background: #B04A3F09; border: 1.5px solid #B04A3F55; border-radius: var(--radius); padding: 18px 22px; margin: 16px 0; }
+  .deception-box h3 { color: var(--red); margin-top: 0; }
+
+  /* ── Comparison table ── */
+  .comp-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 14px 0; }
+  .comp-table th { font-family: monospace; font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase;
+    color: var(--muted); text-align: left; padding: 8px 12px; border-bottom: 1.5px solid var(--border); }
+  .comp-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .comp-table tr:last-child td { border-bottom: none; }
+  .comp-table tr:hover td { background: var(--bg2); }
+  .comp-table td.bold { font-weight: 600; color: var(--text); }
+  .good { color: var(--olive); font-weight: 600; }
+  .bad  { color: var(--red); }
+  .ok   { color: var(--amber); }
+
+  /* ── Callouts ── */
+  .kq { background: #D9775711; border-left: 4px solid var(--clay);
+    border-radius: 0 var(--radius) var(--radius) 0; padding: 14px 18px; margin: 16px 0; }
+  .kq .kq-label { font-family: monospace; font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--clay); margin-bottom: 5px; }
+  .kq p { color: var(--text); font-size: 14px; margin: 0; }
+
+  .thm-box { background: #6A8CAF11; border: 1.5px solid #6A8CAF55; border-radius: var(--radius);
+    padding: 16px 20px; margin: 14px 0; }
+  .thm-box .thm-label { font-family: monospace; font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--sky); margin-bottom: 6px; }
+  .thm-box .math { font-family: monospace; font-size: 14px; color: var(--text);
+    background: var(--bg3); border: 1px solid var(--border); border-radius: 6px;
+    padding: 8px 12px; display: inline-block; margin: 4px 0; }
+
+  /* ── Phase cards ── */
+  .phase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+  @media (max-width: 680px) { .phase-grid { grid-template-columns: 1fr; } }
+  .phase-card { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 16px 18px; }
+  .phase-card .ph-num { font-family: monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 5px; }
+  .phase-card h3 { margin-top: 0; }
+
+  /* ── Task type chips ── */
+  .task-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+  .task-chip { font-family: monospace; font-size: 11px; background: var(--bg2);
+    border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; color: var(--muted2); }
+
+  /* ── Baseline comparison ── */
+  .baseline-card { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius);
+    padding: 14px 18px; margin: 10px 0; }
+
+  .footer { margin-top: 60px; padding-top: 18px; border-top: 1.5px solid var(--border);
+    font-size: 12px; color: var(--muted); font-family: monospace; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="eyebrow">Section C · Idea 3 &nbsp;·&nbsp; Theory + Empirical · Web Agents &nbsp;·&nbsp; ICLR 2027 Outer Loop</div>
+  <h1>Harness-Search for ShopGym:<br>Outer Loop Applied to E-Commerce CUA</h1>
+  <p class="lead">Apply the gated ratchet outer loop to search for the optimal CUA harness on e-commerce web tasks. This is the paper that closes the loop between the outer-loop theory and the ShopGym benchmark.</p>
+  <span class="tag tag-hot">🔥 Hot</span>
+  <span class="tag tag-web">Web Agents</span>
+  <span class="tag tag-emp">Empirical</span>
+  <span class="tag tag-app">Application</span>
+
+  <hr>
+
+  <!-- Why this paper -->
+  <h2>Why This Paper Needs to Exist</h2>
+  <p>The ShopGym paper (arxiv 2605.16116) introduces a rigorous e-commerce benchmark and establishes CUA agent baselines. The outer-loop theory paper proves that frozen-weight improvement via harness search is possible and gives certified convergence conditions. But neither paper does both at once: ShopGym doesn't search harnesses, and the theory doesn't have empirical results on real web tasks.</p>
+  <p>This paper is the bridge. It:</p>
+  <ul style="padding-left:22px; color:var(--muted2); font-size:14px; line-height:2.1; margin-bottom:12px;">
+    <li>Instantiates the outer loop concretely on ShopGym e-commerce tasks</li>
+    <li>Uses the gated ratchet (not naive ratchet) to avoid the ratchet illusion during harness selection</li>
+    <li>Measures γ for web-agent traces (the first such measurement in a real browser environment)</li>
+    <li>Demonstrates that archive search beats greedy on the deceptive harness landscapes that arise in multi-step checkout flows</li>
+  </ul>
+
+  <div class="kq">
+    <div class="kq-label">The Core Claim</div>
+    <p>The outer loop, applied correctly with a gated ratchet selector, can improve a frozen CUA agent's task completion rate on ShopGym by >15 pp — without any weight update, prompt engineering, or fine-tuning.</p>
+  </div>
+
+  <hr>
+
+  <!-- The deceptive checkout landscape -->
+  <h2>The Deceptive Checkout Landscape</h2>
+  <p>This is the key insight that makes the paper non-trivial. E-commerce web tasks have a specific landscape structure that is <em>inherently deceptive</em> for outer-loop search:</p>
+
+  <div class="deception-box">
+    <h3>Why checkout tasks are deceptive</h3>
+    <p>Consider a 4-step task: <strong>search → select → add-to-cart → checkout → confirm</strong>. A harness that improves performance at step 2 (select) may reduce performance at step 5 (confirm) by over-committing to specific product variants early. A greedy outer loop selects harnesses that look better after step 2 — but globally worse.</p>
+    <p style="margin-top:8px;">Concretely: a harness using <em>structured extraction</em> as observation modality excels at product selection (high local score) but fails at checkout confirmation because it loses the visual layout of the payment form. A <em>hybrid (ax_tree + screenshot)</em> harness is globally better but looks worse at the product-selection checkpoint.</p>
+    <p style="margin-top:8px;"><strong>This is exactly the deception pattern (Defn 5.2) where the outer loop needs an archive, not a greedy selector.</strong></p>
+  </div>
+
+  <div class="loop-wrap">
+    <svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:720px;">
+      <defs>
+        <marker id="arr" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+          <path d="M0,0 L7,3.5 L0,7 Z" fill="#D1CFC5"/>
+        </marker>
+        <marker id="arr-clay" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+          <path d="M0,0 L7,3.5 L0,7 Z" fill="#D97757"/>
+        </marker>
+        <marker id="arr-olive" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto">
+          <path d="M0,0 L7,3.5 L0,7 Z" fill="#788C5D"/>
+        </marker>
+      </defs>
+
+      <!-- Boxes -->
+      <!-- Harness archive -->
+      <rect x="10" y="70" width="120" height="60" rx="8" fill="#7B68B011" stroke="#7B68B0" stroke-width="1.5"/>
+      <text x="70" y="95" text-anchor="middle" font-family="monospace" font-size="10" fill="#7B68B0">HARNESS</text>
+      <text x="70" y="110" text-anchor="middle" font-family="monospace" font-size="10" fill="#7B68B0">ARCHIVE</text>
+      <text x="70" y="123" text-anchor="middle" font-family="monospace" font-size="9" fill="#87867F">(a₁, a₂, …, aₖ)</text>
+
+      <!-- ShopGym -->
+      <rect x="200" y="70" width="130" height="60" rx="8" fill="#6A8CAF11" stroke="#6A8CAF" stroke-width="1.5"/>
+      <text x="265" y="95" text-anchor="middle" font-family="monospace" font-size="10" fill="#6A8CAF">SHOPGYM ENV</text>
+      <text x="265" y="110" text-anchor="middle" font-family="monospace" font-size="10" fill="#6A8CAF">+ CUA AGENT</text>
+      <text x="265" y="123" text-anchor="middle" font-family="monospace" font-size="9" fill="#87867F">(frozen backbone)</text>
+
+      <!-- Evaluator -->
+      <rect x="400" y="70" width="120" height="60" rx="8" fill="#C4892A11" stroke="#C4892A" stroke-width="1.5"/>
+      <text x="460" y="95" text-anchor="middle" font-family="monospace" font-size="10" fill="#C4892A">GATED RATCHET</text>
+      <text x="460" y="110" text-anchor="middle" font-family="monospace" font-size="10" fill="#C4892A">EVALUATOR</text>
+      <text x="460" y="123" text-anchor="middle" font-family="monospace" font-size="9" fill="#87867F">N=85, Wilson CI</text>
+
+      <!-- Proposer -->
+      <rect x="560" y="70" width="140" height="60" rx="8" fill="#788C5D11" stroke="#788C5D" stroke-width="1.5"/>
+      <text x="630" y="95" text-anchor="middle" font-family="monospace" font-size="10" fill="#788C5D">HARNESS PROPOSER</text>
+      <text x="630" y="110" text-anchor="middle" font-family="monospace" font-size="10" fill="#788C5D">(LLM + traces)</text>
+      <text x="630" y="123" text-anchor="middle" font-family="monospace" font-size="9" fill="#87867F">γ-conditioned</text>
+
+      <!-- Arrows: archive → shopgym -->
+      <line x1="130" y1="100" x2="196" y2="100" stroke="#D1CFC5" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="163" y="94" font-family="monospace" font-size="9" fill="#87867F" text-anchor="middle">deploy</text>
+
+      <!-- shopgym → evaluator: traces -->
+      <line x1="330" y1="100" x2="396" y2="100" stroke="#D97757" stroke-width="1.5" marker-end="url(#arr-clay)"/>
+      <text x="363" y="94" font-family="monospace" font-size="9" fill="#D97757" text-anchor="middle">traces + F(a)</text>
+
+      <!-- evaluator → proposer -->
+      <line x1="520" y1="100" x2="556" y2="100" stroke="#D1CFC5" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="538" y="94" font-family="monospace" font-size="9" fill="#87867F" text-anchor="middle">if certified</text>
+
+      <!-- proposer back to archive (curved) -->
+      <path d="M630,70 Q630,20 70,20 Q30,20 70,70" fill="none" stroke="#788C5D" stroke-width="1.5" marker-end="url(#arr-olive)" stroke-dasharray="4,3"/>
+      <text x="350" y="14" font-family="monospace" font-size="9" fill="#788C5D" text-anchor="middle">propose new harness → archive</text>
+
+      <!-- Labels -->
+      <text x="360" y="185" font-family="system-ui" font-size="11" fill="#87867F" text-anchor="middle">Gated-ratchet outer loop on ShopGym. The archive prevents commitment to locally good harnesses that fail at checkout.</text>
+    </svg>
+  </div>
+
+  <hr>
+
+  <!-- Three contributions -->
+  <h2>Three Core Contributions</h2>
+
+  <ul class="contrib-list">
+    <li>
+      <div class="contrib-num">1</div>
+      <strong>Gated ratchet selector for harness search.</strong> The ratchet illusion (§5 of main paper) applies directly to harness selection: a harness that looks better on N=5 evaluation episodes could be noise. We apply the gated ratchet with N=85 repeats (Wilson-interval certified) to avoid accepting noisy harness improvements. First demonstration of certified harness selection in a real browser environment.
+    </li>
+    <li>
+      <div class="contrib-num">2</div>
+      <strong>First empirical γ measurement for web-agent traces.</strong> We measure γ — the trace-conditioning improvement for harness proposals — on ShopGym episodes. Web-agent traces are multi-modal (DOM events, screenshots, network logs) and long (100–2000 steps). Does γ remain high when traces are this noisy? Which trace subsections carry the most γ signal (error states vs. successful intermediate steps)?
+    </li>
+    <li>
+      <div class="contrib-num">3</div>
+      <strong>Archive beats greedy on checkout tasks, not on search tasks.</strong> We demonstrate the landscape-topology prediction empirically: single-page product search has a smooth harness landscape (greedy works); multi-step checkout has a deceptive landscape (requires archive). This is the first empirical confirmation of Thm 5.4 in a real application domain.
+    </li>
+  </ul>
+
+  <hr>
+
+  <!-- Theorem applied -->
+  <h2>Theory Applied — Thm 6.1 in the ShopGym Setting</h2>
+
+  <div class="thm-box">
+    <div class="thm-label">Theorem 6.1 (applied to ShopGym harness search)</div>
+    <p style="font-size:13px; margin-bottom:8px;">With a gated ratchet selector, to certifiably improve task completion rate from q₀ to q₀ + Δ with probability ≥ 1−δ, the total number of ShopGym episodes needed is at most:</p>
+    <div class="math">T_total ≤ O((σ²/Δ²) · ln(B/δ) · ln(1/δ) / (γ · q₀))</div>
+    <p style="font-size:13px; margin-top:8px;">where σ² = q₀(1−q₀) (Bernoulli task completion), B = harness archive size, δ = failure probability, γ = measured trace-conditioning boost, q₀ = baseline task completion rate.</p>
+  </div>
+
+  <p>Plugging in ShopGym numbers: q₀ ≈ 0.35 (Claude 3.5 Sonnet baseline on checkout tasks), Δ = 0.15 (target improvement), δ = 0.05, B = 50 archive entries. If γ ≈ 10 (conservative estimate), T_total ≤ ~3,000 episodes. That's ~$300 in API costs and 2 days of wall-clock time.</p>
+
+  <div class="kq">
+    <div class="kq-label">Key Question</div>
+    <p>Is γ ≥ 10 for web-agent traces? If yes, the outer loop is practical. If γ ≈ 1–2, traces barely help and the approach requires either better trace formatting or a different feedback design (→ Idea D4: Feedback Engineering).</p>
+  </div>
+
+  <hr>
+
+  <!-- Experimental design -->
+  <h2>Experimental Design</h2>
+
+  <p>Task types used (stratified across ShopGym categories):</p>
+
+  <div class="task-chips">
+    <span class="task-chip">product_search</span>
+    <span class="task-chip">add_to_cart</span>
+    <span class="task-chip">multi_item_cart</span>
+    <span class="task-chip">checkout_single_item</span>
+    <span class="task-chip">checkout_with_coupon</span>
+    <span class="task-chip">checkout_with_address_entry</span>
+    <span class="task-chip">order_tracking</span>
+    <span class="task-chip">product_comparison</span>
+  </div>
+
+  <div class="phase-grid">
+    <div class="phase-card">
+      <div class="ph-num" style="color:var(--sky);">Phase 1 · Baseline + γ</div>
+      <h3>Measure γ for web-agent traces</h3>
+      <p style="font-size:13px;"><strong>Protocol:</strong> Run 200 baseline episodes (no outer loop) per task type. Collect full traces. Condition harness proposer on traces; measure acceptance rate uplift vs. unconditioned proposer. Compute γ̂ with Wilson CI.</p>
+      <p style="font-size:13px;"><strong>Output:</strong> γ per task type table. Expected: checkout tasks have higher γ (richer error traces) than product search (errors are sparse).</p>
+    </div>
+
+    <div class="phase-card">
+      <div class="ph-num" style="color:var(--clay);">Phase 2 · Greedy vs. Archive</div>
+      <h3>Topology characterization</h3>
+      <p style="font-size:13px;"><strong>Protocol:</strong> On each task type, run 10 outer-loop steps with (a) greedy-ratchet, (b) archive-ratchet (B=20), (c) random search baseline. Measure final task completion rate and convergence speed.</p>
+      <p style="font-size:13px;"><strong>Prediction:</strong> Archive &gt; greedy for checkout tasks (deceptive); greedy ≈ archive for product search (smooth).</p>
+    </div>
+
+    <div class="phase-card">
+      <div class="ph-num" style="color:var(--olive);">Phase 3 · Ratchet Illusion Check</div>
+      <h3>Demonstrate gated vs. naive ratchet</h3>
+      <p style="font-size:13px;"><strong>Protocol:</strong> Run naive ratchet (N=5 eval episodes per step) vs. gated ratchet (N=85). Count how many steps the naive ratchet "accepts" a harness that is actually worse (ratchet illusion events). Show the gated ratchet's certified monotone improvement.</p>
+      <p style="font-size:13px;"><strong>Expected:</strong> naive ratchet has ~30% illusion events (consistent with §5 main paper at N=5); gated has &lt;5%.</p>
+    </div>
+
+    <div class="phase-card">
+      <div class="ph-num" style="color:var(--purple);">Phase 4 · Final Comparison</div>
+      <h3>vs. ShopGym baselines</h3>
+      <p style="font-size:13px;"><strong>Protocol:</strong> Compare outer-loop–optimized harness (best from Phase 2) against (a) original ShopGym CUA baseline, (b) human-engineered best harness from ShopGym paper, (c) prompt-engineering baseline (same budget as outer loop, spent on prompt iteration).</p>
+      <p style="font-size:13px;"><strong>Claim:</strong> outer-loop harness search matches or exceeds the human-engineered baseline with comparable compute budget, and certifiably so.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Baseline comparison -->
+  <h2>Baseline Comparison Table</h2>
+
+  <table class="comp-table">
+    <thead>
+      <tr>
+        <th>Method</th>
+        <th>Checkout completion (expected)</th>
+        <th>Search completion (expected)</th>
+        <th>Certified improvement?</th>
+        <th>Compute budget</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="bold">ShopGym CUA baseline</td>
+        <td class="ok">~35%</td>
+        <td class="ok">~62%</td>
+        <td class="bad">✗</td>
+        <td>N/A (no search)</td>
+      </tr>
+      <tr>
+        <td class="bold">Prompt engineering (same budget)</td>
+        <td class="ok">~38%</td>
+        <td class="ok">~64%</td>
+        <td class="bad">✗ (no certificate)</td>
+        <td>~3000 API calls</td>
+      </tr>
+      <tr>
+        <td class="bold">Naive ratchet (N=5)</td>
+        <td class="ok">~44%</td>
+        <td class="ok">~68%</td>
+        <td class="bad">✗ (30% illusion events)</td>
+        <td>~3000 episodes</td>
+      </tr>
+      <tr>
+        <td class="bold">Greedy ratchet (N=85)</td>
+        <td class="ok">~46%</td>
+        <td class="good">~70%</td>
+        <td class="good">✓ (certified monotone)</td>
+        <td>~3000 episodes</td>
+      </tr>
+      <tr>
+        <td class="bold" style="color:var(--purple);">Archive ratchet (N=85, B=20) ← THIS PAPER</td>
+        <td class="good">~51%</td>
+        <td class="good">~70%</td>
+        <td class="good">✓ (certified, Thm 6.1)</td>
+        <td>~3000 episodes</td>
+      </tr>
+      <tr>
+        <td class="bold">Human-engineered best (ShopGym)</td>
+        <td class="good">~50%</td>
+        <td class="good">~71%</td>
+        <td class="bad">✗</td>
+        <td>Human weeks</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:12px; color:var(--muted);">Expected numbers — actual results will be reported. The key comparison is archive ratchet vs. human-engineered: matching or exceeding at a fraction of the human time cost, with a formal certificate.</p>
+
+  <hr>
+
+  <!-- Closing the loop with ShopGym -->
+  <h2>How This Closes the Loop with ShopGym</h2>
+
+  <p>The ShopGym paper (arxiv 2605.16116) makes three design choices that this paper validates or challenges theoretically:</p>
+
+  <div class="baseline-card">
+    <h3>ShopGym design choice 1: Fixed harness architecture</h3>
+    <p style="font-size:13px;">ShopGym evaluates agents with fixed harness configurations. This paper shows that harness configuration is itself searchable (γ &gt; 1) and that the outer loop can systematically improve it. Recommendation back to ShopGym: include harness-search as an evaluation axis alongside model capability.</p>
+  </div>
+
+  <div class="baseline-card">
+    <h3>ShopGym design choice 2: Task completion as sole metric</h3>
+    <p style="font-size:13px;">Outer-loop harness search requires N=85 repeats of each episode for the gated ratchet certificate. At scale, this motivates ShopGym to expose a fast-evaluation mode (abbreviated episode with partial-completion scoring) to make outer-loop search tractable. This is a concrete design feedback from the theory to the benchmark.</p>
+  </div>
+
+  <div class="baseline-card">
+    <h3>ShopGym design choice 3: Checkout as the hardest task class</h3>
+    <p style="font-size:13px;">This paper confirms checkout is hardest (lowest q₀) but also shows it has the highest γ — making it the most searchable. The outer loop's advantage is largest precisely where ShopGym performance is lowest. This is a striking alignment between the theoretical prediction and the benchmark structure.</p>
+  </div>
+
+  <hr>
+
+  <!-- Connections -->
+  <h2>Connections to Other Work</h2>
+  <p><strong>Meta-Harness (Lee et al. 2026):</strong> runs outer-loop harness search without a gated ratchet or γ measurement. This paper adds the missing certification and measurement. The methods are complementary; a joint paper is a future possibility.</p>
+  <p><strong>Idea C1 (Harness Taxonomy):</strong> C1 maps which harness dimensions are searchable in general; C3 demonstrates the search end-to-end on a specific application. C3 is the existence proof; C1 is the systematic characterization.</p>
+  <p><strong>Idea C2 (γ Measurement):</strong> the γ measurement protocol from C2 is the method used in Phase 1 of C3. Run C2 first; use the measured γ to justify the episode budget in C3.</p>
+  <p><strong>Outer-loop theory (main paper Thm 6.1 + Appendix I):</strong> every budget formula in C3 is a direct instantiation of Thm 6.1. The paper is one long case study of the theory.</p>
+
+  <div class="kq">
+    <div class="kq-label">The Paper in One Sentence</div>
+    <p>By running a gated-ratchet archive search over CUA harness configurations on ShopGym, we achieve certified improvement over the human-engineered baseline on multi-step checkout tasks — the first demonstration that the outer loop works in a real browser environment.</p>
+  </div>
+
+  <div class="footer">
+    Idea C-3 · ShopGym Harness Search · ICLR 2027 Outer Loop &nbsp;·&nbsp; Generated 2026-06-13 &nbsp;·&nbsp; Source: research-internal.html §C + arxiv 2605.16116
+  </div>
+</div>
+</body>
+</html>

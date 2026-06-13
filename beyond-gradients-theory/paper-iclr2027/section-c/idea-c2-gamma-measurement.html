@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>γ Measurement Paper · Section C Idea 2</title>
+<style>
+  :root {
+    --bg: #FAF9F5; --bg2: #F0EEE6; --bg3: #fff;
+    --border: #D1CFC5; --border-strong: #B0AEA4;
+    --text: #141413; --muted: #87867F; --muted2: #5a5a55;
+    --clay: #D97757; --olive: #788C5D; --sky: #6A8CAF;
+    --amber: #C4892A; --red: #B04A3F; --purple: #7B68B0;
+    --radius: 13px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif;
+    font-size: 15px; line-height: 1.65; }
+  a { color: var(--sky); }
+
+  .page { max-width: 1060px; margin: 0 auto; padding: 40px 28px 80px; }
+
+  .eyebrow { font-family: monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 8px; }
+  h1 { font-family: ui-serif, Georgia, serif; font-size: 28px; font-weight: normal;
+    color: var(--text); line-height: 1.3; margin-bottom: 10px; }
+  .lead { font-size: 15px; color: var(--muted2); max-width: 680px; margin-bottom: 10px; }
+  .tag { display: inline-block; font-size: 11px; font-family: monospace; padding: 3px 10px;
+    border-radius: 99px; border: 1.5px solid; margin-right: 6px; margin-bottom: 14px; }
+  .tag-hot   { color: var(--red); border-color: var(--red); background: #B04A3F11; }
+  .tag-theory{ color: var(--purple); border-color: var(--purple); background: #7B68B011; }
+  .tag-emp   { color: var(--olive); border-color: var(--olive); background: #788C5D11; }
+  .tag-prereg{ color: var(--amber); border-color: var(--amber); background: #C4892A11; }
+
+  hr { border: none; border-top: 1.5px solid var(--border); margin: 32px 0; }
+
+  h2 { font-family: ui-serif, Georgia, serif; font-size: 19px; font-weight: normal;
+    color: var(--text); margin: 36px 0 12px; padding-bottom: 6px; border-bottom: 1.5px solid var(--border); }
+  h3 { font-size: 14px; font-weight: 600; color: var(--text); margin: 18px 0 7px; }
+  p { color: var(--muted2); margin-bottom: 10px; }
+  p strong { color: var(--text); }
+
+  /* ── Stat chips ── */
+  .chips { display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0; }
+  .chip { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius);
+    padding: 12px 16px; min-width: 140px; }
+  .chip .num { font-family: monospace; font-size: 28px; font-weight: 700; color: var(--clay); line-height: 1; }
+  .chip .lbl { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  /* ── Definition box ── */
+  .defn { background: var(--bg2); border: 1.5px solid var(--border); border-radius: var(--radius);
+    padding: 18px 22px; margin: 16px 0; }
+  .defn .defn-label { font-family: monospace; font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--sky); margin-bottom: 8px; }
+  .defn .math { font-family: monospace; font-size: 16px; color: var(--text);
+    background: var(--bg3); border: 1px solid var(--border); border-radius: 6px;
+    padding: 10px 14px; display: inline-block; margin: 6px 0; }
+
+  /* ── Protocol steps ── */
+  .steps { list-style: none; padding: 0; margin: 12px 0; counter-reset: step; }
+  .steps li { counter-increment: step; padding: 12px 14px 12px 48px; border-bottom: 1px solid var(--border);
+    position: relative; font-size: 13px; color: var(--muted2); }
+  .steps li:last-child { border-bottom: none; }
+  .steps li::before { content: counter(step); font-family: monospace; font-size: 12px; font-weight: 700;
+    position: absolute; left: 14px; top: 14px;
+    background: var(--olive); color: #fff; width: 22px; height: 22px;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    line-height: 22px; text-align: center; }
+  .steps li strong { color: var(--text); }
+
+  /* ── Condition matrix table ── */
+  .cond-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 14px 0; }
+  .cond-table th { font-family: monospace; font-size: 11px; letter-spacing: 0.07em; text-transform: uppercase;
+    color: var(--muted); text-align: left; padding: 8px 12px; border-bottom: 1.5px solid var(--border); }
+  .cond-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .cond-table tr:last-child td { border-bottom: none; }
+  .cond-table tr:hover td { background: var(--bg2); }
+  .cond-table td.bold { font-weight: 600; color: var(--text); }
+  .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+  .dot-scalar { background: var(--muted); }
+  .dot-trace  { background: var(--olive); }
+  .dot-dist   { background: var(--sky); }
+
+  /* ── Callout ── */
+  .kq { background: #D9775711; border-left: 4px solid var(--clay);
+    border-radius: 0 var(--radius) var(--radius) 0; padding: 14px 18px; margin: 16px 0; }
+  .kq .kq-label { font-family: monospace; font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--clay); margin-bottom: 5px; }
+  .kq p { color: var(--text); font-size: 14px; margin: 0; }
+
+  /* ── Wilson interval explainer ── */
+  .formula-card { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius);
+    padding: 16px 20px; margin: 14px 0; }
+  .formula-card h3 { margin-top: 0; color: var(--purple); }
+
+  /* ── Deliverable cards ── */
+  .deliv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin: 14px 0; }
+  .deliv-card { background: var(--bg3); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
+  .deliv-card .dnum { font-family: monospace; font-size: 22px; font-weight: 700; color: var(--border); }
+  .deliv-card .dtitle { font-size: 13px; font-weight: 600; color: var(--text); margin: 4px 0; }
+  .deliv-card p { font-size: 12px; }
+
+  /* ── Timeline ── */
+  .tl { border-left: 2px solid var(--border); padding-left: 18px; margin: 14px 0; }
+  .tl-item { margin-bottom: 14px; }
+  .tl-item .date { font-family: monospace; font-size: 11px; letter-spacing: 0.06em; color: var(--sky); margin-bottom: 2px; }
+  .tl-item .event { font-size: 13px; color: var(--muted2); }
+  .tl-item .event strong { color: var(--text); }
+
+  .footer { margin-top: 60px; padding-top: 18px; border-top: 1.5px solid var(--border);
+    font-size: 12px; color: var(--muted); font-family: monospace; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="eyebrow">Section C · Idea 2 &nbsp;·&nbsp; Theory + Empirical &nbsp;·&nbsp; ICLR 2027 Outer Loop</div>
+  <h1>The γ Measurement Paper —<br>Pre-Registered Empirical Protocol</h1>
+  <p class="lead">Execute the Appendix I pre-registered protocol to produce the first rigorous empirical measurement of γ (trace-conditioning improvement) for real LLM proposers, then systematically vary model size, task type, and feedback modality.</p>
+  <span class="tag tag-hot">🔥 Hot</span>
+  <span class="tag tag-theory">Theory</span>
+  <span class="tag tag-emp">Empirical</span>
+  <span class="tag tag-prereg">Pre-Registered</span>
+
+  <hr>
+
+  <!-- What is γ -->
+  <h2>What is γ and Why Does It Matter?</h2>
+
+  <div class="defn">
+    <div class="defn-label">Definition — Trace-conditioning improvement (γ)</div>
+    <p style="margin-bottom:10px;">For a proposer Q and evaluator F, γ is the multiplicative boost in proposer success probability when conditioned on execution traces vs. conditioned only on the task description:</p>
+    <div class="math">γ = Q(F(a*) = 1 | τ₁…τₙ) / Q(F(a*) = 1 | task)</div>
+    <p style="margin-top:10px; font-size:13px;">where τ₁…τₙ are execution traces from previous proposals. γ &gt; 1 means traces help; γ = 1 means they don't (scalar reward is sufficient); γ ≫ 1 means traces are exponentially more valuable than scalar (consistent with GEPA 35× speedup).</p>
+  </div>
+
+  <p>The outer-loop theory (main paper, Prop 3.5 and Thm 6.1) shows that the total budget to certifiably reach a good artifact scales as <strong>O(1 / (γ q₀))</strong>. Every factor of 2 in γ halves the compute needed. Yet no paper has ever measured γ directly — it is always assumed to be "large enough." This paper measures it.</p>
+
+  <div class="chips">
+    <div class="chip"><div class="num">120</div><div class="lbl">buggy programs<br>in the test set</div></div>
+    <div class="chip"><div class="num">70</div><div class="lbl">patches per<br>condition</div></div>
+    <div class="chip"><div class="num">12</div><div class="lbl">experimental<br>conditions</div></div>
+    <div class="chip"><div class="num">~1</div><div class="lbl">GPU-days<br>to execute</div></div>
+    <div class="chip"><div class="num">95%</div><div class="lbl">Wilson CI<br>target coverage</div></div>
+  </div>
+
+  <hr>
+
+  <!-- The pre-registered protocol -->
+  <h2>Pre-Registered Protocol (Appendix I)</h2>
+  <p>The following protocol was written into the ICLR 2027 submission before execution. It cannot be modified post-hoc. The paper reports this protocol verbatim and then presents results.</p>
+
+  <div class="defn">
+    <div class="defn-label">Task class — Buggy program repair</div>
+    <p>120 Python programs, each with a single latent bug. Bugs are stratified across 4 types (off-by-one, type error, logic inversion, API misuse — 30 each). Each program has a deterministic unit-test oracle (binary pass/fail). A "proposal" is a patch (diff) to the program; a proposer is an LLM that generates patches given task + optional feedback.</p>
+  </div>
+
+  <h3>Experimental conditions</h3>
+
+  <table class="cond-table">
+    <thead>
+      <tr>
+        <th>Condition</th>
+        <th>Proposer</th>
+        <th>Feedback modality</th>
+        <th>n patches</th>
+        <th>Measures</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="bold">C0 (baseline)</td>
+        <td>Claude 3.5 Sonnet</td>
+        <td><span class="dot dot-scalar"></span>None (task only)</td>
+        <td>70</td>
+        <td>q₀</td>
+      </tr>
+      <tr>
+        <td class="bold">C1</td>
+        <td>Claude 3.5 Sonnet</td>
+        <td><span class="dot dot-scalar"></span>Scalar (pass/fail)</td>
+        <td>70</td>
+        <td>γ_scalar</td>
+      </tr>
+      <tr>
+        <td class="bold">C2</td>
+        <td>Claude 3.5 Sonnet</td>
+        <td><span class="dot dot-trace"></span>Full execution trace</td>
+        <td>70</td>
+        <td>γ_trace</td>
+      </tr>
+      <tr>
+        <td class="bold">C3</td>
+        <td>Claude 3.5 Sonnet</td>
+        <td><span class="dot dot-dist"></span>Distance signal (edit distance to correct)</td>
+        <td>70</td>
+        <td>γ_dist</td>
+      </tr>
+      <tr>
+        <td class="bold">C4</td>
+        <td>GPT-4o</td>
+        <td><span class="dot dot-scalar"></span>None</td>
+        <td>70</td>
+        <td>q₀ (model comparison)</td>
+      </tr>
+      <tr>
+        <td class="bold">C5</td>
+        <td>GPT-4o</td>
+        <td><span class="dot dot-trace"></span>Full execution trace</td>
+        <td>70</td>
+        <td>γ_trace (model comparison)</td>
+      </tr>
+      <tr>
+        <td class="bold">C6</td>
+        <td>Claude 3 Haiku</td>
+        <td><span class="dot dot-scalar"></span>None</td>
+        <td>70</td>
+        <td>q₀ (size scaling)</td>
+      </tr>
+      <tr>
+        <td class="bold">C7</td>
+        <td>Claude 3 Haiku</td>
+        <td><span class="dot dot-trace"></span>Full execution trace</td>
+        <td>70</td>
+        <td>γ_trace (size scaling)</td>
+      </tr>
+      <tr>
+        <td class="bold">C8</td>
+        <td>Claude 3.5 Sonnet</td>
+        <td><span class="dot dot-trace"></span>Trace — API misuse bugs only</td>
+        <td>70</td>
+        <td>γ by bug type</td>
+      </tr>
+      <tr>
+        <td class="bold">C9</td>
+        <td>Claude 3.5 Sonnet</td>
+        <td><span class="dot dot-trace"></span>Trace — off-by-one bugs only</td>
+        <td>70</td>
+        <td>γ by bug type</td>
+      </tr>
+      <tr>
+        <td class="bold">C10</td>
+        <td>Claude 3.5 Sonnet</td>
+        <td><span class="dot dot-trace"></span>Trace — k=1 trace</td>
+        <td>70</td>
+        <td>γ vs. k</td>
+      </tr>
+      <tr>
+        <td class="bold">C11</td>
+        <td>Claude 3.5 Sonnet</td>
+        <td><span class="dot dot-trace"></span>Trace — k=5 traces</td>
+        <td>70</td>
+        <td>γ vs. k</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Execution procedure (per condition)</h3>
+  <ul class="steps">
+    <li><strong>Sample 70 proposals</strong> from the proposer conditioned on task + feedback mode. Proposals are independent (no selection within this step).</li>
+    <li><strong>Run oracle evaluator</strong> (deterministic unit tests). Record binary F(aᵢ) ∈ {0,1} for each proposal i.</li>
+    <li><strong>Estimate pass rate</strong> p̂ = Σ F(aᵢ)/70 with Wilson 95% confidence interval.</li>
+    <li><strong>Compute γ̂</strong> = p̂_condition / p̂_C0. Propagate Wilson CIs through the ratio using delta method.</li>
+    <li><strong>Report</strong>: point estimate γ̂, 95% CI, p-value for H₀: γ = 1 (two-sided binomial test).</li>
+  </ul>
+
+  <div class="formula-card">
+    <h3>Wilson confidence interval (the mandatory CI formula)</h3>
+    <p style="font-size:13px; margin-bottom:8px;">For n = 70 trials and k successes, the Wilson interval is:</p>
+    <div style="font-family:monospace; font-size:13px; background:var(--bg2); border:1px solid var(--border); border-radius:6px; padding:10px 14px; line-height:2;">
+      p̃ = (k + z²/2) / (n + z²)<br>
+      margin = z × √(p̃(1−p̃) / (n + z²))<br>
+      CI = [p̃ − margin, p̃ + margin]  &nbsp; (z = 1.96 for 95%)
+    </div>
+    <p style="font-size:12px; margin-top:8px; color:var(--muted);">Use Wilson (not Wald) because n=70 is small enough that Wald intervals undercover near p=0 or p=1. This is the same correction motivated by the ratchet-illusion result in §5.</p>
+  </div>
+
+  <hr>
+
+  <!-- Expected results -->
+  <h2>Expected Results and Theoretical Predictions</h2>
+
+  <p>The feedback-channel theorem (Thm 4.2) predicts <strong>γ_trace ≫ γ_scalar</strong> — specifically, the gap should grow exponentially with the number of informative bits L in a trace. For buggy program repair:</p>
+
+  <div class="defn">
+    <div class="defn-label">Theoretical prediction for buggy program repair</div>
+    <p style="margin-bottom:8px;">A stack trace for an off-by-one error carries ~L ≈ 8–12 bits (line number, variable values, test assertion). Thm 4.2 predicts:</p>
+    <div class="math">γ_trace / γ_scalar ≥ 2^L ≈ 256–4096×</div>
+    <p style="margin-top:8px; font-size:13px;">This is consistent with GEPA's empirically observed 35× speedup (which uses partial traces, not full ones). Full traces should be larger. The measurement paper tests whether the bound is tight or loose.</p>
+  </div>
+
+  <table class="cond-table">
+    <thead>
+      <tr><th>Quantity</th><th>Theoretical prediction</th><th>Will be measured</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="bold">q₀ (Claude 3.5 Sonnet)</td><td>0.05 – 0.25 (task-dependent)</td><td>C0</td></tr>
+      <tr><td class="bold">γ_scalar</td><td>1.0 – 1.5 (near no-op; LLM can't improve on scalar only)</td><td>C1 vs C0</td></tr>
+      <tr><td class="bold">γ_trace</td><td>5 – 100× (task and model dependent)</td><td>C2 vs C0</td></tr>
+      <tr><td class="bold">γ_dist</td><td>2 – 15× (better than scalar, worse than trace)</td><td>C3 vs C0</td></tr>
+      <tr><td class="bold">γ scaling with model size</td><td>larger → higher γ (better at extracting signal)</td><td>C7/C6 vs C5/C4</td></tr>
+      <tr><td class="bold">γ vs. k (trace count)</td><td>diminishing returns; first trace drives most of the gain</td><td>C10, C11 vs C2</td></tr>
+    </tbody>
+  </table>
+
+  <div class="kq">
+    <div class="kq-label">Key Question</div>
+    <p>Is γ_trace / γ_scalar consistent with 2^L (tight bound)? Does γ vary significantly across bug types? If API-misuse bugs have much higher γ than off-by-one bugs, the outer loop should prioritize high-γ task classes.</p>
+  </div>
+
+  <hr>
+
+  <!-- What the paper contributes -->
+  <h2>Paper Contributions</h2>
+
+  <div class="deliv-grid">
+    <div class="deliv-card">
+      <div class="dnum">01</div>
+      <div class="dtitle">First empirical γ table</div>
+      <p>Measured γ values for 3 feedback modalities × 3 model sizes × 4 bug types. The field has no such table today.</p>
+    </div>
+    <div class="deliv-card">
+      <div class="dnum">02</div>
+      <div class="dtitle">Tightness of Thm 4.2</div>
+      <p>Is the 2^L bound tight or loose? The answer tells theorists whether to seek a tighter bound or practitioners whether the theory is already actionable.</p>
+    </div>
+    <div class="deliv-card">
+      <div class="dnum">03</div>
+      <div class="dtitle">γ as a pre-experiment diagnostic</div>
+      <p>Procedure for any team to measure γ on their task before committing outer-loop compute budget. If γ ≈ 1, traces are not helping; switch feedback format.</p>
+    </div>
+    <div class="deliv-card">
+      <div class="dnum">04</div>
+      <div class="dtitle">Feedback format ranking</div>
+      <p>Trace ≫ distance signal ≫ scalar, empirically confirmed. Gives practitioners a clear priority order.</p>
+    </div>
+    <div class="deliv-card">
+      <div class="dnum">05</div>
+      <div class="dtitle">Model scaling laws for γ</div>
+      <p>Does γ scale with model size (capability) or stay flat? Has implications for which model to use as the proposer in an outer loop.</p>
+    </div>
+    <div class="deliv-card">
+      <div class="dnum">06</div>
+      <div class="dtitle">Grounds the harness taxonomy</div>
+      <p>The γ measurement protocol from this paper is the same one used in Idea C1 (per-dimension harness searchability). This is the foundational method paper.</p>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- Execution timeline -->
+  <h2>Execution Timeline</h2>
+
+  <div class="tl">
+    <div class="tl-item">
+      <div class="date">Week 1</div>
+      <div class="event"><strong>Setup:</strong> assemble 120 buggy programs (use existing HumanEval-Bug + 30 handcrafted API-misuse cases). Implement oracle runner. Set up condition dispatch script. Cost: ~0 GPU hours (all API calls).</div>
+    </div>
+    <div class="tl-item">
+      <div class="date">Week 2</div>
+      <div class="event"><strong>Run C0–C3</strong> (core modality comparison): 4 conditions × 70 patches × 120 programs = 33,600 API calls to Claude 3.5 Sonnet. Estimated cost: ~$200 at current API rates.</div>
+    </div>
+    <div class="tl-item">
+      <div class="date">Week 3</div>
+      <div class="event"><strong>Run C4–C11</strong> (model + bug-type + k sweep): ~50,000 additional API calls across GPT-4o and Haiku. Estimated cost: ~$300.</div>
+    </div>
+    <div class="tl-item">
+      <div class="date">Week 4</div>
+      <div class="event"><strong>Analysis + writing:</strong> compute Wilson CIs, γ ratios, significance tests. Write 6-page EMNLP/ACL findings paper. Total elapsed: 4 weeks, ~$500, no GPU.</div>
+    </div>
+  </div>
+
+  <div class="kq">
+    <div class="kq-label">Why this is ~1 GPU-day</div>
+    <p>All inference is via API (no local GPU required). The "1 GPU-day" figure in the parent document approximates the token-compute cost in GPU-day equivalents. The actual wall-clock cost is ~4 weeks of part-time work and ~$500 in API budget.</p>
+  </div>
+
+  <hr>
+
+  <!-- Connections -->
+  <h2>Connections and Position in the Program</h2>
+  <p><strong>Appendix I of main paper:</strong> the pre-registration text is already written there. This paper just executes it and writes up the results — the scaffolding is done.</p>
+  <p><strong>Idea C1 (Harness Taxonomy):</strong> the γ measurement protocol developed here is the method used in Phase 1 of the taxonomy paper. C2 is the method paper; C1 is the application paper.</p>
+  <p><strong>Idea C3 (ShopGym Harness Search):</strong> measuring γ on web-agent traces is the validation that C3's outer-loop is warranted. Without a measured γ &gt; 1, the ShopGym harness search has no certified convergence guarantee.</p>
+  <p><strong>GEPA (Guo et al.):</strong> reports 35× speedup but never measures γ directly. This paper will either confirm or explain that number via a measured γ_trace ≈ 35 for their task class.</p>
+  <p><strong>Blog post 08 (γ Factor):</strong> this paper is the empirical foundation for that blog — "the number that predicts whether your self-improvement loop will work."</p>
+
+  <div class="footer">
+    Idea C-2 · γ Measurement Paper · ICLR 2027 Outer Loop &nbsp;·&nbsp; Generated 2026-06-13 &nbsp;·&nbsp; Source: research-internal.html §C + main paper Appendix I
+  </div>
+</div>
+</body>
+</html>
