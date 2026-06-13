@@ -52,7 +52,7 @@ a{color:var(--sky)}
 </head>
 <body>
 <div class="page">
-<div class="eyebrow">Major revision · v1 (ICML 2026 submission) → v2 (ICLR 2027 submission)</div>
+<div class="eyebrow">Major revision · v1 (ICML 2026 submission) → v2/v2.5 (ICLR 2027 submission)</div>
 <h1>Response to Reviewers</h1>
 <p class="lead">Both referees scored v1 at 6/10 (Weak Accept) with converging diagnoses: a unification that was definitional rather than theorematic (W1), an unmeasured central assumption (W2), four statement-level defects (W3–W5, E1–E3), three prose numbers contradicted by the committed code (W6/E4), and presentation issues in the figures (W7, N4). v2 addresses every mandatory item with the reviewers' own drop-in fixes, adds both score-moving items (the composed theorem R9 and the operationalization of γ from R10/Q1), retitles and rewrites the abstract to match what is actually proven, and re-grounds the empirical anchors in archival literature.</p>
 
@@ -125,7 +125,7 @@ a{color:var(--sky)}
     <tr><td class="mono">R1–R4</td><td>Mandatory fixes (landscape, converse constant, bounded Goodhart, three numbers).</td><td>All applied with the reviewer's drop-ins (asymmetric ascent; ln(1/(4δ)); range-filling construction; corrected numbers kept visible as the audit note).</td><td><span class="tag fixed">all four</span></td></tr>
     <tr><td class="mono">R5–R8</td><td>Conventions, γ&lt;1 repair, constant harmonization, honest figures.</td><td>N1 convention in Thm 5.1; Remark 3.4; Prop. 5.2(iii)/Cor. 5.3(ii); honest captions + log inset + all-executed arms.</td><td><span class="tag fixed">all four</span></td></tr>
     <tr><td class="mono">R9</td><td>Composed certified-improvement theorem (score-moving).</td><td>Theorem 6.1 + Appendix E, with the budget proviso (B ≥ 2ln(1/δ)/p<sub>γ</sub>) and δ≤½ made explicit, expected-time bound 1/(p<sub>γ</sub>(1−δ/B)), and the one-sided-gate halving noted.</td><td><span class="tag new">added</span></td></tr>
-    <tr><td class="mono">R10</td><td>Measure γ once (score-moving).</td><td>Half delivered, half specified: Prop. 3.5 makes the estimator rigorous; App. I pre-registers the exact buggy-program experiment (M=120, K=70, conditions, intervals, certificate arithmetic, falsifier, cost) and its ShopGym-scale extension. The run itself is future work and is labeled as such — we prefer an honest pending measurement to a rushed one.</td><td><span class="tag partial">protocol + theory; run pending</span></td></tr>
+    <tr><td class="mono">R10</td><td>Measure γ once (score-moving).</td><td>Half delivered, half specified: Prop. 3.5 makes the estimator rigorous; App. I pre-registers the exact buggy-program experiment (M=120, K=70, conditions, intervals, certificate arithmetic, falsifier, cost) and its web-agent-scale extension. The run itself is future work and is labeled as such — we prefer an honest pending measurement to a rushed one.</td><td><span class="tag partial">protocol + theory; run pending</span></td></tr>
     <tr><td class="mono">R11</td><td>Bib freshness (GEPA now ICLR 2026 oral).</td><td>Venue updated with "Oral" note; informal 2026 refs keep their URLs/arXiv IDs and are marked as blog/repository sources.</td><td><span class="tag fixed">fixed</span></td></tr>
   </table>
   <h3>Questions</h3>
@@ -143,7 +143,7 @@ a{color:var(--sky)}
   <table>
     <tr><th>Aspect</th><th>v1 (paper-icml2026/)</th><th>v2 (paper-iclr2027/)</th></tr>
     <tr><td>Venue / format</td><td>ICML 2026, two-column, 8-page limit (body ended p. 7)</td><td>ICLR 2027, single-column, 9-page limit (body ends p. 9 exactly); ethics + reproducibility statements; LLM-usage disclosure (App. L)</td></tr>
-    <tr><td>Title</td><td>"…A Unifying Theory of LLM-Guided Artifact Search"</td><td>"…Resources, Certificates, and Limits of LLM-Guided Artifact Search"</td></tr>
+    <tr><td>Title</td><td>"Learning Beyond Gradients: A Unifying Theory of LLM-Guided Artifact Search"</td><td>"Resources, Certificates, and Limits of LLM-Guided Artifact Search" (prefix dropped in v2.5: it duplicated the cited blog's published title)</td></tr>
     <tr><td>Abstract</td><td>Asymptotic numbers stated as realized ("3.9σ"); "unifying" framing</td><td>Realized numbers (3.4σ median vs 3.9σ ceiling, ≈8.2 accepts); composed theorem and γ-estimability headlined; claims scoped to what is proven</td></tr>
     <tr><td>Results</td><td>Thm 3.2, Prop 3.3, Thm 4.1/4.2, Thm 5.1, Prop 5.2, Cor 5.3, Thm 5.4, Thm 6.1 (Occam), Cor 6.2, Prop 7.1</td><td>Same core renumbered (Occam → 7.1/7.2, Goodhart → 8.1) <em>plus</em> Remark 3.4 (exact-mass), Prop 3.5 (γ estimable), Thm 6.1 (certified improvement), Prop 5.2(iii) (one-sided gate), Cor 5.3(ii)</td></tr>
     <tr><td>Statement fixes</td><td>Thm 5.4 non-unique optimum; Prop 5.2 converse over-claimed; Prop 7.1(iii) outside model</td><td>All corrected per reviews (asymmetric ascent; ln(1/(4δ)); bounded range-filling construction)</td></tr>
@@ -155,7 +155,9 @@ a{color:var(--sky)}
     <div class="q">"In a paper about fictitious improvement, the prose must be exactly as honest as the theorems."</div>
     <div class="src">Reviewer 1, "what would change my score" — the design constraint for this revision</div>
   </div>
-  <p>Open items deliberately left honest rather than papered over: the γ measurement (App. I) and the (ℓ(a), n, gap) curve (Cor. 7.2's test) are specified but not run; both are flagged in §11 as the natural next step, with the ShopGym/CUA harness-search experiment as the scaled venue.</p>
+  <p>Open items deliberately left honest rather than papered over: the γ measurement (App. I) and the (ℓ(a), n, gap) curve (Cor. 7.2's test / App. M's P4) are specified but not run; both are flagged in §11 as the natural next step, with web-agent harness search as the scaled venue.</p>
+  <h3>v2.5 (minor revision over v2)</h3>
+  <p>Three further changes after the v2 milestone: (1) <strong>retitled</strong> to "Resources, Certificates, and Limits of LLM-Guided Artifact Search" — the v2 title's "Learning Beyond Gradients" prefix duplicated the published blog title the paper cites; (2) <strong>ShopGym decoupled</strong> — all citations to it removed as unrelated to this work (the web-agent scaling discussion cites WebArena only); (3) <strong>completeness restored via appendices</strong> — new Appendix M (each falsifiable prediction P1–P5 paired with its measurement design; expanded limitations; outlook) and Appendix N (notation table), so the 9-page limit never trades against clarity. Main-text substance and all verified numbers unchanged.</p>
 </section>
 
 <footer>

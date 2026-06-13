@@ -1,11 +1,17 @@
-%%%%%%%% ICLR 2027 SUBMISSION (v2) — Learning Beyond Gradients %%%%%%%%%%%%%
+%%%%%%%% ICLR 2027 SUBMISSION (v2.5) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% "Resources, Certificates, and Limits of LLM-Guided Artifact Search"
 % Compile: pdflatex main && bibtex main && pdflatex main && pdflatex main
 % Review version (anonymized, line numbers). For camera-ready add
 % \iclrfinalcopy below; for arXiv add \iclrarxivcopy.
 %
-% v2 (this version): major revision of the ICML 2026 submission addressing
-% both referee reports (see ../paper-icml2026/review-icml2026.html and
-% referee-report-r2-verification.html, and response-to-reviewers.html here).
+% v2   : major revision of the ICML 2026 submission addressing both referee
+%        reports (see ../paper-icml2026/review-icml2026.html and
+%        referee-report-r2-verification.html, and response-to-reviewers.html).
+% v2.5 : retitled (no longer duplicates the published blog title); ShopGym
+%        decoupled (unrelated work); extended-discussion and notation
+%        appendices added so the page limit never trades against
+%        completeness — main text stays within 9 pp, expansions live in
+%        Appendices M–N.
 
 \documentclass{article}
 \usepackage{iclr2027_conference,times}
@@ -52,7 +58,7 @@
 \newcommand{\eps}{\varepsilon}
 \newcommand{\pgam}{p_{\gamma}}
 
-\title{Learning Beyond Gradients: Resources,\\ Certificates, and Limits of LLM-Guided\\ Artifact Search}
+\title{Resources, Certificates, and Limits of\\ LLM-Guided Artifact Search}
 
 \author{Anonymous authors\\
 Anonymous Institution\\
@@ -257,7 +263,7 @@ A $B$-decision loop applying Proposition~\ref{prop:repeats} with $\delta' = \del
 \label{fig:ratchet}
 \end{figure}
 
-Theorem~\ref{thm:ratchet} is extreme-value theory \citep{boucheron2013concentration} plus the classical record-counting identity; Proposition~\ref{prop:repeats} is a two-point testing bound \citep{tsybakov2009introduction, hoeffding1963probability}. The practical content is blunt: a loop making $B = 2000$ single-evaluation decisions at $\sigma = \Delta$ reports meaningful-looking progress on pure noise---a realized median of $3.4\sigma$ at $t = 2000$, climbing toward the $\sigma\sqrt{2\ln t} = 3.9\sigma$ ceiling---and accepts $\approx 8.2$ null edits ($H_{2000} \approx 8.18$); the \emph{same} loop gated with $N = 85$ repeats per decision (Corollary~\ref{cor:budget}(ii)) is sound for the whole run at the 5\% level (Figure~\ref{fig:ratchet}). The phenomenon has an archival evidence base predating LLM loops: expected-maximum reporting across tuning trials inflates exactly as Theorem~\ref{thm:ratchet}(i) prescribes, which is why \citet{dodge2019show} demand expected-validation-performance curves; few-seed point estimates routinely reverse conclusions in deep RL \citep{henderson2018matters}; and interval-based aggregation of precisely the Corollary~\ref{cor:budget} type is the remedy of \citet{agarwal2021precipice}. The recent autoresearch episode---a circulated ``53\% speedup'' from single 5-minute evaluations that did not survive re-evaluation, alongside an 11\% gain that did (informally documented; \citealp{karpathy2026autoresearch})---is the same theorem executed in public; we cite it as illustration, not evidence. Racing and successive halving spend the $N$ evaluations adaptively \citep{maron1994hoeffding, karnin2013almost, li2017hyperband}; instance-aggregation designs in benchmark construction serve the same theorem \citep{anonymous2026shopgym}.
+Theorem~\ref{thm:ratchet} is extreme-value theory \citep{boucheron2013concentration} plus the classical record-counting identity; Proposition~\ref{prop:repeats} is a two-point testing bound \citep{tsybakov2009introduction, hoeffding1963probability}. The practical content is blunt: a loop making $B = 2000$ single-evaluation decisions at $\sigma = \Delta$ reports meaningful-looking progress on pure noise---a realized median of $3.4\sigma$ at $t = 2000$, climbing toward the $\sigma\sqrt{2\ln t} = 3.9\sigma$ ceiling---and accepts $\approx 8.2$ null edits ($H_{2000} \approx 8.18$); the \emph{same} loop gated with $N = 85$ repeats per decision (Corollary~\ref{cor:budget}(ii)) is sound for the whole run at the 5\% level (Figure~\ref{fig:ratchet}). The phenomenon has an archival evidence base predating LLM loops: expected-maximum reporting across tuning trials inflates exactly as Theorem~\ref{thm:ratchet}(i) prescribes, which is why \citet{dodge2019show} demand expected-validation-performance curves; few-seed point estimates routinely reverse conclusions in deep RL \citep{henderson2018matters}; and interval-based aggregation of precisely the Corollary~\ref{cor:budget} type is the remedy of \citet{agarwal2021precipice}. The recent autoresearch episode---a circulated ``53\% speedup'' from single 5-minute evaluations that did not survive re-evaluation, alongside an 11\% gain that did (informally documented; \citealp{karpathy2026autoresearch})---is the same theorem executed in public; we cite it as illustration, not evidence. Racing and successive halving spend the $N$ evaluations adaptively \citep{maron1994hoeffding, karnin2013almost, li2017hyperband}.
 
 \subsection{Deception: when descending is necessary}
 \label{sec:deception}
@@ -369,7 +375,7 @@ One audit note: an earlier draft reported the gated count in Figure~\ref{fig:rat
 \section{Discussion and Conclusion}
 \label{sec:discussion}
 
-Definition~\ref{def:as} reduces the design space to five measurable quantities---cold prior mass $q_0(G_\eps)$, trace boost $\gamma$, feedback information, noise--gap ratio $\sigma^2/\Delta^2$, description length $\len(a)$---plus an evaluator-integrity condition; Theorem~\ref{thm:composed} shows the statistical dials multiply into one certified cost. Each result is a falsifiable scaling claim: hitting time inversely in measured prior mass; $\gamma$ estimable at known cost; scalar-vs-trace gaps in the feedback's usable bits; repeats as $(\sigma^2/\Delta^2)\log B$; generalization gaps as $\sqrt{\len(a)/n}$. \emph{Limitations:} the model treats the proposer as a fixed measure and the task as stationary; it does not explain \emph{why} LLM priors align with useful edits; the constructions are minimal worst cases; and the mapping to deployed systems remains qualitative---no experiment here measures the dials on a live loop (Appendix~\ref{app:protocol} specifies the first). \emph{Conclusion:} learning beyond gradients is stochastic search over program space with a learned prior, wide feedback, statistical selection, and description-length generalization---composing, when gated honestly, into certified improvement at a compound rate.
+Definition~\ref{def:as} reduces the design space to five measurable quantities---cold prior mass $q_0(G_\eps)$, trace boost $\gamma$, feedback information, noise--gap ratio $\sigma^2/\Delta^2$, description length $\len(a)$---plus an evaluator-integrity condition; Theorem~\ref{thm:composed} shows the statistical dials multiply into one certified cost. Each result is a falsifiable scaling claim: hitting time inversely in measured prior mass; $\gamma$ estimable at known cost; scalar-vs-trace gaps in the feedback's usable bits; repeats as $(\sigma^2/\Delta^2)\log B$; generalization gaps as $\sqrt{\len(a)/n}$ (measurement designs: Appendix~\ref{app:extended}). \emph{Limitations:} the proposer is a fixed measure and the task stationary; the model does not explain \emph{why} LLM priors align with useful edits; the constructions are minimal worst cases; the mapping to deployed systems remains qualitative---no experiment here measures the dials live (Appendix~\ref{app:protocol}). \emph{Conclusion:} learning beyond gradients is stochastic program search with a learned prior, wide feedback, statistical selection, and description-length generalization---composing, when gated, into certified improvement at a compound rate.
 
 \subsubsection*{Ethics statement}
 This paper advances the theoretical understanding of self-improving LLM systems. Sharper theory for when such loops are sound (Corollary~\ref{cor:budget}, Theorem~\ref{thm:composed}, Proposition~\ref{prop:goodhart}) primarily supports safer engineering: it gives auditable conditions under which claimed autonomous improvements are real, and bounds on proxy gaming. The same analysis could marginally inform attempts to build more capable self-improving systems; we judge the safety-relevant clarity---particularly the evaluator-integrity condition---to outweigh this, and we discuss failure modes throughout rather than in isolation.
@@ -611,7 +617,7 @@ Proposition~\ref{prop:gammaest} reduces Assumption~\ref{ass:boost} to an estimat
 
 \textbf{Outcomes.} The framework predicts $\hat\gamma$ substantially above $1$, with task-level $\hat\gamma$ correlating with trace informativeness; Theorem~\ref{thm:hitting}(iii) then converts $\hat\gamma$ into a hitting-time prediction checkable against the same logs. The falsifying outcome is an interval for $\hat\gamma$ containing $1$: Assumption~\ref{ass:boost} would then be doing no work on this family, and the paper's adaptive story would need revision. Total cost is roughly $1.7\times10^4$ generations plus test executions---about one GPU-day with a small open model.
 
-\textbf{Scaling up.} The same design lifts to harness search for web agents, where regenerable environments with per-task verifiers supply the fresh, repeatable evaluator the theory requires \citep{anonymous2026shopgym, zhou2024webarena}: conditions become harness variants with and without execution-history feedback, and $G$ is task success under the benchmark verifier.
+\textbf{Scaling up.} The same design lifts to harness search for web agents, where regenerable environments with per-task verifiers supply the fresh, repeatable evaluator the theory requires \citep{zhou2024webarena}: conditions become harness variants with and without execution-history feedback, and $G$ is task success under the benchmark verifier.
 
 \section{The Open Problem: Rates for Self-Reference}
 \label{app:open}
@@ -633,12 +639,73 @@ Table~\ref{tab:systems} compressed; here we record the fuller correspondence use
 \item \textbf{ADAS / DGM} \citep{hu2025adas, zhang2025dgm}: $\A$ = agent programs; archives/lineages (Theorem~\ref{thm:deception}(iii)); the DGM paper's hallucinated-log episode (Proposition~\ref{prop:goodhart}(iii)).
 \item \textbf{FunSearch / AlphaEvolve} \citep{romeraparedes2024funsearch, novikov2025alphaevolve}: $\A$ = programs; verified scalar evaluator ($\alpha = 0$, so Proposition~\ref{prop:goodhart}(i) is vacuous-strong and scalar feedback's slowness is paid in volume); island archives.
 \item \textbf{Voyager} \citep{wang2023voyager}: additive skill library = monotone $\M$ growth re-weighting $q_0$ for later tasks (\S\ref{sec:prior}, reuse).
-\item \textbf{Web/CUA harness optimization} \citep{anonymous2026shopgym, zhou2024webarena}: regenerable environments with per-task verifiers supply the fresh, low-$\alpha$, repeatable evaluator that Corollary~\ref{cor:budget} and Proposition~\ref{prop:goodhart}(i) require; the framework predicts harness search on such benchmarks is the most theory-compliant instance of the loop currently available, and Appendix~\ref{app:protocol} uses it as the scaled-up venue for the $\gamma$ measurement.
+\item \textbf{Web-agent harness optimization} \citep{zhou2024webarena}: regenerable environments with per-task verifiers supply the fresh, low-$\alpha$, repeatable evaluator that Corollary~\ref{cor:budget} and Proposition~\ref{prop:goodhart}(i) require; the framework predicts harness search on such benchmarks is the most theory-compliant instance of the loop currently available, and Appendix~\ref{app:protocol} uses it as the scaled-up venue for the $\gamma$ measurement.
 \end{itemize}
 
 \section{LLM Usage Disclosure}
 \label{app:llm}
 
 In accordance with the ICLR policy on large language model usage: LLMs were used as general-purpose assistants for prose drafting, LaTeX preparation, and as coding assistants for the simulation scripts. All definitions, theorem statements, proofs, and numerical claims were checked by the authors; all simulation outputs regenerate deterministically from the committed seeded code, and the audit trail in Appendix~\ref{app:exp} documents one numerical prose error caught and corrected during revision. No LLM is an author, and the authors take full responsibility for all content.
+
+\section{Extended Discussion: Predictions, Measurement Designs, and Outlook}
+\label{app:extended}
+
+The page limit forces the discussion of \S\ref{sec:discussion} to be compact; this appendix expands it without altering any claim. Each prediction below is a scaling law derived in the main text, paired with the experiment that would falsify it.
+
+\paragraph{P1: Hitting time scales inversely with measured prior mass (Theorem~\ref{thm:hitting}).}
+Fix a task family and harness; vary only the proposer (model scale, or base vs.\ instruction-tuned checkpoints of one family). Measure $\hat q_0(G_\eps)$ and $\hat\gamma$ by the Appendix~\ref{app:protocol} protocol, and independently measure realized hitting times of the full loop on held-out tasks. The prediction is a slope-$(-1)$ line of $\log \E[T]$ against $\log(\hat\gamma\,\hat q_0)$; systematic curvature would indicate history effects that Assumption~\ref{ass:boost} fails to absorb, and would localize exactly which conditioning the assumption misses.
+
+\paragraph{P2: The scalar-vs-trace gap scales with the feedback's usable bits (Theorems~\ref{thm:fano}--\ref{thm:separation}).}
+Degrade traces in controlled steps---full stack trace; error type and message only; failing-test name only; binary pass/fail---and measure proposals-to-fix on the same bug corpus. Theorem~\ref{thm:fano} prices each channel by $\log_2|\Y|$; Theorem~\ref{thm:separation} brackets the endpoints. The prediction is that identification cost interpolates monotonically between the $\le L$ and $\Omega(2^L)$ regimes as the channel narrows; a flat curve would mean the proposer cannot exploit the extra bits, separating channel capacity from usable information---itself a finding about $\gamma$.
+
+\paragraph{P3: Required repeats scale as $(\sigma^2/\Delta^2)\log B$ (Proposition~\ref{prop:repeats}, Corollary~\ref{cor:budget}).}
+In any ratchet-style optimizer, vary the per-evaluation budget (e.g.\ proxy-run length, which sets $\sigma$) and the acceptance margin $\Delta$, and count false accepts against a frozen ground-truth re-evaluation. The certified regime begins where Corollary~\ref{cor:budget} predicts; the experiment costs only logging, since the gate arithmetic is computed from measured $\hat\sigma$.
+
+\paragraph{P4: Certified generalization gaps scale as $\sqrt{\len(a)/n}$ (Theorem~\ref{thm:occam}, Corollary~\ref{cor:ushape}).}
+The cleanest missing measurement in this literature: instrument a deployed prompt optimizer to log, at every accepted step, the artifact's compressed length $\len(a)$ in bits, the validation size $n$, and the val--test gap on a fresh test set. Stratify gaps by evolved-prompt length. The prediction is the U-shape of Corollary~\ref{cor:ushape}: gaps growing like $\sqrt{\len(a)/n}$ on the right branch, task error dominating on the left, with the knee moving right as $n$ grows. Reports of validation overfitting in prompt evolution and of context collapse in context evolution \citep{zhang2025ace} are the two branches observed separately; no published study traverses the curve.
+
+\paragraph{P5: Evaluator integrity is a phase boundary (Proposition~\ref{prop:goodhart}).}
+In a sandboxed self-modification setting, compare matched loops in which the evaluator is (a) frozen and held out of the proposer's edit scope versus (b) reachable by edits. Proposition~\ref{prop:goodhart}(i)--(ii) predicts bounded, $\sqrt{2\ln m}$-degraded transfer in (a); (iii) predicts unbounded measured-vs-true divergence in (b). The qualitative version is documented (hallucinated logs, reward exploits); the quantitative boundary---how much evaluator surface area must be reachable before transfer fails---is open and measurable.
+
+\paragraph{Limitations, expanded.}
+Four boundaries of the model deserve more space than \S\ref{sec:discussion} can give them. \emph{Stationarity:} the task distribution $\D$ and evaluator are fixed; deployed loops face drift, and the certificates here say nothing about re-validation schedules under drift. \emph{Multi-objective artifacts:} real selectors (GEPA's instance-Pareto sets) optimize vector scores; our $F$ is scalar, and the deception analysis only gestures at why diversity preservation helps---a vector-valued treatment connecting Theorem~\ref{thm:deception} to Pareto-frontier maintenance is open. \emph{Interacting loops:} concurrent optimizers sharing an evaluator or a memory violate the single-trajectory model; their interference is unmodeled. \emph{Worst-case constructions:} the feedback and deception separations bound what is possible, not what is typical; bridging to instance-dependent rates---eluder-type quantities \citep{xu2025llf} measured on real systems---is the natural theoretical next step, just as the Appendix~\ref{app:protocol} measurement is the empirical one. Finally, the model is silent on \emph{why} LLM priors concentrate mass on useful edits; we import that fact from the in-context-learning literature \citep{xie2022explanation, akyurek2023what, vonoswald2023transformers, garg2022what} as an assumption made measurable, not explained.
+
+\paragraph{Outlook.}
+Naming the correspondence between the empirical systems and the five classical literatures buys the field what theory is for: successes become predictions, failures become theorems, and the next systems can be designed against bounds rather than anecdotes. The two measurements this paper specifies but does not run---the trace boost $\gamma$ (Appendix~\ref{app:protocol}) and the $(\len(a), n, \text{gap})$ curve (P4)---are where the framework is most exposed to data, and the open problem of Appendix~\ref{app:open} is where it is most exposed to mathematics.
+
+\section{Notation}
+\label{app:notation}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+Symbol & Meaning & Introduced \\
+\midrule
+$\A$, $a$, $a'$, $a^*$ & artifact space; artifact; candidate; target & Def.~\ref{def:as}, \S\ref{sec:feedback} \\
+$F$, $\Fhat$, $\Fhat_n$ & true score; noisy evaluation; mean over $n$ validation instances & Def.~\ref{def:as}, Thm.~\ref{thm:occam} \\
+$\Ftil = F + b$ & proxy score; $b$ its bias, $\alpha = \sup|b|$, $\sigma_b$ its subgaussian parameter & \S\ref{sec:limits} \\
+$q$, $q_0$, $q_\tau$ & proposer; cold (unconditioned) proposer; trace-conditioned proposer & Def.~\ref{def:as}, Prop.~\ref{prop:gammaest} \\
+$\gamma$, $\gamma_t$, $\hat\gamma$ & trace boost (Assumption~\ref{ass:boost}); its plug-in estimator & \S\ref{sec:prior} \\
+$G_\eps$, $\eps$ & good set $\{a : F(a) \ge \sup F - \eps\}$; its tolerance & Def.~\ref{def:as} \\
+$\pgam$ & $\gamma\, q_0(G_\eps)$, the boosted good-set mass & Thm.~\ref{thm:composed} \\
+$T$ & hitting time (first proposal/acceptance in $G_\eps$, per context) & Def.~\ref{def:as} \\
+$\sel$, $\M_t$ & selection rule; accumulated memory at step $t$ & Def.~\ref{def:as} \\
+$y$, $\Y$, $\phi$ & feedback; feedback alphabet; feedback protocol & Def.~\ref{def:as}, \S\ref{sec:feedback} \\
+$L$ & artifact bits (\S\ref{sec:feedback}); length budget (\S\ref{sec:compression}) & Thm.~\ref{thm:fano}, Cor.~\ref{cor:ushape} \\
+$\sigma$, $\Delta$ & evaluation-noise subgaussian parameter; true-gain margin & \S\ref{sec:selection} \\
+$\delta$, $B$, $N$ & confidence level; decision budget; evaluations per gated decision & Prop.~\ref{prop:repeats}, Cor.~\ref{cor:budget} \\
+$m_t$, $H_t$ & running maximum of measured scores; harmonic number $\sum_{i\le t} 1/i$ & Thm.~\ref{thm:ratchet} \\
+$\len(a)$, $A(L)$ & prefix-free description length; approximation error at length $L$ & \S\ref{sec:compression} \\
+$k$ & valley half-width of the deception chain & Thm.~\ref{thm:deception} \\
+$\eps$ (greedy) & acceptance probability of worsening moves in tolerant greedy & Thm.~\ref{thm:deception} \\
+$m$ & number of candidates maximized over (optimizer's curse) & Prop.~\ref{prop:goodhart} \\
+$K$, $q_{\min}$, $\eta$ & proposals per condition; good-mass lower bound; relative error & Prop.~\ref{prop:gammaest} \\
+\bottomrule
+\end{tabular}
+\caption{Notation. The symbol $\eps$ is used for the good-set tolerance throughout and, locally in Theorem~\ref{thm:deception} only, for the tolerant-greedy acceptance probability; the two never co-occur.}
+\label{tab:notation}
+\end{table}
 
 \end{document}

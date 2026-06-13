@@ -1,9 +1,24 @@
-# Learning Beyond Gradients: Resources, Certificates, and Limits of LLM-Guided Artifact Search (v2, ICLR 2027)
+# Resources, Certificates, and Limits of LLM-Guided Artifact Search (v2.5, ICLR 2027)
 
 Major revision of `../paper-icml2026/` addressing both referee reports in full
 (`../paper-icml2026/review-icml2026.html`, `../paper-icml2026/referee-report-r2-verification.html`).
 The point-by-point mapping from every finding (W1–W9, Q1–Q6, E1–E4, N1–N4, R1–R11) to its fix
 is in `response-to-reviewers.html` (open in a browser).
+
+## v2.5 (minor revision over v2)
+
+- **Retitled**: dropped the "Learning Beyond Gradients:" prefix so the paper no longer
+  duplicates the title of the published blog it cites (Weng 2026). The phrase survives
+  in lowercase as the name of the phenomenon.
+- **ShopGym decoupled**: all citations to the ShopGym paper removed (unrelated work);
+  the web-agent scaling discussion now cites WebArena only.
+- **Completeness over compression**: the page limit no longer trades against clarity —
+  new **Appendix M** (extended discussion: each falsifiable prediction P1–P5 paired with
+  its measurement design, expanded limitations, outlook) and **Appendix N** (notation
+  table) restore and exceed the prose trimmed for the 9-page body. Main text unchanged
+  in substance and still ends on p. 9.
+- `main-longversion.pdf` (untracked) is the pre-trim reference build; safe to delete
+  once v2.5 is reviewed.
 
 ## Build
 
@@ -94,10 +109,12 @@ seeded, <1 min). The script prints every numeric claim made in §5/§9 for audit
 | J | Open problem: self-reference rates | — |
 | K | Extended system mapping | — |
 | L | LLM usage disclosure (ICLR policy) | — |
+| M | **Extended discussion: predictions P1–P5 with measurement designs, limitations, outlook** (new in v2.5) | — |
+| N | **Notation table** (new in v2.5) | — |
 
 ## Next steps (stated in the paper as pending)
 
 1. Run the Appendix I γ measurement (~1 GPU-day with a small open model).
 2. The (ℓ(a), n, val–test gap) curve for Cor 7.2 from a deployed prompt optimizer.
-3. Scale the γ protocol to web-agent harness search (ShopGym) — see
-   `../../shopgym-neurips/notes/harness-track-proposal.md`.
+3. Scale the γ protocol to web-agent harness search — a separate project, kept
+   uncited in this paper; see `../../shopgym-neurips/notes/harness-track-proposal.md`.
