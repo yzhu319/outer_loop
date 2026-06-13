@@ -1,0 +1,10 @@
+source_shop,source_name,target_shop,target_name,transfer_rate,baseline_rate,delta,certified
+shop_a,FashionHub,shop_a,FashionHub,0.6235,0.3294,0.2941,True
+shop_a,FashionHub,shop_b,TechNest,0.4706,0.4588,0.0118,False
+shop_a,FashionHub,shop_c,DailyMart,0.3765,0.3765,0.0,False
+shop_b,TechNest,shop_a,FashionHub,0.6706,0.3294,0.3412,True
+shop_b,TechNest,shop_b,TechNest,0.5059,0.4706,0.0353,False
+shop_b,TechNest,shop_c,DailyMart,0.4353,0.4,0.0353,False
+shop_c,DailyMart,shop_a,FashionHub,0.6706,0.3294,0.3412,True
+shop_c,DailyMart,shop_b,TechNest,0.5059,0.4706,0.0353,False
+shop_c,DailyMart,shop_c,DailyMart,0.4353,0.4,0.0353,False
