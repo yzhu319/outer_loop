@@ -14,13 +14,16 @@ literature synthesis that connects them.
 
 ```text
 packages/outer_loop/       application-neutral Python package
+packages/searchprobe/      dependency-free search-probe and decision diagnostics
 applications/shopgym/      ShopGym harness-search case study and all of its papers
 experiments/               future cross-application studies
 papers/
   learning-beyond-gradients/
                             general theory paper, reviews, simulations, companions
   benchmark-compression-for-retriever-evaluation/
-                            prospective retriever-evaluation paper
+                            frontier proposal, assessment, alternative IR directions
+  learning-to-explore-search-environments/
+                            detailed proposal for adaptation through search probes
 literature/                 systems review and theory reading notes
 ```
 
@@ -37,7 +40,8 @@ code.
 | Core package | What minimal interfaces and selection primitives recur across artifact-search systems? | Working prototype | [`packages/outer_loop/`](packages/outer_loop/) |
 | Learning Beyond Gradients | What can be guaranteed about proposal priors, feedback, noisy selection, archives, and description length? | ICLR 2027 manuscript generation | [`papers/learning-beyond-gradients/iclr-2027/`](papers/learning-beyond-gradients/iclr-2027/) |
 | ShopGym | Can a frozen browser agent improve through statistically gated search over its harness? | Application prototype; live evidence pending | [`applications/shopgym/`](applications/shopgym/) |
-| Benchmark Compression | Can a compact, nested query set preserve retriever conclusions across unseen system families? | Recommended prospective empirical direction; experiments not yet run here | [`papers/benchmark-compression-for-retriever-evaluation/`](papers/benchmark-compression-for-retriever-evaluation/) |
+| Benchmark Compression | Can a compact, nested query set preserve retriever conclusions across unseen system families? | Proposal under reassessment; novelty and validity gaps; experiments pending | [Proposal](papers/benchmark-compression-for-retriever-evaluation/compression-reliability-frontier-proposal.html) · [Assessment](papers/benchmark-compression-for-retriever-evaluation/frontier-assessment.html) |
+| Search Environment Exploration | Can search experiments improve future tasks without target-task labels? | Semantic pilot and responsive follow-up complete; promising SciFact/dense result, mixed transfer; executable theory and SearchProbe diagnostics | [Research report](papers/learning-to-explore-search-environments/searchprobe-research-report.html) · [Tool](packages/searchprobe/) · [Results and code](papers/learning-to-explore-search-environments/) |
 | Literature | How do GEPA, autoresearch, Heuristic Learning, and Meta-Harness instantiate the same loop? | Research synthesis | [`literature/outer-loop-systems-review/`](literature/outer-loop-systems-review/) |
 
 ## Why `applications/shopgym`, not `adapters/shopgym`
